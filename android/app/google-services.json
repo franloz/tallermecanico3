@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "648167280048",
+    "project_id": "taller-mecanico-b5cab",
+    "storage_bucket": "taller-mecanico-b5cab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648167280048:android:3d5df2e3303b2912a3da75",
+        "android_client_info": {
+          "package_name": "com.example.tallermecanico"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648167280048-cei8pnksvjevofv8bg2kc36q0d6ajgqv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tallermecanico",
+            "certificate_hash": "549a24eb65ef1731caae59ee1b660fa59e92242c"
+          }
+        },
+        {
+          "client_id": "648167280048-em8a90epasf88sdekecfjrl1nvshr1ia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbk0dITbz1FsSeH4cGw6jKxq_DsKiH2QU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648167280048-em8a90epasf88sdekecfjrl1nvshr1ia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
