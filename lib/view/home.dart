@@ -11,7 +11,10 @@ class Home extends StatelessWidget {
         title: Text("Aplicación"),
       ),
       body: Column(
-        children: [Text("Aplicaciónnnnnnnnnnnnnn"), Text(cr.user.email!)],
+        children: [
+          Text("Aplicaciónnnnnnnnnnnnnn"),
+          Text(cr.user.email! /*muestra el gmail del usuario actual*/),
+        ],
       ),
     );
   }
