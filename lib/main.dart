@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         //cuando el stream cambia de valor(usuario loggeado o no) se llama a la siguiente condición
         if (snapshot.hasData) {
           //se comprueba si el usuario esta loggeado, si es asi, se dirige a la pantalla de Home sino a la de Login
-          return Login();
+          return Home();
         } else {
           return Login();
         }
