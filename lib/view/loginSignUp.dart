@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/controller/logincontroller.dart';
-import 'package:tallermecanico/view/loginSignUp.dart';
 
 
-class Login extends StatelessWidget {
+class LoginSignUp extends StatelessWidget {
   TextEditingController emailController =TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
   TextEditingController passwordController = TextEditingController();
 
   
-  /*void dispose(){///////////////////////creo q es q para cuando se cierre la app pierda al usuario
+ /* void dispose(){///////////////////////creo q es q para cuando se cierre la app pierda al usuario
     emailController.dispose();
     passwordController.dispose();
 
@@ -159,14 +158,14 @@ class Login extends StatelessWidget {
                   MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 ElevatedButton.icon(
-                  icon: Icon(Icons.lock_open_rounded), //icono del candado
+                  icon: Icon(Icons.lock_outline), //icono del candado
                   label: Text(
-                    "Iniciar Sesión",
+                    "Registrarse",
                     style: TextStyle(
                         fontSize: size.height / 30, color: Colors.white),
                   ),
                   onPressed: () {
-                    cr.signIn(emailController, passwordController,context);//se lanza el metodo de iniciar sesión al pulsar el botón
+                    cr.signUp(emailController, passwordController,context);//se lanza el metodo de iniciar sesión al pulsar el botón
                   }, 
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(
@@ -174,37 +173,6 @@ class Login extends StatelessWidget {
                         size.height /
                             16), //ancho y alto del boton en relación a la pantalla
                     primary: Color.fromARGB(255, 0, 229, 255),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(
-              height: 30,
-            ), 
-
-            Row(
-              mainAxisAlignment:MainAxisAlignment.center, //Center Row contents horizontally,
-              children: [
-                ElevatedButton.icon(
-                  icon: Icon(Icons.lock_outlined), //icono del candado
-                  label: Text(
-                    "Registrarse",
-                    style: TextStyle(
-                        fontSize: size.height / 33, color: Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'LoginSignUp');
-                  }, 
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(
-                        size.width / 1.6,
-                        size.height /
-                            18), //ancho y alto del boton en relación a la pantalla
-                    primary: Color.fromARGB(255, 0, 183, 255),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),

@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class HomeController {
-  final user = FirebaseAuth.instance.currentUser!; //usuario actual
-
+  //final user = FirebaseAuth.instance.currentUser!; //usuario actual
+  void cerrar(){
+    FirebaseAuth.instance.signOut();
+  }
 }

@@ -4,10 +4,8 @@ import 'package:tallermecanico/controller/homecontroller.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context)
-        .size; //saca el tamaño de la pantalla para poder hacer la app responsive
-    HomeController cr =
-        HomeController(); //me creo una variable de la clase HomeController para usar los métodos que hay en ella y sus variables
+    final size = MediaQuery.of(context).size; //saca el tamaño de la pantalla para poder hacer la app responsive
+    HomeController cr =HomeController(); //me creo una variable de la clase HomeController para usar los métodos que hay en ella y sus variables
     return Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
@@ -15,14 +13,10 @@ class Home extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 0, 229, 255),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment
-            .center, //para que la columna ocupe toda la pantalla
+        mainAxisAlignment: MainAxisAlignment.center, //elementos de la columna centrados verticalmente
         children: [
-          //Text("Aplicaciónnnnnnnnnnnnnn"),
-          //Text(cr.user.email! /*muestra el gmail del usuario actual*/),
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, //Center Row contents horizontally,
+            mainAxisAlignment:MainAxisAlignment.center, //Center Row contents horizontally,
             children: [
               ElevatedButton(
                 child: Column(
@@ -48,7 +42,7 @@ class Home extends StatelessWidget {
                 ),
 
                 onPressed:
-                    () {}, //se lanza el metodo de iniciar sesión al pulsar el botón
+                    () {cr.cerrar();}, //se lanza la actividad de clientes
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -131,7 +125,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 onPressed:
-                    () {}, //se lanza el metodo de iniciar sesión al pulsar el botón
+                    () {}, //se lanza la actividad de vehículos
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -169,7 +163,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 onPressed:
-                    () {}, //se lanza el metodo de iniciar sesión al pulsar el botón
+                    () {}, //se lanza la actividad de recambios
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -222,7 +216,7 @@ class Home extends StatelessWidget {
                 ),
 
                 onPressed:
-                    () {}, //se lanza el metodo de iniciar sesión al pulsar el botón
+                    () {}, //se lanza la actividad de Ördenes de reparación
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -260,7 +254,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 onPressed:
-                    () {}, //se lanza el metodo de iniciar sesión al pulsar el botón
+                    () {}, //se lanza la actividad de Facturas
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
