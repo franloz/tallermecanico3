@@ -15,32 +15,39 @@ Future main() async {
   runApp(MyApp());
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
-      routes: {//establezco las rutas de las distintas pantallas para poder interactuar entre ellas
-        'Main': (context) =>  MyApp(),
-        'Login': (context) =>  Login(),
-        'LoginSignUp': (context) =>  LoginSignUp(),
-      },
-      home: StreamBuilder<User?>(
-      //el stream permite recibir un flujo de datos, es decir devuelve un snapshot, el cual permite ver el estado del usuario en todo momento
-      stream: FirebaseAuth.instance.authStateChanges(), //cada vez que el estado del usuario cambia (usuario loggeado o no), devuelve un snapshot con esa información
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting){//si se está realizando la conexión
-          return Center(child: CircularProgressIndicator());//indicador de carga
-        }else if (snapshot.hasError){//si ocurre un error
-          return Center(child: Text("Algo salió mal, intentalo más tarde"));
-        }else if (snapshot.hasData) {//para comprobar la información que devuelve el stream y ver si el usuario está loggeado o no
-          //si el usuario esta loggeado se dirige a la pantalla de Home, sino a la de Login
-          return Home();
-        } else {
-          return Login();
-        }
-      },
-    ));
+        routes: {
+          //establezco las rutas de las distintas pantallas para poder interactuar entre ellas
+          'Main': (context) => MyApp(),
+          'Login': (context) => Login(),
+          'LoginSignUp': (context) => LoginSignUp(),
+        },
+        navigatorKey: navigatorKey,
+        home: StreamBuilder<User?>(
+          //el stream permite recibir un flujo de datos, es decir devuelve un snapshot, el cual permite ver el estado del usuario en todo momento
+          stream: FirebaseAuth.instance
+              .authStateChanges(), //cada vez que el estado del usuario cambia (usuario loggeado o no), devuelve un snapshot con esa información
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              //si se está realizando la conexión
+              return Center(
+                  child: CircularProgressIndicator()); //indicador de carga
+            } else if (snapshot.hasError) {
+              //si ocurre un error
+              return Center(child: Text("Algo salió mal, intentalo más tarde"));
+            } else if (snapshot.hasData) {
+              //para comprobar la información que devuelve el stream y ver si el usuario está loggeado o no
+              //si el usuario esta loggeado se dirige a la pantalla de Home, sino a la de Login
+              return Home();
+            } else {
+              return Login();
+            }
+          },
+        ));
   }
 }
