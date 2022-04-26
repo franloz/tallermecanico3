@@ -2,11 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tallermecanico/view/home.dart';
-import 'package:tallermecanico/view/login.dart';
+import 'package:tallermecanico/view/login/forgotPassword.dart';
+import 'package:tallermecanico/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tallermecanico/view/loginSignUp.dart';
-
-import 'utils/utils.dart';
+import 'package:tallermecanico/view/login/loginSignUp.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,9 +22,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         routes: {
           //establezco las rutas de las distintas pantallas para poder interactuar entre ellas
-          'Main': (context) => MyApp(),
           'Login': (context) => Login(),
           'LoginSignUp': (context) => LoginSignUp(),
+          'ForgotPassword': (context) => ForgotPassword(),
         },
         navigatorKey: navigatorKey,
         home: StreamBuilder<User?>(

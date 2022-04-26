@@ -43,7 +43,7 @@ class Utils {
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
-                  }, //regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                  }, //regresa dos pantallas atras q serian el alertdialog y el circularprogress, están son las dos pantallas
                   child: const Text(
                       'Ok'), //esto nos permite eliminar el indicador de carga que se lanza en el login
                 ),

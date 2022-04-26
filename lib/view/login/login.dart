@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/controller/logincontroller.dart';
-import 'package:tallermecanico/view/loginSignUp.dart';
-
 
 class Login extends StatelessWidget {
-  TextEditingController emailController =TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
+  TextEditingController emailController =
+      TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
   TextEditingController passwordController = TextEditingController();
 
-  
   /*void dispose(){///////////////////////creo q es q para cuando se cierre la app pierda al usuario
     emailController.dispose();
     passwordController.dispose();
@@ -15,12 +13,12 @@ class Login extends StatelessWidget {
     //super.dispose();
   }*/
 
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context)
         .size; //saca el tamaño de la pantalla para poder hacer la app responsive
-    LoginController cr =LoginController(); //me creo una variable de la clase LoginController para usar los métodos que hay en ella
+    LoginController cr =
+        LoginController(); //me creo una variable de la clase LoginController para usar los métodos que hay en ella
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.grey[800],
@@ -133,8 +131,9 @@ class Login extends StatelessWidget {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-                      controller:passwordController, //se identifica el controlador del TextField
-                      obscureText:true,
+                      controller:
+                          passwordController, //se identifica el controlador del TextField
+                      obscureText: true,
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -166,8 +165,9 @@ class Login extends StatelessWidget {
                         fontSize: size.height / 30, color: Colors.white),
                   ),
                   onPressed: () {
-                    cr.signIn(emailController, passwordController,context);//se lanza el metodo de iniciar sesión al pulsar el botón
-                  }, 
+                    cr.signIn(emailController, passwordController,
+                        context); //se lanza el metodo de iniciar sesión al pulsar el botón
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(
                         size.width / 1.1,
@@ -183,11 +183,33 @@ class Login extends StatelessWidget {
             ),
 
             const SizedBox(
-              height: 30,
-            ), 
+              height: 1,
+            ),
 
             Row(
-              mainAxisAlignment:MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment:
+                  MainAxisAlignment.end, //Center Row contents horizontally,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: TextStyle(fontSize: size.height / 54),
+                    primary: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'ForgotPassword');
+                  },
+                  child: const Text('Ha olvidado la contraseña?'),
+                ),
+              ],
+            ),
+
+            const SizedBox(
+              height: 1,
+            ),
+
+            Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 ElevatedButton.icon(
                   icon: Icon(Icons.lock_outlined), //icono del candado
@@ -198,7 +220,7 @@ class Login extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.pushNamed(context, 'LoginSignUp');
-                  }, 
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(
                         size.width / 1.6,
@@ -212,7 +234,6 @@ class Login extends StatelessWidget {
                 ),
               ],
             ),
-            
           ],
         ),
       ),
