@@ -47,6 +47,8 @@ class LoginController {
     }
   }
 
+
+
   Future signUp(
       TextEditingController emailController,
       TextEditingController passwordController,
@@ -61,7 +63,7 @@ class LoginController {
           password: passwordController.text
               .trim()); //se usa trim para evitar los espacios en blanco
       navigatorKey.currentState!.popUntil(((route) =>
-          route.isFirst)); //regresa hasta la pantalla de LoginSignUp
+          route.isFirst)); //
 
     } on FirebaseAuthException catch (e) {
       String error =
@@ -77,6 +79,35 @@ class LoginController {
       }
       u.dialogSignUp(
           context, error); //se muestra alertdialog cuando no se inicie sesión
+
+    }
+  }
+
+  Future resetPassword(
+      TextEditingController emailController,
+      BuildContext context) //función asincrona para registro de usuario
+  async {
+    String mensaje='';
+    u.dialogCircularProgress(context);
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+          //el await indica que esta parte del código es asincrona
+          email: emailController.text.trim());
+
+          mensaje='Vaya a su gmail y podrá cambiar su contraseña';
+
+          
+
+          navigatorKey.currentState!.popUntil(((route) =>
+          route.isFirst));
+
+          u.dialogForgotPasswordCorrect(context,mensaje);
+
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      String error ='Ha ocurrido un error y no se ha cambiado la contraseña, revise su correo'; //está variable se usará para capturar el texto de la excepción y mostrarsela al usuario
+
+      u.dialogForgotPasswordIncorrect(context, error); //s
 
     }
   }

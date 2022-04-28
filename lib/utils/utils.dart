@@ -50,4 +50,45 @@ class Utils {
               ],
             ));
   }
+
+  void dialogForgotPasswordIncorrect(BuildContext context, String error) {
+    showDialog<String>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => AlertDialog(
+              title: const Text('Atención'),
+              content: Text(error),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }, //regresa dos pantallas atras q serian el alertdialog y el circularprogress, están son las dos pantallas
+                  child: const Text(
+                      'Ok'), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                ),
+              ],
+            ));
+  }////////////////////////////////////////////////unir estos dos metodos en uno con una condición
+
+  void dialogForgotPasswordCorrect(BuildContext context, String error) {
+    showDialog<String>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => AlertDialog(
+              title: const Text('Atención'),
+              content: Text(error),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }, //regresa dos pantallas atras q serian el alertdialog y el circularprogress, están son las dos pantallas
+                  child: const Text(
+                      'Ok'), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                ),
+              ],
+            ));
+  }
+
+
 }

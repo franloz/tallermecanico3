@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tallermecanico/controller/logincontroller.dart';
 
 class ForgotPassword extends StatelessWidget {
+  TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context)
         .size; //saca el tamaño de la pantalla para poder hacer la app responsive
-
+    LoginController cr =LoginController();
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.grey[800],
@@ -14,7 +16,21 @@ class ForgotPassword extends StatelessWidget {
                 .center, //para que la columna ocupe toda la pantalla
             children: [
               Row(
-                //fila con un container y un TextField para contraseña
+                mainAxisAlignment: MainAxisAlignment
+                    .center, //Center Row contents horizontally,
+                children: [
+                  Text(
+                    "Introduzca su email",
+                    style: TextStyle(
+                        fontSize: size.height / 33, color: Colors.white),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                //fila con un container y un TextField para email
                 mainAxisAlignment: MainAxisAlignment
                     .center, //Center Row contents horizontally,
                 children: [
@@ -28,9 +44,8 @@ class ForgotPassword extends StatelessWidget {
                       color: Colors.grey[700],
                     ),
                     child: TextField(
-                        //controller:
-                        //passwordController, //se identifica el controlador del TextField
-                        obscureText: true,
+                        controller:
+                            emailController, //se identifica el controlador del TextField
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                               borderRadius:
@@ -39,10 +54,40 @@ class ForgotPassword extends StatelessWidget {
                                   width: 1,
                                   color: Color.fromARGB(255, 0, 229, 255)),
                             ),
-                            prefixIcon: Icon(Icons.password),
+                            prefixIcon: Icon(Icons.email),
                             border: InputBorder.none,
-                            hintText: "Password",
-                            hintStyle: TextStyle(color: Colors.white))),
+                            hintText: "Email",
+                            hintStyle: TextStyle(
+                              color: Colors.white,
+                            ))),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment
+                    .center, //Center Row contents horizontally,
+                children: [
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.email_outlined), //icono del candado
+                    label: Text(
+                      "Cambiar contraseña",
+                      style: TextStyle(
+                          fontSize: size.height / 30, color: Colors.white),
+                    ),
+                    onPressed: () {cr.resetPassword(emailController,context);},
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(
+                          size.width / 1.1,
+                          size.height /
+                              16), //ancho y alto del boton en relación a la pantalla
+                      primary: Color.fromARGB(255, 0, 229, 255),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
                   ),
                 ],
               ),
