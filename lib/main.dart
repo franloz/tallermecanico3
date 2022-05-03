@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tallermecanico/view/f.dart';
 
 import 'package:tallermecanico/view/home.dart';
 import 'package:tallermecanico/view/login/forgotPassword.dart';
 import 'package:tallermecanico/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tallermecanico/view/login/loginSignUp.dart';
+import 'package:tallermecanico/view/mechanicsView.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
           'Login': (context) => Login(),
           'LoginSignUp': (context) => LoginSignUp(),
           'ForgotPassword': (context) => ForgotPassword(),
+          'MechanicsView': (context) => MechanicsView(),
+          'f': (context) => M(),
         },
         navigatorKey: navigatorKey,
         home: StreamBuilder<User?>(

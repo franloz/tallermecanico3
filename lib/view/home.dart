@@ -80,7 +80,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 onPressed:
-                    () {}, //se lanza el metodo de iniciar sesión al pulsar el botón
+                    () {Navigator.pushNamed(context, 'MechanicsView');}, //se lanza el metodo de iniciar sesión al pulsar el botón
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -125,7 +125,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 onPressed:
-                    () {}, //se lanza la actividad de vehículos
+                    () {Navigator.pushNamed(context, 'f');}, //se lanza la actividad de vehículos
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
