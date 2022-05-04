@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tallermecanico/view/billsView.dart';
+import 'package:tallermecanico/view/clientsView.dart';
 import 'package:tallermecanico/view/f.dart';
 
 import 'package:tallermecanico/view/home.dart';
@@ -8,6 +10,9 @@ import 'package:tallermecanico/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tallermecanico/view/login/loginSignUp.dart';
 import 'package:tallermecanico/view/mechanicsView.dart';
+import 'package:tallermecanico/view/repair_ordersView.dart';
+import 'package:tallermecanico/view/spareView.dart';
+import 'package:tallermecanico/view/vehiclesView.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +34,11 @@ class MyApp extends StatelessWidget {
           'ForgotPassword': (context) => ForgotPassword(),
           'MechanicsView': (context) => MechanicsView(),
           'f': (context) => M(),
+          'ClientsView': (context) => ClientsView(),
+          'VehiclesView': (context) => VehiclesView(),
+          'SpareView': (context) => SpareView(),
+          'Repair_ordersView': (context) => Repair_ordersView(),
+          'BillsView': (context) => BillsView(),
         },
         navigatorKey: navigatorKey,
         home: StreamBuilder<User?>(
