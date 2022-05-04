@@ -4,8 +4,10 @@ import 'package:tallermecanico/controller/homecontroller.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size; //saca el tamaño de la pantalla para poder hacer la app responsive
-    HomeController cr =HomeController(); //me creo una variable de la clase HomeController para usar los métodos que hay en ella y sus variables
+    final size = MediaQuery.of(context)
+        .size; //saca el tamaño de la pantalla para poder hacer la app responsive
+    HomeController cr =
+        HomeController(); //me creo una variable de la clase HomeController para usar los métodos que hay en ella y sus variables
     return Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
@@ -13,10 +15,12 @@ class Home extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 0, 229, 255),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center, //elementos de la columna centrados verticalmente
+        mainAxisAlignment: MainAxisAlignment
+            .center, //elementos de la columna centrados verticalmente
         children: [
           Row(
-            mainAxisAlignment:MainAxisAlignment.center, //Center Row contents horizontally,
+            mainAxisAlignment:
+                MainAxisAlignment.center, //Center Row contents horizontally,
             children: [
               ElevatedButton(
                 child: Column(
@@ -41,8 +45,10 @@ class Home extends StatelessWidget {
                   ],
                 ),
 
-                onPressed:
-                    () {cr.cerrar();}, //se lanza la actividad de clientes
+                onPressed: () {
+                  //cr.cerrar();
+                  Navigator.pushNamed(context, 'ClientsView');
+                }, //se lanza la actividad de clientes
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -79,8 +85,9 @@ class Home extends StatelessWidget {
                     ),
                   ],
                 ),
-                onPressed:
-                    () {Navigator.pushNamed(context, 'MechanicsView');}, //se lanza el metodo de iniciar sesión al pulsar el botón
+                onPressed: () {
+                  Navigator.pushNamed(context, 'MechanicsView');
+                }, //se lanza el metodo de iniciar sesión al pulsar el botón
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -124,8 +131,10 @@ class Home extends StatelessWidget {
                     ),
                   ],
                 ),
-                onPressed:
-                    () {Navigator.pushNamed(context, 'f');}, //se lanza la actividad de vehículos
+                onPressed: () {
+                  //Navigator.pushNamed(context, 'f');
+                  Navigator.pushNamed(context, 'VehiclesView');
+                }, //se lanza la actividad de vehículos
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -162,8 +171,9 @@ class Home extends StatelessWidget {
                     ),
                   ],
                 ),
-                onPressed:
-                    () {}, //se lanza la actividad de recambios
+                onPressed: () {
+                  Navigator.pushNamed(context, 'SpareView');
+                }, //se lanza la actividad de recambios
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -215,8 +225,9 @@ class Home extends StatelessWidget {
                   ],
                 ),
 
-                onPressed:
-                    () {}, //se lanza la actividad de Ördenes de reparación
+                onPressed: () {
+                  Navigator.pushNamed(context, 'Repair_ordersView');
+                }, //se lanza la actividad de Ördenes de reparación
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -253,8 +264,9 @@ class Home extends StatelessWidget {
                     ),
                   ],
                 ),
-                onPressed:
-                    () {}, //se lanza la actividad de Facturas
+                onPressed: () {
+                  Navigator.pushNamed(context, 'BillsView');
+                }, //se lanza la actividad de Facturas
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
