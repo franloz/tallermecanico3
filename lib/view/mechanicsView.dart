@@ -73,13 +73,10 @@ class MechanicsView extends StatelessWidget {
                     return Text(snapshot.hasError.toString());
                   }
 
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                  
 
                     ///poner en otro sitio
-                  }
+                  
                   if (snapshot.hasData) {
                     final mecha = snapshot.data!;
                     //mecha.size.toString() tamaño de la lista, cuantos documentos ahi
@@ -105,10 +102,19 @@ class MechanicsView extends StatelessWidget {
                           snapshot.data!.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
-                        String matricula = data['matricula'];
-                        String url = data['url'];
+                        //String matricula = data['matricula'];
+                        //String url = data['url'];
 
                         return SizedBox(height:200,child:ListTile(
+                          onTap: () {
+                            String v=data['url'];
+                            print(v);//buscar lo escrito entre % y ?///////////////////////// o añadir otro campo a tabala
+
+
+
+
+
+                          },
                           //horizontalTitleGap: 0.0,
                           leading: SizedBox(
                             height: 500.0,
@@ -138,9 +144,16 @@ class MechanicsView extends StatelessWidget {
                       }).toList(),
                     );
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return Column(
+                      /*mainAxisAlignment: MainAxisAlignment
+            .center,
+                      //child: CircularProgressIndicator(),
+                      children:[Text(
+                          "Aquí se mostrarán las imágenes del vehículo",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: size.height / 34),
+                        )]*/);
+                    
                   }
                 })),
       ]),
