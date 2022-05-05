@@ -280,6 +280,104 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
+
+
+          const SizedBox(
+            height: 20,
+          ), //para separar rows
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.assignment_sharp,
+                          size: size.height / 15,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Órdenes",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: size.height / 34),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Reparación",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: size.height / 34),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+
+                onPressed: () {
+                  Navigator.pushNamed(context, 'Repair_ordersView');
+                }, //se lanza la actividad de Ördenes de reparación
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(
+                      size.width / 2.3,
+                      size.height /
+                          6.7), //ancho y alto del boton en relación a la pantalla
+                  primary: Color.fromARGB(255, 111, 0, 255),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.euro,
+                          size: size.height / 15,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Facturas",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: size.height / 34),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'BillsView');
+                }, //se lanza la actividad de Facturas
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(
+                      size.width / 2.3,
+                      size.height /
+                          6.7), //ancho y alto del boton en relación a la pantalla
+                  primary: Color.fromARGB(255, 255, 123, 0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+
+          
         ],
       ),
     );

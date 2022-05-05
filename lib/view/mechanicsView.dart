@@ -26,24 +26,47 @@ class MechanicsView extends StatelessWidget {
         .size; //saca el tamaño de la pantalla para poder hacer la app responsive
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-        title: Text("Vehículos"),
-        backgroundColor: Color.fromARGB(255, 0, 229, 255),
-      ),
-      backgroundColor: Colors.grey[800],
+          appBar: AppBar(
+            backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          // The search area here
+          title: Container(
+        width: double.infinity,
+        height: 40,
+        
+        child: Center(
+          child: TextField(controller:
+                          nombre,
+            decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();//para esconder teclado, y refresca widget
+                    //setState(() {});
+                    //filtro='jj';
+                    nom=nombre.text;
+                    print('FloatingActionButton');
+                  },
+                ),
+                hintText: 'Matrícula del coche',
+                ),
+          ),
+        ),)),
+        backgroundColor: Colors.grey[800],
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () {
             print('FloatingActionButton');
           }),
-      body: Row(children: [
+      body:
+       Row(children: [
         Container(
             height: 900,
             width: 355,
             child: StreamBuilder<QuerySnapshot>(
                 stream:
-                    FirebaseFirestore.instance.collection('fotos').snapshots(),
+                   FirebaseFirestore.instance.collection('fotos').where('matricula',isEqualTo:nom).snapshots(),
+                   //FirebaseFirestore.instance.collection('fotos').snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -85,31 +108,33 @@ class MechanicsView extends StatelessWidget {
                         String matricula = data['matricula'];
                         String url = data['url'];
 
-                        return ListTile(
+                        return SizedBox(height:200,child:ListTile(
                           //horizontalTitleGap: 0.0,
-                          trailing: SizedBox(
-                            height: 400.0,
+                          leading: SizedBox(
+                            height: 500.0,
                             width: 200.0, // fixed width and height
                             child: Stack(
                               children: <Widget>[
                                 const Center(
                                     child: CircularProgressIndicator()),
-                                Center(
+                                    Column(children: [
+                                Expanded(
+                                  
                                   child: Image.network(
                                     data['url'],
-                                    height: 500,
+                                    height: 700,
                                     width: 500,
                                   ),
-                                ),
+                                ),],)
                               ],
                             ),
                           ),
 
                           dense: true,
                           visualDensity: VisualDensity(
-                              vertical: 4, horizontal: 4), // to expand
+                             vertical: 4, horizontal: 4), // to expand
                           //onTap: ,
-                        );
+                        ));
                       }).toList(),
                     );
                   } else {
