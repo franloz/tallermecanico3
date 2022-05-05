@@ -41,6 +41,7 @@ dependencies:
   firebase_storage: ^10.2.15
   firebase_core: ^1.16.0
   path_provider: ^2.0.1
+  transparent_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:

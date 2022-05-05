@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/controller/mechanicsViewController.dart';
+//import 'package:transparent_image/transparent_image.dart';
 
 import '../model/mechanic.dart';
 
@@ -38,31 +39,76 @@ class MechanicsView extends StatelessWidget {
           }),
       body: Row(children: [
         Container(
-            height: 400,
-            width: 200,
+            height: 900,
+            width: 355,
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('mecanicos')
-                    .snapshots(),
+                stream:
+                    FirebaseFirestore.instance.collection('fotos').snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Text(snapshot.hasError.toString());
                   }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+
+                    ///poner en otro sitio
+                  }
                   if (snapshot.hasData) {
                     final mecha = snapshot.data!;
                     //mecha.size.toString() tamaño de la lista, cuantos documentos ahi
+
+                    /*return ListView.builder(
+                          itemCount: tamano,
+                          itemBuilder: (context, index) {
+
+                              DocumentSnapshot documentSnapshot AsyncSnapshot<dynamic> snapshot snapshot.data.documents[index];
+                            return Row(
+                              children: [
+                                Image.network(
+                                  data['url'],
+                                  height: 200,
+                                  width: 200,
+                                ),
+                              ],
+                            );
+                          });*/
 
                     return ListView(
                       children:
                           snapshot.data!.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
+                        String matricula = data['matricula'];
+                        String url = data['url'];
 
                         return ListTile(
-                          title: Text(mecha.size
-                              .toString()), //data.length.toString() devuelve el numero de campos
-                          //subtitle: Text(data['apellidos']),
+                          //horizontalTitleGap: 0.0,
+                          trailing: SizedBox(
+                            height: 400.0,
+                            width: 200.0, // fixed width and height
+                            child: Stack(
+                              children: <Widget>[
+                                const Center(
+                                    child: CircularProgressIndicator()),
+                                Center(
+                                  child: Image.network(
+                                    data['url'],
+                                    height: 500,
+                                    width: 500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          dense: true,
+                          visualDensity: VisualDensity(
+                              vertical: 4, horizontal: 4), // to expand
+                          //onTap: ,
                         );
                       }).toList(),
                     );
