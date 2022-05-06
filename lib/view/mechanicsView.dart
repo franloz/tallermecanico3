@@ -26,57 +26,57 @@ class MechanicsView extends StatelessWidget {
         .size; //saca el tamaño de la pantalla para poder hacer la app responsive
     return MaterialApp(
         home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 0, 229, 255),
+      appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
           // The search area here
           title: Container(
-        width: double.infinity,
-        height: 40,
-        
-        child: Center(
-          child: TextField(controller:
-                          nombre,
-            decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    FocusManager.instance.primaryFocus?.unfocus();//para esconder teclado, y refresca widget
-                    //setState(() {});
-                    //filtro='jj';
-                    nom=nombre.text;
-                    print('FloatingActionButton');
-                  },
+            width: double.infinity,
+            height: 40,
+            child: Center(
+              child: TextField(
+                controller: nombre,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      FocusManager.instance.primaryFocus
+                          ?.unfocus(); //para esconder teclado, y refresca widget
+                      //setState(() {});
+                      //filtro='jj';
+                      nom = nombre.text;
+                      print('FloatingActionButton');
+                    },
+                  ),
+                  hintText: 'Matrícula del coche',
                 ),
-                hintText: 'Matrícula del coche',
-                ),
-          ),
-        ),)),
-        backgroundColor: Colors.grey[800],
+              ),
+            ),
+          )),
+      backgroundColor: Colors.grey[800],
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () {
             print('FloatingActionButton');
           }),
-      body:
-       Row(children: [
+      body: Row(children: [
         Container(
             height: 900,
             width: 355,
             child: StreamBuilder<QuerySnapshot>(
-                stream:
-                   FirebaseFirestore.instance.collection('fotos').where('matricula',isEqualTo:nom).snapshots(),
-                   //FirebaseFirestore.instance.collection('fotos').snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('fotos')
+                    .where('matricula', isEqualTo: nom)
+                    .snapshots(),
+                //FirebaseFirestore.instance.collection('fotos').snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Text(snapshot.hasError.toString());
                   }
 
-                  
+                  ///poner en otro sitio
 
-                    ///poner en otro sitio
-                  
                   if (snapshot.hasData) {
                     final mecha = snapshot.data!;
                     //mecha.size.toString() tamaño de la lista, cuantos documentos ahi
@@ -103,57 +103,58 @@ class MechanicsView extends StatelessWidget {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
                         //String matricula = data['matricula'];
-                        //String url = data['url'];
+                        String url = data['url'];
 
-                        return SizedBox(height:200,child:ListTile(
-                          onTap: () {
-                            String v=data['url'];
-                            print(v);//buscar lo escrito entre % y ?///////////////////////// o añadir otro campo a tabala
+                        return miCardImageCarga(url,
+                            size); /*SizedBox(
+                            height: 200,
+                            child: ListTile(
+                              onTap: () {
+                                String v = data['url'];
+                                print(
+                                    v); //buscar lo escrito entre % y ?///////////////////////// o añadir otro campo a tabala
+                              },
+                              //horizontalTitleGap: 0.0,
+                              leading: SizedBox(
+                                height: 500.0,
+                                width: 200.0, // fixed width and height
+                                child: Stack(
+                                  children: <Widget>[
+                                    const Center(
+                                        child: CircularProgressIndicator()),
+                                    Column(
+                                      children: [
+                                        Expanded(
+                                          child: Image.network(
+                                            data['url'],
+                                            height: 700,
+                                            width: 500,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
 
-
-
-
-
-                          },
-                          //horizontalTitleGap: 0.0,
-                          leading: SizedBox(
-                            height: 500.0,
-                            width: 200.0, // fixed width and height
-                            child: Stack(
-                              children: <Widget>[
-                                const Center(
-                                    child: CircularProgressIndicator()),
-                                    Column(children: [
-                                Expanded(
-                                  
-                                  child: Image.network(
-                                    data['url'],
-                                    height: 700,
-                                    width: 500,
-                                  ),
-                                ),],)
-                              ],
-                            ),
-                          ),
-
-                          dense: true,
-                          visualDensity: VisualDensity(
-                             vertical: 4, horizontal: 4), // to expand
-                          //onTap: ,
-                        ));
+                              dense: true,
+                              visualDensity: VisualDensity(
+                                  vertical: 4, horizontal: 4), // to expand
+                              //onTap: ,
+                            ));*/
                       }).toList(),
                     );
                   } else {
                     return Column(
-                      /*mainAxisAlignment: MainAxisAlignment
+                        /*mainAxisAlignment: MainAxisAlignment
             .center,
                       //child: CircularProgressIndicator(),
                       children:[Text(
                           "Aquí se mostrarán las imágenes del vehículo",
                           style: TextStyle(
                               color: Colors.white, fontSize: size.height / 34),
-                        )]*/);
-                    
+                        )]*/
+                        );
                   }
                 })),
       ]),
@@ -192,3 +193,81 @@ Widget buildMeca(Mechanic me) => ListTile(
       },
     );
   }*/
+
+Card miCardImageCarga(String url, Size size) {
+  return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      margin: EdgeInsets.all(15),
+      elevation: 10,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator()),
+                FittedBox(
+                  child: Image.network(
+                    url,
+                    fit: BoxFit.cover,
+                    height: 300,
+                    width: size.width,
+                  ),
+                )
+              ],
+            ),
+/* Stack(
+              children: <Widget>[
+                SizedBox(
+                  height: size.height / 3,
+                  width: size.width,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                FittedBox(
+                  
+                  child: Image.network(
+                    url,
+                    fit: BoxFit.cover,
+                    height: 200,
+                    width: 200,
+                  ),
+                )
+              ],
+            ), */
+
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Text('Paisaje con carga'),
+            )
+          ],
+        ),
+      )
+      /*child: Column(
+    children: [
+      Row(
+        children: [
+          Stack(
+            children: <Widget>[
+              const Center(child: CircularProgressIndicator()),
+              Center(
+                child: Image.network(
+                  url,
+                  height: 300,
+                  width: size.width,
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+      Row(
+        children: [Text('kjkifkf')],
+      )
+    ],
+  )*/
+      );
+}
