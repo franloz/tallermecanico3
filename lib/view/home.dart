@@ -294,7 +294,7 @@ class Home extends StatelessWidget {
                     Row(
                       children: [
                         Icon(
-                          Icons.assignment_sharp,
+                          Icons.camera_alt_sharp,
                           size: size.height / 15,
                         ),
                       ],
@@ -302,7 +302,7 @@ class Home extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Órdenes",
+                          "Fotos de",
                           style: TextStyle(
                               color: Colors.white, fontSize: size.height / 34),
                         ),
@@ -311,7 +311,7 @@ class Home extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Reparación",
+                          "vehículos",
                           style: TextStyle(
                               color: Colors.white, fontSize: size.height / 34),
                         ),
@@ -321,14 +321,14 @@ class Home extends StatelessWidget {
                 ),
 
                 onPressed: () {
-                  Navigator.pushNamed(context, 'Repair_ordersView');
+                  Navigator.pushNamed(context, 'VehiclePhotosView');
                 }, //se lanza la actividad de Ördenes de reparación
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
                       size.height /
                           6.7), //ancho y alto del boton en relación a la pantalla
-                  primary: Color.fromARGB(255, 111, 0, 255),
+                  primary: Color.fromARGB(255, 0, 255, 68),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),

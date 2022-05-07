@@ -10,8 +10,10 @@ import 'package:tallermecanico/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tallermecanico/view/login/loginSignUp.dart';
 import 'package:tallermecanico/view/mechanicsView.dart';
+import 'package:tallermecanico/view/photos/vehiclephotosList.dart';
 import 'package:tallermecanico/view/repair_ordersView.dart';
 import 'package:tallermecanico/view/spareView.dart';
+import 'package:tallermecanico/view/photos/vehiclephotosView.dart';
 import 'package:tallermecanico/view/vehiclesView.dart';
 
 Future main() async {
@@ -39,6 +41,8 @@ class MyApp extends StatelessWidget {
           'SpareView': (context) => SpareView(),
           'Repair_ordersView': (context) => Repair_ordersView(),
           'BillsView': (context) => BillsView(),
+          'VehiclePhotosView': (context) => VehiclePhotosView(),
+          'VehiclePhotosList': (context) => VehiclePhotosList(),
         },
         navigatorKey: navigatorKey,
         home: StreamBuilder<User?>(
