@@ -17,6 +17,9 @@ class MechanicsView extends StatelessWidget {
   double preci = 0;
   String direcci = "";
 
+
+  //final FocusNode _commentFocus = FocusNode();
+
   MechanicsViewController cr =
       MechanicsViewController(); //me creo una variable de la clase HomeController para usar los métodos que hay en ella y sus variables
 
@@ -34,35 +37,38 @@ class MechanicsView extends StatelessWidget {
             height: 40,
             child: Center(
               child: TextField(
+                onChanged:(text){nom = nombre.text;},//si le da a intro del teclado re refresca el widget con las busquedas
                 controller: nombre,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
-                      FocusManager.instance.primaryFocus
-                          ?.unfocus(); //para esconder teclado, y refresca widget
-                      //setState(() {});
+                      
+                      nom = nombre.text;//se coge la matricula introducida y se usa para filtrar
+                      //setState(text) {};
+                      //FocusManager.instance.primaryFocus
+                          //?.unfocus(); //para esconder teclado, y refresca widget
+
+                      FocusScope.of(context).unfocus();//se elimina el foco del contexto actual y se refrescan los widget mostrando la busqueda
+
+                      
                       //filtro='jj';
-                      nom = nombre.text;
-                      print('FloatingActionButton');
+                      
+                      
+                      
                     },
                   ),
-                  hintText: 'Matrícula del coche',
+                  hintText: 'Matrícula del coche a buscar',
                 ),
               ),
             ),
           )),
       backgroundColor: Colors.grey[800],
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 0, 229, 255),
-          child: Icon(Icons.add),
-          onPressed: () {
-            print('FloatingActionButton');
-          }),
+      
       body: Row(children: [
         Container(
-            height: 900,
-            width: 355,
+            height: size.height,
+            width: size.width,
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('fotos')
@@ -194,8 +200,28 @@ Widget buildMeca(Mechanic me) => ListTile(
     );
   }*/
 
-Card miCardImageCarga(String url, Size size) {
+Widget miCardImageCarga(String url, Size size) {
   return Card(
+        /*semanticContainer: true,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Image.network(
+            url,
+            fit: BoxFit.fill,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          elevation: 5,
+          margin: EdgeInsets.all(10),*/
+        
+
+
+
+
+
+
+
+
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       margin: EdgeInsets.all(15),
       elevation: 10,
@@ -203,7 +229,7 @@ Card miCardImageCarga(String url, Size size) {
         borderRadius: BorderRadius.circular(30),
         child: Column(
           children: <Widget>[
-            Stack(
+            /*Stack(
               children: <Widget>[
                 Align(
                     alignment: Alignment.center,
@@ -217,27 +243,27 @@ Card miCardImageCarga(String url, Size size) {
                   ),
                 )
               ],
-            ),
-/* Stack(
+            ),*/
+ Stack(
               children: <Widget>[
                 SizedBox(
-                  height: size.height / 3,
+                  height: size.height / 2.8,
                   width: size.width,
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
                 ),
-                FittedBox(
+                Center(child: FittedBox(
                   
                   child: Image.network(
                     url,
                     fit: BoxFit.cover,
-                    height: 200,
-                    width: 200,
+                    height: size.height/2.5,
+                    width: size.width,
                   ),
-                )
+                ))
               ],
-            ), */
+            ), 
 
             Container(
               padding: EdgeInsets.all(10),
