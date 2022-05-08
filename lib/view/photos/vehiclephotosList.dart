@@ -1,10 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class VehiclePhotosList extends StatelessWidget {
   String nom = "";
-  TextEditingController nombre =
-      TextEditingController(); 
+  TextEditingController nombre = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context)
@@ -19,25 +19,24 @@ class VehiclePhotosList extends StatelessWidget {
             height: 40,
             child: Center(
               child: TextField(
-                onChanged:(text){nom = nombre.text;},//si le da a intro del teclado re refresca el widget con las busquedas
+                onChanged: (text) {
+                  nom = nombre.text;
+                }, //si le da a intro del teclado re refresca el widget con las busquedas
                 controller: nombre,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
-                      
-                      nom = nombre.text;//se coge la matricula introducida y se usa para filtrar
+                      nom = nombre
+                          .text; //se coge la matricula introducida y se usa para filtrar
                       //setState(text) {};
                       //FocusManager.instance.primaryFocus
-                          //?.unfocus(); //para esconder teclado, y refresca widget
+                      //?.unfocus(); //para esconder teclado, y refresca widget
 
-                      FocusScope.of(context).unfocus();//se elimina el foco del contexto actual y se refrescan los widget mostrando la busqueda
+                      FocusScope.of(context)
+                          .unfocus(); //se elimina el foco del contexto actual y se refrescan los widget mostrando la busqueda
 
-                      
                       //filtro='jj';
-                      
-                      
-                      
                     },
                   ),
                   hintText: 'Matrícula del coche a buscar',
@@ -46,7 +45,6 @@ class VehiclePhotosList extends StatelessWidget {
             ),
           )),
       backgroundColor: Colors.grey[800],
-      
       body: Row(children: [
         Container(
             height: size.height,
@@ -184,7 +182,7 @@ class VehiclePhotosList extends StatelessWidget {
 
 Widget miCardImageCarga(String url, Size size) {
   return Card(
-        /*semanticContainer: true,
+      /*semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           child: Image.network(
             url,
@@ -195,14 +193,6 @@ Widget miCardImageCarga(String url, Size size) {
           ),
           elevation: 5,
           margin: EdgeInsets.all(10),*/
-        
-
-
-
-
-
-
-
 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       margin: EdgeInsets.all(15),
@@ -226,7 +216,7 @@ Widget miCardImageCarga(String url, Size size) {
                 )
               ],
             ),*/
- Stack(
+            Stack(
               children: <Widget>[
                 SizedBox(
                   height: size.height / 2.8,
@@ -235,18 +225,25 @@ Widget miCardImageCarga(String url, Size size) {
                     child: CircularProgressIndicator(),
                   ),
                 ),
-                Center(child: FittedBox(
-                  
-                  child: Image.network(
+                Center(
+                    child: FittedBox(
+                  child: CachedNetworkImage(
+                    
+                    imageUrl: url,
+                    fit: BoxFit.cover,
+                    height: size.height / 2.5,
+                    width: size.width,
+                  ),
+                  /*Image.network(
+                     
                     url,
                     fit: BoxFit.cover,
                     height: size.height/2.5,
                     width: size.width,
-                  ),
+                  ),*/
                 ))
               ],
-            ), 
-
+            ),
             Container(
               padding: EdgeInsets.all(10),
               child: Text('Paisaje con carga'),
