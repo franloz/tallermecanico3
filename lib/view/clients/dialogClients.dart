@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tallermecanico/databasesqlite/database.dart';
+import 'package:tallermecanico/model/client.dart';
 
 class DialogClients {
-  TextEditingController dni = TextEditingController();
-  TextEditingController nombre = TextEditingController();
-  TextEditingController telf =
+  TextEditingController dnitxt = TextEditingController();
+  TextEditingController nombretxt = TextEditingController();
+  TextEditingController telftxt =
       TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
-  TextEditingController direccion = TextEditingController();
+  TextEditingController direcciontxt = TextEditingController();
+
+  DatabaseSqlite dt = DatabaseSqlite();
 
   void dialogClient(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -23,7 +27,6 @@ class DialogClients {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        
                         Row(
                           //fila con un container y un TextField para email
                           mainAxisAlignment: MainAxisAlignment
@@ -40,7 +43,7 @@ class DialogClients {
                               ),
                               child: TextField(
                                   controller:
-                                      dni, //se identifica el controlador del TextField
+                                      dnitxt, //se identifica el controlador del TextField
                                   decoration: const InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -52,7 +55,7 @@ class DialogClients {
                                       ),
                                       prefixIcon: Icon(Icons.email),
                                       border: InputBorder.none,
-                                      hintText: "cliente",
+                                      hintText: "DNI",
                                       hintStyle: TextStyle(
                                         color: Colors.white,
                                       ))),
@@ -80,8 +83,7 @@ class DialogClients {
                               ),
                               child: TextField(
                                   controller:
-                                      nombre, //se identifica el controlador del TextField
-                                  obscureText: true,
+                                      nombretxt, //se identifica el controlador del TextField
                                   decoration: const InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -93,7 +95,7 @@ class DialogClients {
                                       ),
                                       prefixIcon: Icon(Icons.password),
                                       border: InputBorder.none,
-                                      hintText: "Coche",
+                                      hintText: "Nombre",
                                       hintStyle:
                                           TextStyle(color: Colors.white))),
                             ),
@@ -120,7 +122,7 @@ class DialogClients {
                               ),
                               child: TextField(
                                   controller:
-                                      telf, //se identifica el controlador del TextField
+                                      telftxt, //se identifica el controlador del TextField
                                   decoration: const InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -132,7 +134,7 @@ class DialogClients {
                                       ),
                                       prefixIcon: Icon(Icons.email),
                                       border: InputBorder.none,
-                                      hintText: "cliente",
+                                      hintText: "Teléfono",
                                       hintStyle: TextStyle(
                                         color: Colors.white,
                                       ))),
@@ -160,8 +162,7 @@ class DialogClients {
                               ),
                               child: TextField(
                                   controller:
-                                      direccion, //se identifica el controlador del TextField
-                                  obscureText: true,
+                                      direcciontxt, //se identifica el controlador del TextField
                                   decoration: const InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -173,7 +174,7 @@ class DialogClients {
                                       ),
                                       prefixIcon: Icon(Icons.password),
                                       border: InputBorder.none,
-                                      hintText: "Password",
+                                      hintText: "Dirección",
                                       hintStyle:
                                           TextStyle(color: Colors.white))),
                             ),
@@ -189,16 +190,34 @@ class DialogClients {
                               .center, //Center Row contents horizontally,
                           children: [
                             TextButton(
-                              onPressed: () {}, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
-                              child:  Text(
-                                  'Guardar',style: TextStyle(
+                              onPressed: () {
+                                String dni = dnitxt.text;
+                                String nombre = nombretxt.text;
+                                int telf = int.parse(telftxt.text);
+                                String direccion = direcciontxt.text;
+
+                                var cliente = Client(
+                                  dni: dni,
+                                  nombre: nombre,
+                                  telf: telf,
+                                  direccion: direccion,
+                                );
+//////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
+                                int result = dt.insertClient(cliente) as int;
+                                //print(result);
+                                if (result != 0) {
+                                  print('mano');
+                                }
+                                Navigator.of(context).pop();
+                              }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                              child: Text('Guardar',
+                                  style: TextStyle(
                                       fontSize: size.height / 35,
-                                      color: Colors.white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                                      color: Colors
+                                          .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
                             ),
                           ],
                         ),
-
-                        
                       ],
                     ))
               ],
