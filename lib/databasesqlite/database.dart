@@ -22,6 +22,7 @@ class DatabaseSqlite {
 
       return v;
     } on DatabaseException catch (e) {
+      //////////////////////////lanzar aqui dialog
       int b = 9;
       return b;
     }
