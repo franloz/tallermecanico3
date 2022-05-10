@@ -69,7 +69,7 @@ class Utils {
                 ),
               ],
             ));
-  }////////////////////////////////////////////////unir estos dos metodos en uno con una condición
+  } ////////////////////////////////////////////////unir estos dos metodos en uno con una condición
 
   void dialogForgotPasswordCorrect(BuildContext context, String error) {
     showDialog<String>(
@@ -90,5 +90,22 @@ class Utils {
             ));
   }
 
-
+  void dialogErrorInsert(BuildContext context, String error) {
+    showDialog<String>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => AlertDialog(
+              title: const Text('Atención'),
+              content: Text(error),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                      'Ok'), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                ),
+              ],
+            ));
+  }
 }

@@ -190,7 +190,7 @@ class DialogClients {
                               .center, //Center Row contents horizontally,
                           children: [
                             TextButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 String dni = dnitxt.text;
                                 String nombre = nombretxt.text;
                                 int telf = int.parse(telftxt.text);
@@ -203,11 +203,13 @@ class DialogClients {
                                   direccion: direccion,
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
-                                int result = dt.insertClient(cliente) as int;
+
+                                await dt.insertClient(cliente);
+
                                 //print(result);
-                                if (result != 0) {
-                                  print('mano');
-                                }
+
+                                dnitxt.clear();
+
                                 Navigator.of(context).pop();
                               }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
                               child: Text('Guardar',

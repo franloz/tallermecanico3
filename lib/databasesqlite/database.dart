@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:path/path.dart';
+import 'package:tallermecanico/utils/utils.dart';
 
 import '../model/client.dart';
 
@@ -14,21 +15,24 @@ class DatabaseSqlite {
     }, version: 1);
   }
 
-  Future<int> insertClient(Client client) async {
+  Future<void> insertClient(Client client) async {
     Database database = await _openDB();
 
     try {
-      int v = await database.insert("Clientes", client.toMap());
-
-      return v;
+      var d = await database.insert("Clientes", client.toMap());
+      print('jjj' + d.toString());
+      //return v;
     } on DatabaseException catch (e) {
+      print('jjffdfdfj');
+      //Utils u = Utils();
+      //u.dialogErrorInsert(context, error)
       //////////////////////////lanzar aqui dialog
-      int b = 9;
-      return b;
+      //int b = 9;
+      //return b;
     }
   }
 
-  Future<void> deleteClient(int dni) async {
+  Future<void> deleteClient(String dni) async {
     Database database = await _openDB();
 
     await database.delete("Clientes", where: 'dni = ?', whereArgs: [dni]);
@@ -41,7 +45,7 @@ class DatabaseSqlite {
         where: 'dni = ?', whereArgs: [client.dni]);
   }
 
-  Future<List<Client>> getClients() async {
+  /* Future<List<Client>> getClients() async {
     Database database = await _openDB();
 
     final List<Map<String, dynamic>> maps = await database.query('Clientes');
@@ -55,6 +59,17 @@ class DatabaseSqlite {
         direccion: maps[i]['direccion'],
       );
     });
+  }*/
+
+  Future<List<Client>> getClients() async {
+    Database database = await _openDB();
+
+    var clients = await database.query('Clientes');
+    List<Client> clientsList = clients.isNotEmpty
+        ? clients.map((c) => Client.fromMap(c)).toList()
+        : [];
+
+    return clientsList;
   }
 
 /*
