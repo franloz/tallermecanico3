@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Aplicación"),
+        title: Text("Clientes"),
       ),
       backgroundColor: Colors.grey[800],
       floatingActionButton: FloatingActionButton(
@@ -59,8 +59,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: snapshot.data!.map((client) {
                 return ListTile(
                   title: Text(client.dni),
+                  tileColor: Colors.white,
                   onLongPress: () {},
-                );
+                  trailing: SizedBox(
+                      width: 100,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {}
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {}
+                          ),
+                        ],
+                      ),
+                      
+                ));
+
               }).toList());
             } else {
               return Column(children: [Text('no hay datos')]);
