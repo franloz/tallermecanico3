@@ -40,13 +40,14 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Icon(Icons.add),
           onPressed: () async {
             await showModalBottomSheet(
+                //isScrollControlled: true,
                 context: context,
                 builder: (context) => Center(
                       child: ElevatedButton(
                         child: Text('k'),
                         onPressed: () {
                           var cliente = Client(
-                            dni: '33',
+                            dni: '8',
                             nombre: 'fff',
                             telf: 5,
                             direccion: 'gggbfd',
