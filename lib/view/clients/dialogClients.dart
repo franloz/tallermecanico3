@@ -11,7 +11,7 @@ class DialogClients {
 
   DatabaseSqlite dt = DatabaseSqlite();
 
-  void dialogClient(BuildContext context) {
+  Future dialogClient(BuildContext context) async {
     final size = MediaQuery.of(context).size;
     showDialog<String>(
         context: context,
@@ -190,7 +190,7 @@ class DialogClients {
                               .center, //Center Row contents horizontally,
                           children: [
                             TextButton(
-                              onPressed: () async {
+                              onPressed: () {
                                 String dni = dnitxt.text;
                                 String nombre = nombretxt.text;
                                 int telf = int.parse(telftxt.text);
@@ -204,7 +204,7 @@ class DialogClients {
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                await dt.insertClient(cliente);
+                                dt.insertClient(cliente);
 
                                 //print(result);
 
