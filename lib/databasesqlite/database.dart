@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:path/path.dart';
-import 'package:tallermecanico/utils/utils.dart';
+import 'package:tallermecanico/alertdialog/dialogError.dart';
 
 import '../model/client.dart';
 
@@ -15,20 +16,17 @@ class DatabaseSqlite {
     }, version: 1);
   }
 
-  Future<void> insertClient(Client client) async {
+  Future<void> insertClient(BuildContext context,Client client) async {
     Database database = await _openDB();
 
     try {
-      var d = await database.insert("Clientes", client.toMap());
-      print('jjj' + d.toString());
-      //return v;
+      await database.insert("Clientes", client.toMap());
+      
+      
     } on DatabaseException catch (e) {
-      print('jjffdfdfj');
-      //Utils u = Utils();
-      //u.dialogErrorInsert(context, error)
-      //////////////////////////lanzar aqui dialog
-      //int b = 9;
-      //return b;
+      String error='Este dni ya existe, no puede volverlo a introducir';
+      DialogError dialogError=DialogError();
+      dialogError.dialogError(context, error);
     }
   }
 
@@ -38,14 +36,23 @@ class DatabaseSqlite {
     await database.delete("Clientes", where: 'dni = ?', whereArgs: [dni]);
   }
 
-  Future<void> updateClient(Client client) async {
+  Future<void> updateClient(BuildContext context,Client client,String dni) async {
     Database database = await _openDB();
 
-    await database.update("Clientes", client.toMap(),
-        where: 'dni = ?', whereArgs: [client.dni]);
+    try {
+      await database.update("Clientes", client.toMap(),
+        where: 'dni = ?', whereArgs: [dni]);
+      
+      
+    } on DatabaseException catch (e) {
+      String error='Este dni ya existe, no puede volverlo a introducir';
+      DialogError dialogError=DialogError();
+      dialogError.dialogError(context, error);
+    }
+
   }
 
-  /* Future<List<Client>> getClients() async {
+   Future<List<Client>> getClients() async {
     Database database = await _openDB();
 
     final List<Map<String, dynamic>> maps = await database.query('Clientes');
@@ -59,9 +66,9 @@ class DatabaseSqlite {
         direccion: maps[i]['direccion'],
       );
     });
-  }*/
+  }
 
-  Future<List<Client>> getClients() async {
+  /*Future<List<Client>> getClients() async {
     Database database = await _openDB();
 
     var clients = await database.query('Clientes');
@@ -70,7 +77,7 @@ class DatabaseSqlite {
         : [];
 
     return clientsList;
-  }
+  }*/
 
 /*
   

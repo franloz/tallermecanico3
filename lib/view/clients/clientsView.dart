@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tallermecanico/controller/clientController.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/view/clients/dialogClients.dart';
 
@@ -11,7 +12,7 @@ class ClientsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Aplicación',
+      title: 'Taller',
       home: const MyHomePage(),
     );
   }
@@ -28,20 +29,64 @@ class _MyHomePageState extends State<MyHomePage> {
   DialogClients cl = DialogClients();
   DatabaseSqlite dt = DatabaseSqlite();
 
+  TextEditingController nombre = TextEditingController();
+  String nom = '';
+  ClientController clientController = ClientController();
+
+  String dni = '';
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Clientes"),
-      ),
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          title: Container(
+            width: double.infinity,
+            height: 40,
+            child: Center(
+              child: TextField(
+                onChanged: (text) {
+                  nom = nombre.text;
+                  clientController.searchDni();
+                }, //si le da a intro del teclado re refresca el widget con las busquedas
+                controller: nombre,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      nom = nombre
+                          .text; //se coge la matricula introducida y se usa para filtrar
+                      //setState(text) {};
+                      //FocusManager.instance.primaryFocus
+                      //?.unfocus(); //para esconder teclado, y refresca widget
+
+                      FocusScope.of(context)
+                          .unfocus(); //se elimina el foco del contexto actual y se refrescan los widget mostrando la busqueda
+
+                      setState() {}
+                      ;
+                      //filtro='jj';
+                    },
+                  ),
+                  hintText: 'Matrícula del coche a buscar',
+                ),
+              ),
+            ),
+          )),
       backgroundColor: Colors.grey[800],
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () async {
-            await showModalBottomSheet(
+            /*await showModalBottomSheet(
                 //isScrollControlled: true,
                 context: context,
+                shape:  RoundedRectangleBorder(
+                  borderRadius:BorderRadius.vertical(top:Radius.circular(20))
+
+
+                ),
                 builder: (context) => Center(
                       child: ElevatedButton(
                         child: Text('k'),
@@ -59,11 +104,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.of(context).pop();
                         },
                       ),
-                    ));
-
+                    ));*/
+            await cl.dialogClientInsert(context,
+                size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
 
-            //await dialogClient(context);
+            //
             //setState(() {});
 
             ///o inserto aqui con un setstate o refresco y pongo aqui los metodos de insert
@@ -71,257 +117,175 @@ class _MyHomePageState extends State<MyHomePage> {
 /////meter dialog aqui y metodos de add y refrescar
             print('fnfhnfh');
             //setState(() {});
-          }),
+          }), /////simbolo de carga
       body: FutureBuilder<List<Client>>(
           future: dt.getClients(),
           builder:
               (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
             if (snapshot.hasError) {
-              return Text(snapshot.hasError.toString());
+              return Text('Ha ocurrido un error');
             }
             if (snapshot.hasData) {
               return ListView(
                   children: snapshot.data!.map((client) {
-                return ListTile(
-                    title: Text(client.dni),
-                    tileColor: Colors.white,
-                    onLongPress: () {},
-                    trailing: SizedBox(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                              icon: const Icon(Icons.edit), onPressed: () {}),
-                          IconButton(
-                              icon: const Icon(Icons.delete), onPressed: () {}),
-                        ],
-                      ),
-                    ));
+                String dni = client.dni;
+                String name = client.nombre;
+                int tlf = client.telf;
+                String direccion = client.direccion;
+
+                return Card(
+                  elevation: 5,
+                  child: ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text(dni),
+                      subtitle: Text(name),
+                      trailing: SizedBox(
+                        width: size.width / 4,
+                        child: Row(
+                          children: [
+                            IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () async {
+
+                                  //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
+                                  TextEditingController dnicontroll=TextEditingController();
+                                  dnicontroll.text=dni;
+                                  TextEditingController namecontroll=TextEditingController();
+                                  namecontroll.text=name;
+                                  TextEditingController tlfcontroll=TextEditingController();
+                                  tlfcontroll.text=tlf.toString();
+                                  TextEditingController direccioncontroll=TextEditingController();
+                                  direccioncontroll.text=direccion;
+                                  await cl.dialogClientUpdate(context,size,dnicontroll,namecontroll,tlfcontroll,direccioncontroll,dni); //este ultimo dni q le paso es para identificar que registro actualizo
+                                  setState(() {});
+
+                                }),
+                            IconButton(icon: const Icon(Icons.delete), onPressed: ()async {
+
+                                  await cl.dialogClientDelete(context,dni); //este ultimo dni q le paso es para identificar que registro actualizo
+                                  setState(() {});
+
+
+
+
+                            }),
+                          ],
+                        ),
+                      ))
+
+                  );
               }).toList());
             } else {
-              return Column(children: [Text('no hay datos')]);
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
           }),
     );
   }
 }
 
-Future dialogClient(BuildContext context) async {
-  TextEditingController dnitxt = TextEditingController();
-  TextEditingController nombretxt = TextEditingController();
-  TextEditingController telftxt =
-      TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
-  TextEditingController direcciontxt = TextEditingController();
+Widget CardList(Size size, String dni, String name, int tlf, String direccion) {
+  return Card(
+      elevation: 5,
+      child: ListTile(
+          leading: Icon(Icons.person),
+          title: Text(dni),
+          subtitle: Text(name),
+          trailing: SizedBox(
+            width: size.width / 4,
+            child: Row(
+              children: [
+                IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () async {
+                      
+                    }),
+                IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
+              ],
+            ),
+          ))
+          
 
-  DatabaseSqlite dt = DatabaseSqlite();
-  final size = MediaQuery.of(context).size;
-  showDialog<String>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) => AlertDialog(
-            backgroundColor: Colors.grey[600],
-            title:
-                Text('Añadir Cliente', style: TextStyle(color: Colors.white)),
-            //content: Text(error),
-            actions: <Widget>[
-              Container(
-                  width: size.width / 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      /*shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      margin: EdgeInsets.all(10),
+      elevation: 10,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: size.height/9,
+
+              child: 
+                  Row(
+                    
+                    
                     children: [
-                      Row(
-                        //fila con un container y un TextField para email
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                      Column(children: [
+
+
+                      ],),
+
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        
                         children: [
-                          Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
-                            height: size.height / 17,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
-                              color: Colors.grey[700],
-                            ),
-                            child: TextField(
-                                controller:
-                                    dnitxt, //se identifica el controlador del TextField
-                                decoration: const InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
-                                    ),
-                                    prefixIcon: Icon(Icons.email),
-                                    border: InputBorder.none,
-                                    hintText: "DNI",
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                    ))),
-                          ),
-                        ],
-                      ),
 
-                      const SizedBox(
-                        height: 10,
-                      ), //para separar rows
+                        Row(children: [
+                        Padding(padding:EdgeInsets.only(left: 20) ,
+                        child: Text(dni)),
+                      ],),
 
-                      Row(
-                        //fila con un container y un TextField para contraseña
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                      Row(children: [
+                        Padding(padding:EdgeInsets.only(left: 20) ,
+                        child: Text(name)),
+                      ],),
+
+                      Row(children: [
+                        Padding(padding:EdgeInsets.only(left: 20) ,
+                        child: Text(tlf.toString())),
+                      ],),
+
+                      Row(children: [
+                        Padding(padding:EdgeInsets.only(left: 20) ,
+                        child: Text(direccion)),
+                      ],),
+
+
+                    ],),
+
+
+
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        
+                        
                         children: [
-                          Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
-                            height: size.height / 17,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
-                              color: Colors.grey[700],
-                            ),
-                            child: TextField(
-                                controller:
-                                    nombretxt, //se identifica el controlador del TextField
-                                decoration: const InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
-                                    ),
-                                    prefixIcon: Icon(Icons.password),
-                                    border: InputBorder.none,
-                                    hintText: "Nombre",
-                                    hintStyle: TextStyle(color: Colors.white))),
-                          ),
-                        ],
-                      ),
+                        IconButton(
+                              icon: const Icon(Icons.edit), onPressed: () {}),
+                          IconButton(
+                              icon: const Icon(Icons.delete), onPressed: () {}),
 
-                      const SizedBox(
-                        height: 10,
-                      ), //para separar rows
+                      ],),
+                  
 
-                      Row(
-                        //fila con un container y un TextField para email
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
-                        children: [
-                          Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
-                            height: size.height / 17,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
-                              color: Colors.grey[700],
-                            ),
-                            child: TextField(
-                                controller:
-                                    telftxt, //se identifica el controlador del TextField
-                                decoration: const InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
-                                    ),
-                                    prefixIcon: Icon(Icons.email),
-                                    border: InputBorder.none,
-                                    hintText: "Teléfono",
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                    ))),
-                          ),
-                        ],
-                      ),
+                      
 
-                      const SizedBox(
-                        height: 10,
-                      ), //para separar rows
+                ]),
+                
 
-                      Row(
-                        //fila con un container y un TextField para contraseña
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
-                        children: [
-                          Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
-                            height: size.height / 17,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
-                              color: Colors.grey[700],
-                            ),
-                            child: TextField(
-                                controller:
-                                    direcciontxt, //se identifica el controlador del TextField
-                                decoration: const InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
-                                    ),
-                                    prefixIcon: Icon(Icons.password),
-                                    border: InputBorder.none,
-                                    hintText: "Dirección",
-                                    hintStyle: TextStyle(color: Colors.white))),
-                          ),
-                        ],
-                      ),
 
-                      const SizedBox(
-                        height: 10,
-                      ), //para separar rows
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              String dni = dnitxt.text;
-                              String nombre = nombretxt.text;
-                              int telf = int.parse(telftxt.text);
-                              String direccion = direcciontxt.text;
 
-                              var cliente = Client(
-                                dni: dni,
-                                nombre: nombre,
-                                telf: telf,
-                                direccion: direccion,
-                              );
-//////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                              dt.insertClient(cliente);
+            )
+            
+           
+            
+          ],
+        ),
+      )*/
 
-                              //print(result);
-
-                              dnitxt.clear();
-
-                              Navigator.of(context).pop();
-                            }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
-                            child: Text('Guardar',
-                                style: TextStyle(
-                                    fontSize: size.height / 35,
-                                    color: Colors
-                                        .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
-                          ),
-                        ],
-                      ),
-                    ],
-                  ))
-            ],
-          ));
+      );
 }
