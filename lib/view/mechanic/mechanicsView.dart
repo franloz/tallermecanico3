@@ -1,12 +1,196 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/controller/mechanicsViewController.dart';
-//import 'package:transparent_image/transparent_image.dart';
+import 'package:tallermecanico/databasesqlite/database.dart';
+import 'package:tallermecanico/view/mechanic/dialogMechanics.dart';
 
-import '../model/mechanic.dart';
+import '../../model/mechanic.dart';
 
 class MechanicsView extends StatelessWidget {
-  TextEditingController nombre =
+  const MechanicsView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Taller',
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  DialogMechanics cl = DialogMechanics();
+  DatabaseSqlite dt = DatabaseSqlite();
+
+  TextEditingController searchtxt = TextEditingController();
+
+  String search='';
+
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          title: Container(
+            width: double.infinity,
+            height: 40,
+            child: Center(
+              child: TextField(
+                controller: searchtxt,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
+                      search=searchtxt.text;
+                      setState(() {});
+                      
+                    },
+                  ),
+                  hintText: 'Nombre del mecánico a buscar',
+                ),
+              ),
+            ),
+          )),
+      backgroundColor: Colors.grey[800],
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          child: Icon(Icons.add),
+          onPressed: () async {
+            FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
+            await cl.dialogMechanicInsert(context,
+                size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            setState(() {});
+          }),
+      body: FutureBuilder<List<Mechanic>>(
+          future: loadList(),////un metodo que controle si hay busqueda o no
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Mechanic>> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Ha ocurrido un error');
+            }
+            if (snapshot.hasData) {
+              return ListView(
+                  children: snapshot.data!.map((mechanic) {
+                String dni = mechanic.dni;
+                String name = mechanic.nombre;
+                int tlf = mechanic.telf;
+                String direccion = mechanic.direccion;
+
+                return Card(
+                    elevation: 5,
+                    child: ListTile(
+                        onTap: () {
+                          FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
+                          showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20))),
+                            builder: (context) => Column(
+                              children: [
+                                ListTile(
+                                  title: Text('DNI'),
+                                  subtitle: Text(dni),
+                                ),
+                                ListTile(
+                                  title: Text('Nombre'),
+                                  subtitle: Text(name),
+                                ),
+                                ListTile(
+                                  title: Text('Teléfono'),
+                                  subtitle: Text(tlf.toString()),
+                                ),
+                                ListTile(
+                                  title: Text('Dirección'),
+                                  subtitle: Text(direccion),
+                                ),
+                              ],
+                            ),
+
+                        
+                          );
+                        },
+                        leading: Icon(Icons.person),
+                        title: Text(dni),
+                        subtitle: Text(name),
+                        trailing: SizedBox(
+                          width: size.width / 4,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () async {
+                                    FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
+                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
+                                    TextEditingController dnicontroll =
+                                        TextEditingController();
+                                    dnicontroll.text = dni;
+                                    TextEditingController namecontroll =
+                                        TextEditingController();
+                                    namecontroll.text = name;
+                                    TextEditingController tlfcontroll =
+                                        TextEditingController();
+                                    tlfcontroll.text = tlf.toString();
+                                    TextEditingController direccioncontroll =
+                                        TextEditingController();
+                                    direccioncontroll.text = direccion;
+                                    await cl.dialogMechanicUpdate(
+                                        context,
+                                        size,
+                                        dnicontroll,
+                                        namecontroll,
+                                        tlfcontroll,
+                                        direccioncontroll,
+                                        dni); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    setState(() {});
+                                  }),
+                              IconButton(
+                                
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () async {
+                                    FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
+                                    await cl.dialogMechanicDelete(context, dni);
+                                    setState(() {});
+                                  }),
+                            ],
+                          ),
+                        )));
+              }).toList());
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+    );
+  }
+
+  Future<List<Mechanic>> loadList() async{
+    if(search!=''){
+      return dt.getMechanicWhere(search);
+
+    }else{
+      return dt.getMechanics();
+    }
+
+  }
+}
+
+
+/*TextEditingController nombre =
       TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
   TextEditingController apellidos = TextEditingController();
   TextEditingController direccion = TextEditingController();
@@ -295,5 +479,4 @@ Widget miCardImageCarga(String url, Size size) {
       )
     ],
   )*/
-      );
-}
+      );*/

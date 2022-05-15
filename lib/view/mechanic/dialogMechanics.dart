@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/model/client.dart';
 
-class DialogClients {
+import '../../model/mechanic.dart';
+
+class DialogMechanics {
   DatabaseSqlite dt = DatabaseSqlite();
 
   TextEditingController dnitxt = TextEditingController();
@@ -12,13 +13,13 @@ class DialogClients {
       TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
   TextEditingController direcciontxt = TextEditingController();
 
-  Future dialogClientInsert(BuildContext context, Size size) => showDialog(
+  Future dialogMechanicInsert(BuildContext context, Size size) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:
-                Text('Añadir Cliente', style: TextStyle(color: Colors.white)),
+                Text('Añadir Mecánico', style: TextStyle(color: Colors.white)),
             //content: Text(error),
             actions: <Widget>[
               Container(
@@ -202,7 +203,7 @@ class DialogClients {
                                 int telf = int.parse(telftxt.text);
                                 String direccion = direcciontxt.text;
 
-                                var cliente = Client(
+                                var mechanic = Mechanic(
                                   dni: dni,
                                   nombre: nombre,
                                   telf: telf,
@@ -210,7 +211,7 @@ class DialogClients {
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                dt.insertClient(context,cliente);
+                                dt.insertMechanic(context,mechanic);
 
 
                                 dnitxt.clear();
@@ -236,14 +237,14 @@ class DialogClients {
 
 
 
-  Future dialogClientUpdate(BuildContext context, Size size,TextEditingController dni,TextEditingController name,TextEditingController tlf,TextEditingController direction,String olddni) => showDialog(
+  Future dialogMechanicUpdate(BuildContext context, Size size,TextEditingController dni,TextEditingController name,TextEditingController tlf,TextEditingController direction,String olddni) => showDialog(
     
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:
-                Text('Actualizar Cliente', style: TextStyle(color: Colors.white)),
+                Text('Actualizar Mecánico', style: TextStyle(color: Colors.white)),
             //content: Text(error),
             actions: <Widget>[
               Container(
@@ -427,7 +428,7 @@ class DialogClients {
                                 int telf = int.parse(tlf.text);
                                 String direccion = direction.text;
 
-                                var cliente = Client(
+                                var mechanic = Mechanic(
                                   dni: dnii,
                                   nombre: nombre,
                                   telf: telf,
@@ -435,7 +436,7 @@ class DialogClients {
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                dt.updateClient(context,cliente,olddni);//olddni para identificar que registro actualizo
+                                dt.updateMechanic(context,mechanic,olddni);//olddni para identificar que registro actualizo
 
 
                                 dnitxt.clear();
@@ -459,16 +460,15 @@ class DialogClients {
             ],
           ));
 
-
-          Future dialogClientDelete(BuildContext context,String dni ) => showDialog(
+Future dialogMechanicDelete(BuildContext context,String dni ) => showDialog(
     
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:
-                Text('Eliminar Cliente', style: TextStyle(color: Colors.white)),
-            content: Text('¿Estas seguro de borrar este cliente?'),
+                Text('Añadir Mecánico', style: TextStyle(color: Colors.white)),
+            content: Text('¿Estas seguro de borrar este mecánico?'),
             actions: <Widget>[
               TextButton(
                   onPressed: () {
@@ -481,7 +481,7 @@ class DialogClients {
             TextButton(
                   onPressed: () {
 
-                     dt.deleteClient(dni);
+                     dt.deleteMechanic(dni);
                     Navigator.of(context).pop();
                   },
                   child: const Text(

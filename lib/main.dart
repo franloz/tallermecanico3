@@ -10,7 +10,7 @@ import 'package:tallermecanico/view/login/forgotPassword.dart';
 import 'package:tallermecanico/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tallermecanico/view/login/loginSignUp.dart';
-import 'package:tallermecanico/view/mechanicsView.dart';
+import 'package:tallermecanico/view/mechanic/mechanicsView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosList.dart';
 import 'package:tallermecanico/view/repairorders/addrepair_ordersView.dart';
 import 'package:tallermecanico/view/repairorders/repair_ordersView.dart';
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           'LoginSignUp': (context) => LoginSignUp(),
           'ForgotPassword': (context) => ForgotPassword(),
           'MechanicsView': (context) => MechanicsView(),
-          'f': (context) => M(),////////////
+          //'f': (context) => M(),////////////
           'ClientsView': (context) => ClientsView(),
           'VehiclesView': (context) => VehiclesView(),
           'SpareView': (context) => SpareView(),

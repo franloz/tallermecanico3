@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/controller/clientController.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/view/clients/dialogClients.dart';
 
@@ -8,7 +7,6 @@ import '../../model/client.dart';
 class ClientsView extends StatelessWidget {
   const ClientsView({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +28,6 @@ class _MyHomePageState extends State<MyHomePage> {
   DatabaseSqlite dt = DatabaseSqlite();
 
   TextEditingController searchtxt = TextEditingController();
-  //String nom = '';
 
   String search='';
 
@@ -46,28 +43,21 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 40,
             child: Center(
               child: TextField(
-                onChanged: (text) {
-                  search=searchtxt.text;
-                  setState(() {});
-                  //nom = nombre.text;
-                 // clientController.searchDni();
-                }, //si le da a intro del teclado re refresca el widget con las busquedas
+                
                 controller: searchtxt,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
-                
-
-                      //FocusScope.of(context)
-                       //   .unfocus(); //se elimina el foco del contexto actual y se refrescan los widget mostrando la busqueda
+                      FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
 
                       search=searchtxt.text;
                       setState(() {});
                       
                     },
                   ),
-                  hintText: 'Dni del cliente a buscar',
+                  hintText: 'Nombre del cliente a buscar',
                 ),
               ),
             ),
@@ -77,6 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () async {
+            FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
             await cl.dialogClientInsert(context,
                 size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
@@ -100,6 +92,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     elevation: 5,
                     child: ListTile(
                         onTap: () {
+                          FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
                           showModalBottomSheet(
                             context: context,
                             shape: RoundedRectangleBorder(
@@ -139,6 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {
+                                    FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
                                     TextEditingController dnicontroll =
                                         TextEditingController();
@@ -165,6 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
+                                    FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
                                     await cl.dialogClientDelete(context, dni);
                                     setState(() {});
                                   }),

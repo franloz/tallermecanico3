@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/controller/mechanicsViewController.dart';
 
@@ -215,4 +215,4 @@ Widget buildMeca(Mechanic me) => ListTile(
       leading: CircleAvatar(child: Text('${me.apellidos}')),
       title: Text(me.nombre),
       subtitle: Text('jb'),
-    );
+    );*/

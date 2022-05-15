@@ -1,38 +1,22 @@
 class Mechanic{
-  String id;
-  String nombre;
-  String apellidos;
-  String direccion;
-  //double preciohora;
+  final String dni;
+  final String nombre;
+  final int telf;
+  final String direccion;
 
-  Mechanic({
-    this.id='',
-    required this.nombre,
-    required this.apellidos,
-    required this.direccion,
-    //required this.preciohora,
+  const Mechanic(
+      {required this.dni,
+      required this.nombre,
+      required this.telf,
+      required this.direccion});
 
-
-
-  });
-
-  Map<String, dynamic> toJson()=>{
-
-    'id':id,
-    'nombre':nombre,
-    'apellidos':apellidos,
-    'direccion':direccion,
-    //'preciohora':preciohora,
-
-
-  };
-
-
-  static Mechanic fromJson(Map<String,dynamic>json)=>Mechanic(
-    id: json['id'], 
-    nombre: json['nombre'], 
-    apellidos: json['apellidos'], 
-    direccion: json['direccion'], );
-    //preciohora:  (json["preciohora"] as double) .toDouble(), );
-
+  Map<String, dynamic> toMap() {
+    //coleccion de llaves y valores
+    return {
+      'dni': dni,
+      'nombre': nombre,
+      'telf': telf,
+      'direccion': direccion,
+    };
+  }
 }

@@ -5,17 +5,30 @@ import 'package:path/path.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 
 import '../model/client.dart';
+import '../model/mechanic.dart';
 
 class DatabaseSqlite {
   Future<Database> _openDB() async {
-    return openDatabase(join(await getDatabasesPath(), 'my_db.db'),
+    return openDatabase(join(await getDatabasesPath(), 'my_db.db'),version: 2,
         onCreate: (db, version) {
       return db.execute(
         "CREATE TABLE Clientes (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
       );
-    }, version: 1);
+    },
+    onUpgrade: (db,int oldversion,int newversion){
+      if(oldversion!=newversion){
+        print('gfgg');
+        return db.execute(
+        "CREATE TABLE Mecanicos (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
+      );
+      }
+      
+    },
+    
+    
+    );
   }
-
+  //cliente
   Future<void> insertClient(BuildContext context,Client client) async {
     Database database = await _openDB();
 
@@ -68,10 +81,10 @@ class DatabaseSqlite {
     });
   }
 
-  Future<List<Client>> getClientsWhere(String dni) async {
+  Future<List<Client>> getClientsWhere(String nombre) async {
     Database database = await _openDB();
 
-    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM Clientes WHERE dni=?', [dni]);
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM Clientes WHERE nombre LIKE ?', [nombre+'%']);
 
     return List.generate(maps.length, (i) {
       //convierte la lista de mapas a una lista de clientes
@@ -84,55 +97,80 @@ class DatabaseSqlite {
     });
   }
 
-  /*Future<List<Client>> getClients() async {
+  //cliente
+
+  //mecanico
+
+  Future<void> insertMechanic(BuildContext context,Mechanic mechanic) async {
     Database database = await _openDB();
 
-    var clients = await database.query('Clientes');
-    List<Client> clientsList = clients.isNotEmpty
-        ? clients.map((c) => Client.fromMap(c)).toList()
-        : [];
-
-    return clientsList;
-  }*/
-
-/*
-  
-  Database database;
-
-  initDB() async {
-    //metodo que inicializa la base de datos de forma sincrona
-    database = await openDatabase('my_db.db', //archivo de la base de datos
-        version: 1, onCreate: (Database db, int version) {
-      db.execute(
-          "CREATE TABLE Clientes (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT) ");
-    });
-    print('database correcta');
+    try {
+      await database.insert("Mecanicos", mechanic.toMap());
+      
+      
+    } on DatabaseException catch (e) {
+      String error='Este dni ya existe, no puede volverlo a introducir';
+      DialogError dialogError=DialogError();
+      dialogError.dialogError(context, error);
+    }
   }
 
-  insert(Client client) async {
-    //metodo para insertar clientes
-    database.insert("Clientes", client.toMap());
+  Future<void> deleteMechanic(String dni) async {
+    Database database = await _openDB();
+
+    await database.delete("Mecanicos", where: 'dni = ?', whereArgs: [dni]);
   }
 
-  /*Future<List<Client>> getAllClients() async{//metodo para extraer datos 
-    List<Map<String,dynamic>> result=await database.query("Clientes");//es un select * from Clientes, devolvera un mapa de datos con sus campos y valores
-    return result.map((map) => Client.fromMap(map));//se convierte la lista de mapas a una lista de clientes
+  Future<void> updateMechanic(BuildContext context,Mechanic mechanic,String dni) async {
+    Database database = await _openDB();
 
+    try {
+      await database.update("Mecanicos", mechanic.toMap(),
+        where: 'dni = ?', whereArgs: [dni]);
+      
+      
+    } on DatabaseException catch (e) {
+      String error='Este dni ya existe, no puede volverlo a introducir';
+      DialogError dialogError=DialogError();
+      dialogError.dialogError(context, error);
+    }
 
-  }*/
+  }
 
-  Future<List<Client>> getClients() async {
-    // Query the table for all The Clientes.
-    List<Map<String, dynamic>> maps = await database.query("Clientes");
+  Future<List<Mechanic>> getMechanics() async {
+    Database database = await _openDB();
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    final List<Map<String, dynamic>> maps = await database.query('Mecanicos');
+
     return List.generate(maps.length, (i) {
-      return Client(
+      //convierte la lista de mapas a una lista de mecanicos
+      return Mechanic(
         dni: maps[i]['dni'],
         nombre: maps[i]['nombre'],
         telf: maps[i]['telf'],
         direccion: maps[i]['direccion'],
       );
     });
-  }*/
+  }
+
+  Future<List<Mechanic>> getMechanicWhere(String nombre) async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM Mecanicos WHERE nombre LIKE ?', [nombre+'%']);
+
+    return List.generate(maps.length, (i) {
+      //convierte la lista de mapas a una lista de Mecanicos
+      return Mechanic(
+        dni: maps[i]['dni'],
+        nombre: maps[i]['nombre'],
+        telf: maps[i]['telf'],
+        direccion: maps[i]['direccion'],
+      );
+    });
+  }
+
+
+
+
+  //mecanico
 }

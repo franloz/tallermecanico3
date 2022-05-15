@@ -4,9 +4,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../model/mechanic.dart';
 
 class MechanicsViewController {
-  //final user = FirebaseAuth.instance.currentUser!; //usuario actual
+  
+  
 
-  Future insert(String nom, String ape, double preci, String direcci) async {
+
+
+
+}
+
+
+
+//final user = FirebaseAuth.instance.currentUser!; //usuario actual
+
+  /*Future insert(String nom, String ape, double preci, String direcci) async {
     //referencia al documento
     try {
       final meca = FirebaseFirestore.instance.collection('mecanicos').doc();
@@ -34,5 +44,4 @@ class MechanicsViewController {
             print(doc["nombre"]);
         });
     });*/
-  }
-}
+  }*/

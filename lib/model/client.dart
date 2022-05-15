@@ -20,10 +20,5 @@ class Client {
     };
   }
 
-  /*factory Client.fromMap(Map<String, dynamic> json) => new Client(
-        dni: json['dni'],
-        nombre: json['nombre'],
-        telf: json['telf'],
-        direccion: json['direccion'],
-      );*/
+  
 }
