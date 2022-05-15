@@ -52,10 +52,26 @@ class DatabaseSqlite {
 
   }
 
-   Future<List<Client>> getClients() async {
+  Future<List<Client>> getClients() async {
     Database database = await _openDB();
 
     final List<Map<String, dynamic>> maps = await database.query('Clientes');
+
+    return List.generate(maps.length, (i) {
+      //convierte la lista de mapas a una lista de clientes
+      return Client(
+        dni: maps[i]['dni'],
+        nombre: maps[i]['nombre'],
+        telf: maps[i]['telf'],
+        direccion: maps[i]['direccion'],
+      );
+    });
+  }
+
+  Future<List<Client>> getClientsWhere(String dni) async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM Clientes WHERE dni=?', [dni]);
 
     return List.generate(maps.length, (i) {
       //convierte la lista de mapas a una lista de clientes
