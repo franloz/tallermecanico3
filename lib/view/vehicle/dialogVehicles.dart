@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/model/client.dart';
+import 'package:tallermecanico/model/Vehicle.dart';
 
-class DialogClients {
+import '../../model/mechanic.dart';
+
+class DialogVehicles {
   DatabaseSqlite dt = DatabaseSqlite();
 
-  TextEditingController dnitxt = TextEditingController();
-  TextEditingController nombretxt = TextEditingController();
-  TextEditingController telftxt =
+  TextEditingController matriculatxt = TextEditingController();
+  TextEditingController marcatxt = TextEditingController();
+  TextEditingController modelotxt =
       TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
-  TextEditingController direcciontxt = TextEditingController();
+  TextEditingController dni_clientetxt = TextEditingController();
 
-  Future dialogClientInsert(BuildContext context, Size size) => showDialog(
+  Future dialogVehicleInsert(BuildContext context, Size size) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:
-                Text('Añadir Cliente', style: TextStyle(color: Colors.white)),
+                Text('Añadir vehículo', style: TextStyle(color: Colors.white)),
             //content: Text(error),
             actions: <Widget>[
               Container(
@@ -42,7 +44,7 @@ class DialogClients {
                             ),
                             child: TextField(
                                 controller:
-                                    dnitxt, //se identifica el controlador del TextField
+                                    matriculatxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -54,7 +56,7 @@ class DialogClients {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "DNI",
+                                    hintText: "Matrícula",
                                     hintStyle: TextStyle(
                                       color: Colors.white,
                                     ))),
@@ -82,7 +84,7 @@ class DialogClients {
                             ),
                             child: TextField(
                                 controller:
-                                    nombretxt, //se identifica el controlador del TextField
+                                    marcatxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -94,7 +96,7 @@ class DialogClients {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "Nombre",
+                                    hintText: "Marca",
                                     hintStyle: TextStyle(color: Colors.white))),
                           ),
                         ],
@@ -119,12 +121,11 @@ class DialogClients {
                               color: Colors.grey[700],
                             ),
                             child: TextField(
-                                keyboardType: TextInputType.number,
 
                                 ///para que el teclado sea numerico
 
                                 controller:
-                                    telftxt, //se identifica el controlador del TextField
+                                    modelotxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -136,7 +137,7 @@ class DialogClients {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "Teléfono",
+                                    hintText: "Modelo",
                                     hintStyle: TextStyle(
                                       color: Colors.white,
                                     ))),
@@ -164,7 +165,7 @@ class DialogClients {
                             ),
                             child: TextField(
                                 controller:
-                                    direcciontxt, //se identifica el controlador del TextField
+                                    dni_clientetxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -176,7 +177,7 @@ class DialogClients {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "Dirección",
+                                    hintText: "Dni cliente",
                                     hintStyle: TextStyle(color: Colors.white))),
                           ),
                         ],
@@ -192,34 +193,34 @@ class DialogClients {
                         children: [
                           TextButton(
                             onPressed: () {
-                              if (dnitxt.text.isEmpty ||
-                                  nombretxt.text.isEmpty ||
-                                  telftxt.text.isEmpty ||
-                                  direcciontxt.text.isEmpty) {
+                              if (matriculatxt.text.isEmpty ||
+                                  marcatxt.text.isEmpty ||
+                                  modelotxt.text.isEmpty ||
+                                  dni_clientetxt.text.isEmpty) {
                                 String error =
                                     'Rellene todos los campos antes de guardar';
                                 DialogError dialogError = DialogError();
                                 dialogError.dialogError(context, error);
                               } else {
-                                String dni = dnitxt.text;
-                                String nombre = nombretxt.text;
-                                int telf = int.parse(telftxt.text);
-                                String direccion = direcciontxt.text;
+                                String matricula = matriculatxt.text;
+                                String marca = marcatxt.text;
+                                String modelo = modelotxt.text;
+                                String dni_cliente = dni_clientetxt.text;
 
-                                var cliente = Client(
-                                  dni: dni,
-                                  nombre: nombre,
-                                  telf: telf,
-                                  direccion: direccion,
+                                var vehicle = Vehicle(
+                                  matricula: matricula,
+                                  marca: marca,
+                                  modelo: modelo,
+                                  clientedni: dni_cliente,
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                dt.insertClient(context, cliente);
+                                dt.insertVehicle(context, vehicle);
 
-                                dnitxt.clear();
-                                nombretxt.clear();
-                                telftxt.clear();
-                                direcciontxt.clear();
+                                matriculatxt.clear();
+                                marcatxt.clear();
+                                modelotxt.clear();
+                                dni_clientetxt.clear();
 
                                 Navigator.of(context).pop();
                               }
@@ -237,20 +238,20 @@ class DialogClients {
             ],
           ));
 
-  Future dialogClientUpdate(
+  Future dialogVehicleUpdate(
           BuildContext context,
           Size size,
-          TextEditingController dni,
-          TextEditingController name,
-          TextEditingController tlf,
-          TextEditingController direction,
-          String olddni) =>
+          TextEditingController matricula,
+          TextEditingController marca,
+          TextEditingController modelo,
+          TextEditingController dnicliente,
+          String oldmatricula) =>
       showDialog(
           context: context,
           barrierDismissible: false,
           builder: (context) => AlertDialog(
                 backgroundColor: Colors.grey[600],
-                title: Text('Actualizar Cliente',
+                title: Text('Actualizar Vehículo',
                     style: TextStyle(color: Colors.white)),
                 //content: Text(error),
                 actions: <Widget>[
@@ -275,7 +276,7 @@ class DialogClients {
                                 ),
                                 child: TextField(
                                     controller:
-                                        dni, //se identifica el controlador del TextField
+                                        matricula, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -287,7 +288,7 @@ class DialogClients {
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
-                                        hintText: "DNI",
+                                        hintText: "Matrícula",
                                         hintStyle: TextStyle(
                                           color: Colors.white,
                                         ))),
@@ -315,7 +316,7 @@ class DialogClients {
                                 ),
                                 child: TextField(
                                     controller:
-                                        name, //se identifica el controlador del TextField
+                                        marca, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -327,7 +328,7 @@ class DialogClients {
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
-                                        hintText: "Nombre",
+                                        hintText: "Marca",
                                         hintStyle:
                                             TextStyle(color: Colors.white))),
                               ),
@@ -358,7 +359,7 @@ class DialogClients {
                                     ///para que el teclado sea numerico
 
                                     controller:
-                                        tlf, //se identifica el controlador del TextField
+                                        modelo, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -370,7 +371,7 @@ class DialogClients {
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
-                                        hintText: "Teléfono",
+                                        hintText: "Modelo",
                                         hintStyle: TextStyle(
                                           color: Colors.white,
                                         ))),
@@ -398,7 +399,7 @@ class DialogClients {
                                 ),
                                 child: TextField(
                                     controller:
-                                        direction, //se identifica el controlador del TextField
+                                        dnicliente, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -410,7 +411,7 @@ class DialogClients {
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
-                                        hintText: "Dirección",
+                                        hintText: "Dni cliente",
                                         hintStyle:
                                             TextStyle(color: Colors.white))),
                               ),
@@ -427,35 +428,35 @@ class DialogClients {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  if (dni.text.isEmpty ||
-                                      name.text.isEmpty ||
-                                      tlf.text.isEmpty ||
-                                      direction.text.isEmpty) {
+                                  if (matricula.text.isEmpty ||
+                                      marca.text.isEmpty ||
+                                      modelo.text.isEmpty ||
+                                      dnicliente.text.isEmpty) {
                                     String error =
                                         'Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
                                     dialogError.dialogError(context, error);
                                   } else {
-                                    String dnii = dni.text;
-                                    String nombre = name.text;
-                                    int telf = int.parse(tlf.text);
-                                    String direccion = direction.text;
+                                    String matriculaa = matricula.text;
+                                    String marcaa = marca.text;
+                                    String modeloo = modelo.text;
+                                    String dniclientee = dnicliente.text;
 
-                                    var cliente = Client(
-                                      dni: dnii,
-                                      nombre: nombre,
-                                      telf: telf,
-                                      direccion: direccion,
+                                    var vehicle = Vehicle(
+                                      matricula: matriculaa,
+                                      marca: marcaa,
+                                      modelo: modeloo,
+                                      clientedni: dniclientee,
                                     );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                    dt.updateClient(context, cliente,
-                                        olddni); //olddni para identificar que registro actualizo
+                                    dt.updateVehicle(context, vehicle,
+                                        oldmatricula); //olddni para identificar que registro actualizo
 
-                                    dnitxt.clear();
-                                    nombretxt.clear();
-                                    telftxt.clear();
-                                    direcciontxt.clear();
+                                    matricula.clear();
+                                    marca.clear();
+                                    modelo.clear();
+                                    dnicliente.clear();
 
                                     Navigator.of(context).pop();
                                   }
@@ -473,14 +474,14 @@ class DialogClients {
                 ],
               ));
 
-  Future dialogClientDelete(BuildContext context, String dni) => showDialog(
+  Future dialogVehicleDelete(BuildContext context, String dni) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:
-                Text('Borrar Cliente', style: TextStyle(color: Colors.white)),
-            content: Text('¿Estas seguro de borrar este cliente?'),
+                Text('Borrar vehícule', style: TextStyle(color: Colors.white)),
+            content: Text('¿Estas seguro de borrar este vehículo?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -490,7 +491,7 @@ class DialogClients {
               ),
               TextButton(
                 onPressed: () {
-                  dt.deleteClient(dni);
+                  dt.deleteVehicle(dni);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),
