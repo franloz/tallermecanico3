@@ -31,6 +31,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String search = '';
 
+  List<String> lista=[];
+  @override
+  void initState(){//en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
+      dt.getClientsdni().then((listMap){
+          listMap.map((map){
+          print('fggfg');
+          print(map.toString());
+
+          return map['dni'];
+          }).forEach((dropDownItem) {
+               lista.add(dropDownItem);
+              print(dropDownItem.toString());
+          });
+          setState(() {
+          });});
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       setState(() {});
                     },
                   ),
-                  hintText: 'Nombre del mecánico a buscar',
+                  hintText: 'Matrícula a buscar',
                 ),
               ),
             ),
@@ -65,9 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () async {
             FocusScope.of(context)
                 .unfocus(); //para que el textfield pierda el foco
-            await cl.dialogVehicleInsert(context,
-                size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            await cl.dialogVehicleInsert(context,size,lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
+
+ //Navigator.pushNamed(context, 'VehiclesModify');
+
+
+
+
           }),
       body: FutureBuilder<List<Vehicle>>(
           future: loadList(), ////un metodo que controle si hay busqueda o no
@@ -149,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         namecontroll,
                                         tlfcontroll,
                                         direccioncontroll,
-                                        matricula); //este ultimo dni q le paso es para identificar que registro actualizo
+                                        matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(

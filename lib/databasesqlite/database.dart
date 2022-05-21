@@ -12,10 +12,16 @@ class DatabaseSqlite {
   Future<Database> _openDB() async {
     return openDatabase(
       join(await getDatabasesPath(), 'my_db.db'),
-      version: 7,
-      onCreate: (db, version) {
-        return db.execute(
+      version: 1,
+      onCreate: (db, version) async {
+        await db.execute(
           "CREATE TABLE Clientes (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
+        );
+        await db.execute(
+            "CREATE TABLE Mecanicos (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
+        );
+        await db.execute(
+            "CREATE TABLE Vehiculos (matricula TEXT PRIMARY KEY, marca TEXT NOT NULL, modelo TEXT NOT NULL, clientedni TEXT NOT NULL,FOREIGN KEY (clientedni) REFERENCES Clientes (dni))",
         );
       },
       onUpgrade: (db, int oldversion, int newversion) {
@@ -24,9 +30,9 @@ class DatabaseSqlite {
           /*return db.execute(
             "CREATE TABLE Mecanicos (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
           );*/
-          return db.execute(
+          /*return db.execute(
             "CREATE TABLE Vehiculos (matricula TEXT PRIMARY KEY, marca TEXT NOT NULL, modelo TEXT NOT NULL, clientedni TEXT NOT NULL,FOREIGN KEY (clientedni) REFERENCES Clientes (dni))",
-          );
+          );*/
         }
       },
     );
@@ -79,6 +85,19 @@ class DatabaseSqlite {
         direccion: maps[i]['direccion'],
       );
     });
+  }
+
+  Future<List<Map<String, dynamic>>> getClientsdni() async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT dni FROM Clientes');
+    return maps;
+    /*forEach(maps){
+      String dni=maps;
+    }*/
+
+
+   
   }
 
   Future<List<Client>> getClientsWhere(String nombre) async {
@@ -178,7 +197,7 @@ class DatabaseSqlite {
       await database.insert("Vehiculos", vehicle.toMap());
     } on DatabaseException catch (e) {
       String error =
-          'Esta matricula ya existe, no puede volverla a introducir, o cliente no existe';
+          'Esta matricula ya existe, no puede volverla a introducir';
       DialogError dialogError = DialogError();
       dialogError.dialogError(context, error);
     }
@@ -221,11 +240,11 @@ class DatabaseSqlite {
     });
   }
 
-  Future<List<Vehicle>> getVehicleWhere(String nombre) async {
+  Future<List<Vehicle>> getVehicleWhere(String matricula) async {
     Database database = await _openDB();
 
     final List<Map<String, dynamic>> maps = await database.rawQuery(
-        'SELECT * FROM Vehiculos WHERE nombre LIKE ?', [nombre + '%']);
+        'SELECT * FROM Vehiculos WHERE matricula LIKE ?', [matricula + '%']);
 
     return List.generate(maps.length, (i) {
       //convierte la lista de mapas a una lista de Mecanicos

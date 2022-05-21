@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/view/billsView.dart';
 import 'package:tallermecanico/view/clients/clientsView.dart';
-import 'package:tallermecanico/view/f.dart';
 
 import 'package:tallermecanico/view/home.dart';
 import 'package:tallermecanico/view/login/forgotPassword.dart';
@@ -17,7 +15,6 @@ import 'package:tallermecanico/view/repairorders/repair_ordersView.dart';
 import 'package:tallermecanico/view/spareView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosView.dart';
 import 'package:tallermecanico/view/vehicle/vehiclesView.dart';
-import 'package:tallermecanico/view/vehiclesView.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
