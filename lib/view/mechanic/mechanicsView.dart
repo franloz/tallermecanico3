@@ -29,8 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   TextEditingController searchtxt = TextEditingController();
 
-  String search='';
-
+  String search = '';
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       FocusScope.of(context)
                           .unfocus(); //para que el textfield pierda el foco
-                      search=searchtxt.text;
+                      search = searchtxt.text;
                       setState(() {});
-                      
                     },
                   ),
                   hintText: 'Nombre del mecánico a buscar',
@@ -66,13 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Icon(Icons.add),
           onPressed: () async {
             FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
+                .unfocus(); //para que el textfield pierda el foco
             await cl.dialogMechanicInsert(context,
                 size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
           }),
       body: FutureBuilder<List<Mechanic>>(
-          future: loadList(),////un metodo que controle si hay busqueda o no
+          future: loadList(), ////un metodo que controle si hay busqueda o no
           builder:
               (BuildContext context, AsyncSnapshot<List<Mechanic>> snapshot) {
             if (snapshot.hasError) {
@@ -91,35 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ListTile(
                         onTap: () {
                           FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
-                          showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20))),
-                            builder: (context) => Column(
-                              children: [
-                                ListTile(
-                                  title: Text('DNI'),
-                                  subtitle: Text(dni),
-                                ),
-                                ListTile(
-                                  title: Text('Nombre'),
-                                  subtitle: Text(name),
-                                ),
-                                ListTile(
-                                  title: Text('Teléfono'),
-                                  subtitle: Text(tlf.toString()),
-                                ),
-                                ListTile(
-                                  title: Text('Dirección'),
-                                  subtitle: Text(direccion),
-                                ),
-                              ],
-                            ),
+                              .unfocus(); //para que el textfield pierda el foco
 
-                        
-                          );
+                          bottomSheet(dni, name, tlf, direccion);
+
+                         
                         },
                         leading: Icon(Icons.person),
                         title: Text(dni),
@@ -132,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {
                                     FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
+                                        .unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
                                     TextEditingController dnicontroll =
                                         TextEditingController();
@@ -157,11 +131,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     setState(() {});
                                   }),
                               IconButton(
-                                
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
+                                        .unfocus(); //para que el textfield pierda el foco
                                     await cl.dialogMechanicDelete(context, dni);
                                     setState(() {});
                                   }),
@@ -178,14 +151,40 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<List<Mechanic>> loadList() async{
-    if(search!=''){
+  Future<List<Mechanic>> loadList() async {
+    if (search != '') {
       return dt.getMechanicWhere(search);
-
-    }else{
+    } else {
       return dt.getMechanics();
     }
+  }
 
+  void bottomSheet(String dni, String name, int tlf, String direccion) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (context) => Column(
+        children: [
+          ListTile(
+            title: Text('DNI'),
+            subtitle: Text(dni),
+          ),
+          ListTile(
+            title: Text('Nombre'),
+            subtitle: Text(name),
+          ),
+          ListTile(
+            title: Text('Teléfono'),
+            subtitle: Text(tlf.toString()),
+          ),
+          ListTile(
+            title: Text('Dirección'),
+            subtitle: Text(direccion),
+          ),
+        ],
+      ),
+    );
   }
 }
 

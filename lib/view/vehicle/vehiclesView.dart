@@ -31,23 +31,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String search = '';
 
-  List<String> lista=[];
+  List<String> lista = [];
   @override
-  void initState(){//en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
-      dt.getClientsdni().then((listMap){
-          listMap.map((map){
-          print('fggfg');
-          print(map.toString());
+  void initState() {
+    //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
+    dt.getClientsdni().then((listMap) {
+      listMap.map((map) {
+        print('fggfg');
+        print(map.toString());
 
-          return map['dni'];
-          }).forEach((dropDownItem) {
-               lista.add(dropDownItem);
-              print(dropDownItem.toString());
-          });
-          setState(() {
-          });});
+        return map['dni'];
+      }).forEach((dropDownItem) {
+        lista.add(dropDownItem);
+        print(dropDownItem.toString());
+      });
+      setState(() {});
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () async {
             FocusScope.of(context)
                 .unfocus(); //para que el textfield pierda el foco
-            await cl.dialogVehicleInsert(context,size,lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            await cl.dialogVehicleInsert(context, size,
+                lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
 
- //Navigator.pushNamed(context, 'VehiclesModify');
-
-
-
-
+            //Navigator.pushNamed(context, 'VehiclesModify');
           }),
       body: FutureBuilder<List<Vehicle>>(
           future: loadList(), ////un metodo que controle si hay busqueda o no
@@ -113,32 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         onTap: () {
                           FocusScope.of(context)
                               .unfocus(); //para que el textfield pierda el foco
-                          showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20))),
-                            builder: (context) => Column(
-                              children: [
-                                ListTile(
-                                  title: Text('Matricula'),
-                                  subtitle: Text(matricula),
-                                ),
-                                ListTile(
-                                  title: Text('Marca'),
-                                  subtitle: Text(marca),
-                                ),
-                                ListTile(
-                                  title: Text('Modelo'),
-                                  subtitle: Text(modelo),
-                                ),
-                                ListTile(
-                                  title: Text('Cliente Dni'),
-                                  subtitle: Text(clientedni),
-                                ),
-                              ],
-                            ),
-                          );
+
+                          bottomSheet(matricula,marca,modelo,clientedni);
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(matricula),
@@ -172,7 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         namecontroll,
                                         tlfcontroll,
                                         direccioncontroll,
-                                        matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                        matricula,
+                                        lista); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(
@@ -203,6 +177,34 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       return dt.getVehicles();
     }
+  }
+
+  void bottomSheet(String matricula, String marca, String modelo, String clientedni) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (context) => Column(
+        children: [
+          ListTile(
+            title: Text('Matricula'),
+            subtitle: Text(matricula),
+          ),
+          ListTile(
+            title: Text('Marca'),
+            subtitle: Text(marca),
+          ),
+          ListTile(
+            title: Text('Modelo'),
+            subtitle: Text(modelo),
+          ),
+          ListTile(
+            title: Text('Cliente Dni'),
+            subtitle: Text(clientedni),
+          ),
+        ],
+      ),
+    );
   }
 }
 

@@ -94,34 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         onTap: () {
                           FocusScope.of(context)
                           .unfocus(); //para que el textfield pierda el foco
-                          showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20))),
-                            builder: (context) => Column(
-                              children: [
-                                ListTile(
-                                  title: Text('DNI'),
-                                  subtitle: Text(dni),
-                                ),
-                                ListTile(
-                                  title: Text('Nombre'),
-                                  subtitle: Text(name),
-                                ),
-                                ListTile(
-                                  title: Text('Teléfono'),
-                                  subtitle: Text(tlf.toString()),
-                                ),
-                                ListTile(
-                                  title: Text('Dirección'),
-                                  subtitle: Text(direccion),
-                                ),
-                              ],
-                            ),
-
-                        
-                          );
+                          bottomSheet(dni, name, tlf, direccion);
                         },
                         leading: Icon(Icons.person),
                         title: Text(dni),
@@ -187,5 +160,33 @@ class _MyHomePageState extends State<MyHomePage> {
       return dt.getClients();
     }
 
+  }
+
+  void bottomSheet(String dni, String name, int tlf, String direccion) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (context) => Column(
+        children: [
+          ListTile(
+            title: Text('DNI'),
+            subtitle: Text(dni),
+          ),
+          ListTile(
+            title: Text('Nombre'),
+            subtitle: Text(name),
+          ),
+          ListTile(
+            title: Text('Teléfono'),
+            subtitle: Text(tlf.toString()),
+          ),
+          ListTile(
+            title: Text('Dirección'),
+            subtitle: Text(direccion),
+          ),
+        ],
+      ),
+    );
   }
 }

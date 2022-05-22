@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 
@@ -121,6 +122,8 @@ class DialogMechanics {
                             ),
                             child: TextField(
                                 keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+  FilteringTextInputFormatter.allow(RegExp(r'[0-9]{0,1}[0-9]*')),],//para que no se puedan poner puntos o comas
 
                                 ///para que el teclado sea numerico
 
@@ -355,6 +358,8 @@ class DialogMechanics {
                                 ),
                                 child: TextField(
                                     keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+  FilteringTextInputFormatter.allow(RegExp(r'[0-9]{0,1}[0-9]*')),],//para que no se puedan poner puntos o comas
 
                                     ///para que el teclado sea numerico
 

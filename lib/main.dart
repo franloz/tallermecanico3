@@ -12,7 +12,7 @@ import 'package:tallermecanico/view/mechanic/mechanicsView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosList.dart';
 import 'package:tallermecanico/view/repairorders/addrepair_ordersView.dart';
 import 'package:tallermecanico/view/repairorders/repair_ordersView.dart';
-import 'package:tallermecanico/view/spareView.dart';
+import 'package:tallermecanico/view/spare/spareView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosView.dart';
 import 'package:tallermecanico/view/vehicle/vehiclesView.dart';
 
