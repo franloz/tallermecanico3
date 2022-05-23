@@ -18,11 +18,11 @@ class DatabaseSqlite {
           "CREATE TABLE Clientes (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
         );
         await db.execute(
-            "CREATE TABLE Mecanicos (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
+          "CREATE TABLE Mecanicos (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
         );
         await db.execute(
-            "CREATE TABLE Vehiculos (matricula TEXT PRIMARY KEY, marca TEXT NOT NULL, modelo TEXT NOT NULL, clientedni TEXT NOT NULL,FOREIGN KEY (clientedni) REFERENCES Clientes (dni))",
-        );
+          "CREATE TABLE Vehiculos (matricula TEXT PRIMARY KEY, marca TEXT NOT NULL, modelo TEXT NOT NULL, clientedni TEXT NOT NULL,FOREIGN KEY (clientedni) REFERENCES Clientes (dni))",
+        ); ////////////poner las otras tablas, pensar la repeticion de datos para hacerlo en firebase
       },
       onUpgrade: (db, int oldversion, int newversion) {
         if (oldversion != newversion) {
@@ -90,14 +90,12 @@ class DatabaseSqlite {
   Future<List<Map<String, dynamic>>> getClientsdni() async {
     Database database = await _openDB();
 
-    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT dni FROM Clientes');
+    final List<Map<String, dynamic>> maps =
+        await database.rawQuery('SELECT dni FROM Clientes');
     return maps;
     /*forEach(maps){
       String dni=maps;
     }*/
-
-
-   
   }
 
   Future<List<Client>> getClientsWhere(String nombre) async {
@@ -196,8 +194,7 @@ class DatabaseSqlite {
     try {
       await database.insert("Vehiculos", vehicle.toMap());
     } on DatabaseException catch (e) {
-      String error =
-          'Esta matricula ya existe, no puede volverla a introducir';
+      String error = 'Esta matricula ya existe, no puede volverla a introducir';
       DialogError dialogError = DialogError();
       dialogError.dialogError(context, error);
     }

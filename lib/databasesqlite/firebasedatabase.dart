@@ -8,32 +8,31 @@ class FirebaseDatabase {
     int repetido = 0;
 
     try {
-
-      final sparedoc =
+      /* final sparedoc =
           await FirebaseFirestore.instance.collection('spare').get();
 
-      sparedoc.docs.forEach(//con este bucle recorremos la tabla spare para comprobar si existe la marca y la pieza que vamos a insertar si existe avisa al usuario y no la inserta
+      sparedoc.docs.forEach(
+        //con este bucle recorremos la tabla spare para comprobar si existe la marca y la pieza que vamos a insertar si existe avisa al usuario y no la inserta
         (doc) {
-
           if (spare.marca == doc.data()['marca'] &&
               spare.pieza == doc.data()['pieza']) {
             repetido++;
           }
         },
-      );
+      );*/
 
-      if (repetido == 0) {
-        final docSpare = FirebaseFirestore.instance.collection('spare').doc();
-        spare.id = docSpare.id; //le asigno el id que genere firebase
+      //if (repetido == 0) {
+      final docSpare = FirebaseFirestore.instance.collection('spare').doc();
+      spare.id = docSpare.id; //le asigno el id que genere firebase
 
-        final json = spare.toJson();
-        await docSpare.set(json);
-        print('insertadoooooooooooo');
-      } else {
+      final json = spare.toJson();
+      await docSpare.set(json);
+      print('insertadoooooooooooo');
+      /* } else {
         String error = 'Este recambio ya existe';
         DialogError dialogError = DialogError();
         dialogError.dialogError(context, error);
-      }
+      }*/
     } on FirebaseException catch (e) {
       String error = 'Error al insertar';
       DialogError dialogError = DialogError();
@@ -41,13 +40,22 @@ class FirebaseDatabase {
     }
   }
 
-  Future deleteSpare(String id)async {
-    
+  Future deleteSpare(String id) async {
     final docSpare = FirebaseFirestore.instance.collection('spare').doc(id);
 
     docSpare.delete();
-
   }
 
+  Future updateSpare(String id, String marca, String pieza, double precio,
+      int stock, int telfproveedor) async {
+    final docSpare = FirebaseFirestore.instance.collection('spare').doc(id);
 
+    docSpare.update({
+      'marca': marca,
+      'pieza': pieza,
+      'precio': precio,
+      'stock': stock,
+      'telfproveedor': telfproveedor,
+    });
+  }
 }

@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
+    //se convierte una lista de map en una lista de string
     dt.getClientsdni().then((listMap) {
       listMap.map((map) {
         print('fggfg');
@@ -111,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           FocusScope.of(context)
                               .unfocus(); //para que el textfield pierda el foco
 
-                          bottomSheet(matricula,marca,modelo,clientedni);
+                          bottomSheet(matricula, marca, modelo, clientedni);
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(matricula),
@@ -179,7 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void bottomSheet(String matricula, String marca, String modelo, String clientedni) {
+  void bottomSheet(
+      String matricula, String marca, String modelo, String clientedni) {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
