@@ -258,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(() {});
                       },
                     ),
-                    hintText: 'Nombre del mecánico a buscar',
+                    hintText: 'Pieza a buscar en minúscula',
                   ),
                 ),
               ),

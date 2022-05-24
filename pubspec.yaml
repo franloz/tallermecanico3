@@ -43,6 +43,7 @@ dependencies:
   path_provider: ^2.0.1
   cached_network_image: ^3.2.0
   sqflite: ^2.0.2+1
+  intl: ^0.17.0 #para dar formato a fechas
 
 dev_dependencies:
   flutter_test:

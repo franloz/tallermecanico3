@@ -1,26 +1,33 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/firebasedatabase.dart';
-import 'package:tallermecanico/model/spare.dart';
 
-class DialogSpare {
-  TextEditingController marcatxt = TextEditingController();
-  TextEditingController piezatxt = TextEditingController();
-  TextEditingController preciotxt =
-      TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
-  TextEditingController stocktxt = TextEditingController();
-  TextEditingController telfproveedortxt = TextEditingController();
+class DialogRepairOrder {
+  TextEditingController numeroordentxt = TextEditingController();
+  TextEditingController vehiculotxt = TextEditingController();
+  TextEditingController mecanicotxt =TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
+  TextEditingController horasdedicadastxt = TextEditingController();
+  TextEditingController descripcionreparaciontxt = TextEditingController();
+  TextEditingController fechainiciotxt = TextEditingController();
+  TextEditingController fechafintxt = TextEditingController();
 
   FirebaseDatabase base = FirebaseDatabase();
 
-  Future dialogSpareInsert(BuildContext context, Size size) => showDialog(
+  String inicio='Inicio';
+  String fin='Fin';
+  var datestart;//la hago global para enviarla al calendario de fin para q no pueda poner dias anteriores a la fecha de inicio
+
+
+  Future dialogRepairOrdersInsert(BuildContext context, Size size) => showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
+      builder: (context) =>StatefulBuilder(builder: ((context, setState) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:
-                Text('Añadir Recambio', style: TextStyle(color: Colors.white)),
+                Text('Añadir Orden', style: TextStyle(color: Colors.white)),
             //content: Text(error),
             actions: <Widget>[
               Container(
@@ -44,7 +51,7 @@ class DialogSpare {
                             ),
                             child: TextField(
                                 controller:
-                                    marcatxt, //se identifica el controlador del TextField
+                                    numeroordentxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -56,7 +63,7 @@ class DialogSpare {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "Marca",
+                                    hintText: "Id de orden",
                                     hintStyle: TextStyle(
                                       color: Colors.white,
                                     ))),
@@ -84,7 +91,7 @@ class DialogSpare {
                             ),
                             child: TextField(
                                 controller:
-                                    piezatxt, //se identifica el controlador del TextField
+                                    vehiculotxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -96,7 +103,7 @@ class DialogSpare {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "Pieza",
+                                    hintText: "Vehículo",
                                     hintStyle: TextStyle(color: Colors.white))),
                           ),
                         ],
@@ -130,7 +137,7 @@ class DialogSpare {
                                 ///para que el teclado sea numerico
 
                                 controller:
-                                    preciotxt, //se identifica el controlador del TextField
+                                    mecanicotxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -142,7 +149,7 @@ class DialogSpare {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "Precio",
+                                    hintText: "Mecánico",
                                     hintStyle: TextStyle(
                                       color: Colors.white,
                                     ))),
@@ -175,7 +182,7 @@ class DialogSpare {
                                       RegExp(r'[0-9]{0,1}[0-9]*')),
                                 ], //para que no se puedan poner puntos o comas
                                 controller:
-                                    stocktxt, //se identifica el controlador del TextField
+                                    horasdedicadastxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -187,7 +194,7 @@ class DialogSpare {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "Stock",
+                                    hintText: "Horas dedicadas",
                                     hintStyle: TextStyle(color: Colors.white))),
                           ),
                         ],
@@ -218,7 +225,7 @@ class DialogSpare {
                                       RegExp(r'[0-9]{0,1}[0-9]*')),
                                 ], //para que no se puedan poner puntos o comas
                                 controller:
-                                    telfproveedortxt, //se identifica el controlador del TextField
+                                    descripcionreparaciontxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -230,11 +237,83 @@ class DialogSpare {
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
-                                    hintText: "Teléfono del proveedor",
+                                    hintText: "Descripción de la reparación",
                                     hintStyle: TextStyle(color: Colors.white))),
                           ),
                         ],
                       ),
+
+                      const SizedBox(
+                        height: 8,
+                      ),
+
+
+
+                      Row(
+                        //fila con un container y un TextField para contraseña
+                        mainAxisAlignment: MainAxisAlignment
+                            .center, //Center Row contents horizontally,
+                        children: [
+                          Container(
+                            width:size.width / 3 ,
+                            child:
+                            ElevatedButton.icon(
+                              onPressed: ()async{
+                                datestart =await pickDateStart(context);
+                                setState(() {
+                                    inicio=DateFormat('dd-MM-yyyy').format(datestart!);
+
+                                });
+                                
+                              }, 
+                              icon: Icon(Icons.calendar_today),
+                              label: Text(inicio,style: TextStyle(fontSize: size.height / 65, color: Colors.white),),
+                            ),
+                          ),
+                             SizedBox(
+                            width:size.width / 13 ,
+                            ),
+                          Container(
+                            width:size.width / 3 ,
+                            child:
+                            ElevatedButton.icon(
+                              onPressed: ()async{
+                                var dateend =await pickDateEnd(context,datestart);
+                                setState(() {
+                                    fin=DateFormat('dd-MM-yyyy').format(dateend!);
+                                });
+                              }, 
+                              icon: Icon(Icons.calendar_today),
+                              label: Text(fin,style: TextStyle(fontSize: size.height / 65, color: Colors.white),),
+                            )
+                          ),
+                        ],
+                      ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                       const SizedBox(
                         height: 8,
                       ), //para separar rows
@@ -244,7 +323,7 @@ class DialogSpare {
                         children: [
                           TextButton(
                             onPressed: () {
-                              if (marcatxt.text.isEmpty ||
+                             /* if (marcatxt.text.isEmpty ||
                                   piezatxt.text.isEmpty ||
                                   preciotxt.text.isEmpty ||
                                   stocktxt.text.isEmpty ||
@@ -273,14 +352,14 @@ class DialogSpare {
 
                                 base.insertSpare(context, spare);
 
-                                marcatxt.clear();
+                              /*  marcatxt.clear();
                                 piezatxt.clear();
                                 preciotxt.clear();
                                 stocktxt.clear();
-                                telfproveedortxt.clear();
+                                telfproveedortxt.clear();*/
 
                                 Navigator.of(context).pop();
-                              }
+                              }*/
                             }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
                             child: Text('Guardar',
                                 style: TextStyle(
@@ -293,9 +372,9 @@ class DialogSpare {
                     ],
                   ))
             ],
-          ));
+          ))));
 
-  Future dialogSpareUpdate(
+  /*Future dialogSpareUpdate(
           BuildContext context,
           Size size,
           TextEditingController marcacontroll,
@@ -309,7 +388,7 @@ class DialogSpare {
           barrierDismissible: false,
           builder: (context) => AlertDialog(
                 backgroundColor: Colors.grey[600],
-                title: Text('Actualizar Recambio',
+                title: Text('Actualizar Orden',
                     style: TextStyle(color: Colors.white)),
                 //content: Text(error),
                 actions: <Widget>[
@@ -591,8 +670,8 @@ class DialogSpare {
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:
-                Text('Borrar Orden', style: TextStyle(color: Colors.white)),
-            content: Text('¿Estas seguro de borrar este recambio?'),
+                Text('Borrar Mecánico', style: TextStyle(color: Colors.white)),
+            content: Text('¿Estas seguro de borrar esta orden?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -608,5 +687,19 @@ class DialogSpare {
                 child: const Text('Ok'),
               ),
             ],
-          ));
+          ));*/
+
+
+  Future<DateTime?> pickDateStart(BuildContext context)=> showDatePicker(
+    context: context,
+    initialDate:DateTime.now(),
+    firstDate: DateTime(2020),
+    lastDate:  DateTime(2200)
+  );
+  Future<DateTime?> pickDateEnd(BuildContext context, DateTime datestart)=> showDatePicker(
+    context: context,
+    initialDate:datestart,
+    firstDate: datestart,
+    lastDate:  DateTime(2200)
+  );
 }

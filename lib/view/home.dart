@@ -226,7 +226,7 @@ class Home extends StatelessWidget {
                 ),
 
                 onPressed: () {
-                  Navigator.pushNamed(context, 'Repair_ordersView');
+                  Navigator.pushNamed(context, 'RepairordersView');
                 }, //se lanza la actividad de Ördenes de reparación
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
@@ -280,7 +280,6 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-
 
           const SizedBox(
             height: 20,
@@ -375,9 +374,6 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-
-
-          
         ],
       ),
     );
