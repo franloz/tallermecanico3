@@ -242,7 +242,7 @@ class DialogRepairOrder {
                                 var order = RepairOrder(
                                   vehiculo: matriculavehiculo,
                                   mecanico: dnimecanico,
-                                  horasdedicadas: double.parse(horasdedicadastxt.text),
+                                  horasdedicadas: horasdedicadastxt.text,
                                   descripcionreparacion: descripcionreparaciontxt.text,
                                   fechainicio: inicio,
                                   fechafin: fin,
@@ -253,6 +253,11 @@ class DialogRepairOrder {
 
                                 horasdedicadastxt.clear();
                                 descripcionreparaciontxt.clear();
+                                matriculavehi='Elige vehículo';//restauro los combobox
+                                dnimeca='Elige mecánico';
+                                //inicio='Inicio';//restauro los botones de fechas
+                               // fin='Fin';
+
                                 
 
                                 Navigator.of(context).pop();

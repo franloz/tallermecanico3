@@ -2,7 +2,7 @@ class RepairOrder {
   String numeroorden;
   final String vehiculo;
   final String mecanico;
-  final double horasdedicadas;
+  final String horasdedicadas;
   final String descripcionreparacion;
   final String fechainicio;
   final String fechafin;

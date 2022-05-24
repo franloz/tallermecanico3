@@ -225,6 +225,7 @@ class DialogVehicles {
                                 matriculatxt.clear();
                                 marcatxt.clear();
                                 modelotxt.clear();
+                                cli='Elige cliente';
 
                                 Navigator.of(context).pop();
                               }

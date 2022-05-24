@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String search = '';
 
-  List<String> lista = [];
+  final List<String> lista = [];
   @override
   void initState() {
     //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
@@ -84,6 +84,10 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () async {
             FocusScope.of(context)
                 .unfocus(); //para que el textfield pierda el foco
+
+                for (var age in lista) {
+     print('holaaaaaaaa'+age);
+  }
             await cl.dialogVehicleInsert(context, size, lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
 

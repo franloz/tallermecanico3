@@ -123,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 String numeroorden = data['numeroorden'];
                 String vehiculo = data['vehiculo'];
                 String mecanico = data['mecanico'];
-                double horasdedicadas = data['horasdedicadas'];
+                String horasdedicadas = data['horasdedicadas'];
                 String descripcionreparacion = data['descripcionreparacion'];
                // DateTime datefirebaseinicio = DateTime.parse(data['fechainicio'].toDate().toString()); //convierto el timestamp de firebase a dattime
                 //String fechainicio =DateFormat('dd-MM-yyyy').format(datefirebaseinicio);
@@ -213,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String numeroorden,
       String vehiculo,
       String mecanico,
-      double horasdedicadas,
+      String horasdedicadas,
       String descripcionreparacion,
       String fechainicio,
       String fechafin) {
@@ -239,7 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ListTile(
             title: Text('Horas dedicadas al vehículo'),
-            subtitle: Text(horasdedicadas.toString()),
+            subtitle: Text(horasdedicadas),
           ),
           ListTile(
             title: Text('Descripción de la reparación'),
