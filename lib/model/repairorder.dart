@@ -4,8 +4,8 @@ class RepairOrder {
   final String mecanico;
   final double horasdedicadas;
   final String descripcionreparacion;
-  final DateTime fechainicio;
-  final DateTime fechafin;
+  final String fechainicio;
+  final String fechafin;
 
   RepairOrder(
       {this.numeroorden = '',

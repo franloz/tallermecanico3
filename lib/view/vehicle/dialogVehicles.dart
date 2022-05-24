@@ -160,8 +160,7 @@ class DialogVehicles {
 
                       Row(
                         //fila con un container y un TextField para contraseña
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [Container(
                           
                           width: size.width /
@@ -185,8 +184,6 @@ class DialogVehicles {
                             value:cli,
                             ), )
                                     //se convierte la lista de String a DropdownMenuItem<String>
-
-                       
                         ],
                       ),
 

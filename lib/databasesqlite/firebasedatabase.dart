@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
+import 'package:tallermecanico/model/repairorder.dart';
 import 'package:tallermecanico/model/spare.dart';
 
 class FirebaseDatabase {
@@ -57,5 +58,26 @@ class FirebaseDatabase {
       'stock': stock,
       'telfproveedor': telfproveedor,
     });
+  }
+
+
+
+  Future insertOrder(BuildContext context, RepairOrder order) async {
+   
+
+    try {
+      
+      final docRepair = FirebaseFirestore.instance.collection('repairorders').doc();
+      order.numeroorden = docRepair.id; 
+
+      final json = order.toJson();
+      await docRepair.set(json);
+      print('insertadoooooooooooo');
+      
+    } on FirebaseException catch (e) {
+      String error = 'Error al insertar';
+      DialogError dialogError = DialogError();
+      dialogError.dialogError(context, error);
+    }
   }
 }

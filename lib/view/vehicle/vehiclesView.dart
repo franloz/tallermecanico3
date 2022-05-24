@@ -84,8 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () async {
             FocusScope.of(context)
                 .unfocus(); //para que el textfield pierda el foco
-            await cl.dialogVehicleInsert(context, size,
-                lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            await cl.dialogVehicleInsert(context, size, lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
 
             //Navigator.pushNamed(context, 'VehiclesModify');
@@ -127,27 +126,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                    TextEditingController dnicontroll =
-                                        TextEditingController();
+                                    TextEditingController dnicontroll =TextEditingController();
+                                    TextEditingController namecontroll = TextEditingController(); 
+                                    TextEditingController tlfcontroll = TextEditingController();
+                                    TextEditingController direccioncontroll =TextEditingController();
                                     dnicontroll.text = matricula;
-                                    TextEditingController namecontroll =
-                                        TextEditingController();
                                     namecontroll.text = marca;
-                                    TextEditingController tlfcontroll =
-                                        TextEditingController();
                                     tlfcontroll.text = modelo;
-                                    TextEditingController direccioncontroll =
-                                        TextEditingController();
                                     direccioncontroll.text = clientedni;
-                                    await cl.dialogVehicleUpdate(
-                                        context,
-                                        size,
-                                        dnicontroll,
-                                        namecontroll,
-                                        tlfcontroll,
-                                        direccioncontroll,
-                                        matricula,
-                                        lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    await cl.dialogVehicleUpdate(context,size,dnicontroll,namecontroll,tlfcontroll,direccioncontroll,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(

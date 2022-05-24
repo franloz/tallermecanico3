@@ -413,10 +413,7 @@ class DialogSpare {
                                 ),
                                 child: TextField(
                                     keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                                    ], //para que solo se pueda poner un punto
+                                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[.]{0,1}[0-9]*')),], //para que solo se pueda poner un punto
 
                                     ///para que el teclado sea numerico
 

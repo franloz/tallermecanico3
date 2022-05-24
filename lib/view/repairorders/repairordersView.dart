@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
 
 class RepairOrdersView extends StatelessWidget {
@@ -29,10 +30,43 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String search = '';
 
-  /*@override
-  void initState(){
-      
-  }*/
+
+  DatabaseSqlite dt = DatabaseSqlite();
+  List<String> listamecanicos = [];
+  List<String> listavehiculos = [];
+
+
+  @override
+  void initState() {
+    //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
+    //se convierte una lista de map en una lista de string
+    dt.getMechanicdni().then((listMap) {
+      listMap.map((map) {
+        print('fggfg');
+        print(map.toString());
+
+        return map['dni'];
+      }).forEach((dropDownItem) {
+        listamecanicos.add(dropDownItem);
+        print(dropDownItem.toString());
+      });
+      setState(() {});
+    });
+
+
+    dt.getVehiclesmatricula().then((listMap) {
+      listMap.map((map) {
+        print('fggfg');
+        print(map.toString());
+
+        return map['matricula'];
+      }).forEach((dropDownItem) {
+        listavehiculos.add(dropDownItem);
+        print(dropDownItem.toString());
+      });
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             child: Icon(Icons.add),
             onPressed: () {
-              FocusScope.of(context)
-                  .unfocus(); //para que el textfield pierda el foco
-              dialog.dialogRepairOrdersInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+              FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+              dialog.dialogRepairOrdersInsert(context,size,listamecanicos,listavehiculos); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
               //setState(() {});
             }),
         body: StreamBuilder<QuerySnapshot>(
@@ -92,11 +125,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 String mecanico = data['mecanico'];
                 double horasdedicadas = data['horasdedicadas'];
                 String descripcionreparacion = data['descripcionreparacion'];
-                DateTime datefirebaseinicio = DateTime.parse(data['fechainicio'].toDate().toString()); //convierto el timestamp de firebase a dattime
-                String fechainicio =DateFormat('dd-MM-yyyy').format(datefirebaseinicio);
+               // DateTime datefirebaseinicio = DateTime.parse(data['fechainicio'].toDate().toString()); //convierto el timestamp de firebase a dattime
+                //String fechainicio =DateFormat('dd-MM-yyyy').format(datefirebaseinicio);
+                String fechainicio=data['fechainicio'];
 
-                DateTime datefirebasefin = DateTime.parse(data['fechafin'].toDate().toString()); //convierto el timestamp de firebase a dattime
-                String fechafin =DateFormat('dd-MM-yyyy').format(datefirebasefin);
+                //DateTime datefirebasefin = DateTime.parse(data['fechafin'].toDate().toString()); //convierto el timestamp de firebase a dattime
+                //String fechafin =DateFormat('dd-MM-yyyy').format(datefirebasefin);
+                String fechafin=data['fechafin'];
 
                 return Card(
                     elevation: 5,

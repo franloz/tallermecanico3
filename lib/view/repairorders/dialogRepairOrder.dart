@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/firebasedatabase.dart';
+import 'package:tallermecanico/model/repairorder.dart';
 
 class DialogRepairOrder {
   TextEditingController numeroordentxt = TextEditingController();
@@ -19,9 +20,17 @@ class DialogRepairOrder {
   String inicio='Inicio';
   String fin='Fin';
   var datestart;//la hago global para enviarla al calendario de fin para q no pueda poner dias anteriores a la fecha de inicio
+  var dateend;
 
 
-  Future dialogRepairOrdersInsert(BuildContext context, Size size) => showDialog(
+
+  String? dnimeca;//para el combobox
+  String dnimecanico='';
+  String? matriculavehi;//para el combobox
+  String matriculavehiculo='';
+
+
+  Future dialogRepairOrdersInsert(BuildContext context, Size size, List<String> listamecanicos, List<String> listavehiculos) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) =>StatefulBuilder(builder: ((context, setState) => AlertDialog(
@@ -35,162 +44,93 @@ class DialogRepairOrder {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      
                       Row(
-                        //fila con un container y un TextField para email
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
-                        children: [
-                          Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
-                            height: size.height / 17,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
-                              color: Colors.grey[700],
-                            ),
-                            child: TextField(
-                                controller:
-                                    numeroordentxt, //se identifica el controlador del TextField
-                                decoration: const InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
-                                    ),
-                                    prefixIcon: Icon(Icons.circle_outlined),
-                                    border: InputBorder.none,
-                                    hintText: "Id de orden",
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                    ))),
-                          ),
+                        //fila con un container y un TextField para contraseña
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+                        children: [Container(
+                          
+                          width: size.width /1.4,
+                          child: DropdownButton<String>(
+                            
+                            
+                            hint:Text('Elige mecánico'),
+                            isExpanded: true,
+                            
+                            items: listamecanicos.map(getdropdown).toList(),onChanged:( string) => setState(() {
+                              
+                              dnimecanico = string!;//esta variable cliente será la q se use para insertar los datos en sqlite,
+                              //debido a que esta variable debe ser String para que se pueda insertar
+                              
+                              
+                              dnimeca=string;} ),//esta variable se usa para que el DropdownButton detecte el valor pulsado ya que está variable debe ser
+                              //String? la ? significa que esta variable puede ser nula, es decir que no requiere ser inicializada
+                            
+                            
+                            value:dnimeca,
+                            ), )
+                                    //se convierte la lista de String a DropdownMenuItem<String>
                         ],
                       ),
 
                       const SizedBox(
                         height: 8,
                       ), //para separar rows
+
+                      
+                      Row(
+                        //fila con un container y un TextField para contraseña
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+                        children: [Container(
+                          
+                          width: size.width /1.4,
+                          child: DropdownButton<String>(
+                            
+                            
+                            hint:Text('Elige vehículo'),
+                            isExpanded: true,
+                            
+                            items: listavehiculos.map(getdropdown).toList(),onChanged:( string) => setState(() {
+                              
+                              matriculavehiculo = string!;//esta variable cliente será la q se use para insertar los datos en sqlite,
+                              //debido a que esta variable debe ser String para que se pueda insertar
+                              
+                              
+                              matriculavehi=string;} ),//esta variable se usa para que el DropdownButton detecte el valor pulsado ya que está variable debe ser
+                              //String? la ? significa que esta variable puede ser nula, es decir que no requiere ser inicializada
+                            
+                            
+                            value:matriculavehi,
+                            ), )
+                                    //se convierte la lista de String a DropdownMenuItem<String>
+                        ],
+                      ),
+
+                      const SizedBox(
+                        height: 8,
+                      ), //para separar rows
+
+                      
 
                       Row(
                         //fila con un container y un TextField para contraseña
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [
                           Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
+                            width: size.width /1.4, //ancho del TextField en relación al ancho de la pantalla
                             height: size.height / 17,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
-                              color: Colors.grey[700],
-                            ),
-                            child: TextField(
-                                controller:
-                                    vehiculotxt, //se identifica el controlador del TextField
-                                decoration: const InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
-                                    ),
-                                    prefixIcon: Icon(Icons.circle_outlined),
-                                    border: InputBorder.none,
-                                    hintText: "Vehículo",
-                                    hintStyle: TextStyle(color: Colors.white))),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(
-                        height: 8,
-                      ), //para separar rows
-
-                      Row(
-                        //fila con un container y un TextField para email
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
-                        children: [
-                          Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
-                            height: size.height / 17,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
+                              borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
                               color: Colors.grey[700],
                             ),
                             child: TextField(
                                 keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                                ], //para que solo se pueda poner un punto
-
-                                ///para que el teclado sea numerico
-
-                                controller:
-                                    mecanicotxt, //se identifica el controlador del TextField
+                                inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[.]{0,1}[0-9]*')),], //para que solo se pueda poner un punto
+                                controller:horasdedicadastxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
-                                    ),
-                                    prefixIcon: Icon(Icons.circle_outlined),
-                                    border: InputBorder.none,
-                                    hintText: "Mecánico",
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                    ))),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(
-                        height: 8,
-                      ), //para separar rows
-
-                      Row(
-                        //fila con un container y un TextField para contraseña
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
-                        children: [
-                          Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
-                            height: size.height / 17,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
-                              color: Colors.grey[700],
-                            ),
-                            child: TextField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]{0,1}[0-9]*')),
-                                ], //para que no se puedan poner puntos o comas
-                                controller:
-                                    horasdedicadastxt, //se identifica el controlador del TextField
-                                decoration: const InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
+                                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                                      borderSide: BorderSide(width: 1,color:Color.fromARGB(255, 0, 229, 255)),
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
@@ -219,13 +159,7 @@ class DialogRepairOrder {
                               color: Colors.grey[700],
                             ),
                             child: TextField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]{0,1}[0-9]*')),
-                                ], //para que no se puedan poner puntos o comas
-                                controller:
-                                    descripcionreparaciontxt, //se identifica el controlador del TextField
+                                controller:descripcionreparaciontxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius:
@@ -278,7 +212,7 @@ class DialogRepairOrder {
                             child:
                             ElevatedButton.icon(
                               onPressed: ()async{
-                                var dateend =await pickDateEnd(context,datestart);
+                                dateend =await pickDateEnd(context,datestart);
                                 setState(() {
                                     fin=DateFormat('dd-MM-yyyy').format(dateend!);
                                 });
@@ -289,31 +223,6 @@ class DialogRepairOrder {
                           ),
                         ],
                       ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                       const SizedBox(
                         height: 8,
                       ), //para separar rows
@@ -323,49 +232,33 @@ class DialogRepairOrder {
                         children: [
                           TextButton(
                             onPressed: () {
-                             /* if (marcatxt.text.isEmpty ||
-                                  piezatxt.text.isEmpty ||
-                                  preciotxt.text.isEmpty ||
-                                  stocktxt.text.isEmpty ||
-                                  telfproveedortxt.text.isEmpty) {
-                                String error =
-                                    'Rellene todos los campos antes de guardar';
+                              if ( matriculavehiculo=='Elige mecánico'||dnimecanico=='Elige vehículo'||datestart==null) {
+                                String error ='Debe elegir al mecánico, el vehículo y la fecha de inicio';
                                 DialogError dialogError = DialogError();
                                 dialogError.dialogError(context, error);
                               } else {
-                                String marca = marcatxt.text;
-                                String pieza = piezatxt.text
-                                    .toLowerCase(); //lo pongo en minuscula siempre para q al buscar por este campo se busque en minuscula
-                                double precio = double.parse(preciotxt.text);
-                                int stock = int.parse(stocktxt.text);
-                                int telfproveedor =
-                                    int.parse(telfproveedortxt.text);
+                                
 
-                                var spare = Spare(
-                                  marca: marca,
-                                  pieza: pieza,
-                                  precio: precio,
-                                  stock: stock,
-                                  telfproveedor: telfproveedor,
+                                var order = RepairOrder(
+                                  vehiculo: matriculavehiculo,
+                                  mecanico: dnimecanico,
+                                  horasdedicadas: double.parse(horasdedicadastxt.text),
+                                  descripcionreparacion: descripcionreparaciontxt.text,
+                                  fechainicio: inicio,
+                                  fechafin: fin,
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                base.insertSpare(context, spare);
+                                base.insertOrder(context, order);
 
-                              /*  marcatxt.clear();
-                                piezatxt.clear();
-                                preciotxt.clear();
-                                stocktxt.clear();
-                                telfproveedortxt.clear();*/
+                                horasdedicadastxt.clear();
+                                descripcionreparaciontxt.clear();
+                                
 
                                 Navigator.of(context).pop();
-                              }*/
+                              }
                             }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
-                            child: Text('Guardar',
-                                style: TextStyle(
-                                    fontSize: size.height / 35,
-                                    color: Colors
-                                        .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                            child: Text('Guardar',style: TextStyle(fontSize: size.height / 35,color: Colors.white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
                           ),
                         ],
                       ),
@@ -702,4 +595,8 @@ class DialogRepairOrder {
     firstDate: datestart,
     lastDate:  DateTime(2200)
   );
+
+
+  DropdownMenuItem<String> getdropdown(String item)=>
+    DropdownMenuItem(value:item, child: Text(item),);
 }
