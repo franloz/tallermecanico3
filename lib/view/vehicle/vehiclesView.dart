@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 String matricula = mechanic.matricula;
                 String marca = mechanic.marca;
                 String modelo = mechanic.modelo;
-                String clientedni = mechanic.clientedni;
+                String? clientedni = mechanic.clientedni;
 
                 return Card(
                     elevation: 5,
@@ -130,15 +130,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                    TextEditingController dnicontroll =TextEditingController();
-                                    TextEditingController namecontroll = TextEditingController(); 
-                                    TextEditingController tlfcontroll = TextEditingController();
-                                    TextEditingController direccioncontroll =TextEditingController();
-                                    dnicontroll.text = matricula;
-                                    namecontroll.text = marca;
-                                    tlfcontroll.text = modelo;
-                                    direccioncontroll.text = clientedni;
-                                    await cl.dialogVehicleUpdate(context,size,dnicontroll,namecontroll,tlfcontroll,direccioncontroll,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    TextEditingController matriculacontroll =TextEditingController();
+                                    TextEditingController marcacontroll = TextEditingController(); 
+                                    TextEditingController modelocontroll =TextEditingController();
+                                    matriculacontroll.text = matricula;
+                                    marcacontroll.text = marca;
+                                    modelocontroll.text = modelo;
+                                    await cl.dialogVehicleUpdate(context,size,matriculacontroll,marcacontroll,modelocontroll,clientedni,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(

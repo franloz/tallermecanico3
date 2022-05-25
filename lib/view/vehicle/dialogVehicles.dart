@@ -165,26 +165,55 @@ class DialogVehicles {
                           
                           width: size.width /
                                 1.4,
-                          child: DropdownButton<String>(
-                            
-                            
+                          child:
+                          DropdownButton<String>(
+                            isExpanded: true,
                             hint:Text('Elige cliente'),
+                            value: cli,
+                            items: lista.map((item)=>DropdownMenuItem<String>(
+                              value:item,
+                              child: Text(item) ,
+                            )).toList(),
+                            onChanged: (item)=>setState(()=>cli=item),
+                            
+                            )
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          /* DropdownButton<String>(/// cvvvvvhhfhgttttttttttttttttttt//error de clicar en mas dos veceessssssssssssssssss
+                            value:cli,
+                            
+                            //hint:Text('Elige cliente'),
                             isExpanded: true,
                             
                             items: lista.map(getdropdown).toList(),onChanged:( string) => setState(() {
                               
                               cliente = string!;//esta variable cliente será la q se use para insertar los datos en sqlite,
                               //debido a que esta variable debe ser String para que se pueda insertar
-                              
-                              
+                              print('hhhhhhhhh'+cli.toString());
+                              cli=lista[1];
                               cli=string;} ),//esta variable se usa para que el DropdownButton detecte el valor pulsado ya que está variable debe ser
-                              //String? la ? significa que esta variable puede ser nula, es decir que no requiere ser inicializada
+                              //String? la ? significa que esta variable puede ser nula, es decir que no requiere ser inicializada*/
+                            
+                      )]
                             
                             
-                            value:cli,
-                            ), )
                                     //se convierte la lista de String a DropdownMenuItem<String>
-                        ],
+                        
                       ),
 
 
@@ -200,8 +229,8 @@ class DialogVehicles {
                             onPressed: () {
                               if (matriculatxt.text.isEmpty ||
                                   marcatxt.text.isEmpty ||
-                                  modelotxt.text.isEmpty ||
-                                  cliente==''
+                                  modelotxt.text.isEmpty //||
+                                  //cliente==''
                                  ) {
                                 String error =
                                     'Rellene todos los campos antes de guardar';
@@ -216,7 +245,7 @@ class DialogVehicles {
                                   matricula: matricula,
                                   marca: marca,
                                   modelo: modelo,
-                                  clientedni: cliente,
+                                  clientedni: cli.toString(),
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
@@ -225,7 +254,7 @@ class DialogVehicles {
                                 matriculatxt.clear();
                                 marcatxt.clear();
                                 modelotxt.clear();
-                                cli='Elige cliente';
+                                //cli='Elige cliente';
 
                                 Navigator.of(context).pop();
                               }
@@ -249,7 +278,7 @@ class DialogVehicles {
           TextEditingController matricula,
           TextEditingController marca,
           TextEditingController modelo,
-          TextEditingController dnicliente,
+          String? dnicliente,
           String oldmatricula, List<String> lista) =>
       showDialog(
           context: context,
@@ -398,23 +427,16 @@ class DialogVehicles {
                           width: size.width /
                                 1.4,
                           child: DropdownButton<String>(
-                            
-                            
-                            hint:Text('Elige cliente'),
                             isExpanded: true,
+                            hint:Text('Elige cliente'),
+                            value: dnicliente,
+                            items: lista.map((item)=>DropdownMenuItem<String>(
+                              value:item,
+                              child: Text(item) ,
+                            )).toList(),
+                            onChanged: (item)=>setState(()=>dnicliente=item),
                             
-                            items: lista.map(getdropdown).toList(),onChanged:( string) => setState(() {
-                              
-                              cliente = string!;//esta variable cliente será la q se use para insertar los datos en sqlite,
-                              //debido a que esta variable debe ser String para que se pueda insertar
-                              
-                              
-                              cli=string;} ),//esta variable se usa para que el DropdownButton detecte el valor pulsado ya que está variable debe ser
-                              //String? la ? significa que esta variable puede ser nula, es decir que no requiere ser inicializada
-                            
-                            
-                            value:cli,
-                            ), )
+                            ) )
                             ],
                           ),
 
@@ -430,8 +452,9 @@ class DialogVehicles {
                                 onPressed: () {
                                   if (matricula.text.isEmpty ||
                                       marca.text.isEmpty ||
-                                      modelo.text.isEmpty ||
-                                      cliente=='') {
+                                      modelo.text.isEmpty //||
+                                      //cliente==''
+                                      ) {
                                     String error =
                                         'Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
@@ -445,7 +468,7 @@ class DialogVehicles {
                                       matricula: matriculaa,
                                       marca: marcaa,
                                       modelo: modeloo,
-                                      clientedni: cliente,
+                                      clientedni: dnicliente.toString(),
                                     );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
@@ -455,7 +478,7 @@ class DialogVehicles {
                                     matricula.clear();
                                     marca.clear();
                                     modelo.clear();
-                                    dnicliente.clear();
+                                    //dnicliente.clear();
 
                                     Navigator.of(context).pop();
                                   }
@@ -500,8 +523,8 @@ class DialogVehicles {
 
 
 
-  DropdownMenuItem<String> getdropdown(String item)=>
-    DropdownMenuItem(value:item, child: Text(item),);
+  /*DropdownMenuItem<String> getdropdown(String item)=>
+    DropdownMenuItem(value:item, child: Text(item),);*/
 
         
   
