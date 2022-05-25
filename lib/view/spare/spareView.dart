@@ -4,7 +4,7 @@ import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/spare.dart';
 import 'package:tallermecanico/view/spare/dialogSpare.dart';
 
-/*class SpareView extends StatelessWidget {
+class SpareView extends StatelessWidget {
   const SpareView({Key? key}) : super(key: key);
 
   @override
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       setState(() {});
                     },
                   ),
-                  hintText: 'Nombre del mecánico a buscar',
+                  hintText: 'Pieza a buscar',
                 ),
               ),
             ),
@@ -203,9 +203,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}*/
+}
 
-class SpareView extends StatelessWidget {
+/*class SpareView extends StatelessWidget {
   const SpareView({Key? key}) : super(key: key);
 
   @override
@@ -345,7 +345,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         preciocontroll,
                                         stockcontroll,
                                         telfproveedorcontroll,
-                                        id); //este ultimo dni q le paso es para identificar que registro actualizo*/
+                                        id); //este ultimo dni q le paso es para identificar que registro actualizo
                                     //setState(() {});
                                   }),
                               IconButton(
@@ -423,4 +423,4 @@ class _MyHomePageState extends State<MyHomePage> {
                   subtitle: Text(data['pieza']),
                 );
               }).toList(),
-            );*/ 
+            );*/ */

@@ -1,4 +1,4 @@
-class RepairOrder {
+/*class RepairOrder {
   String numeroorden;
   final String vehiculo;
   final String mecanico;
@@ -28,4 +28,42 @@ class RepairOrder {
       'fechafin': fechafin,
     };
   }
+}*/
+
+
+import 'dart:ffi';
+
+class RepairOrder {
+  final String id;
+  final String vehiculo;
+  final String mecanico;
+  final Float horasreparacion;
+  final String descripcionreparacion;
+  final String inicio;
+  final String fin;
+
+  const RepairOrder(
+      {required this.id,
+      required this.vehiculo,
+      required this.mecanico,
+      required this.horasreparacion,
+      required this.descripcionreparacion,
+      required this.inicio,
+      required this.fin
+      
+      });
+
+  Map<String, dynamic> toMap() {
+    //coleccion de llaves y valores
+    return {
+      'id': id,
+      'vehiculo': vehiculo,
+      'mecanico': mecanico,
+      'horasreparacion': horasreparacion,
+      'descripcionreparacion': descripcionreparacion,
+      'inicio': inicio,
+      'fin':fin
+    };
+  }
 }
+

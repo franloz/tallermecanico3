@@ -1,11 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/model/repairorder.dart';
 import 'package:tallermecanico/model/spare.dart';
 
 class FirebaseDatabase {
-  Future insertSpare(BuildContext context, Spare spare) async {
+ /* Future insertSpare(BuildContext context, Spare spare) async {
     int repetido = 0;
 
     try {
@@ -58,7 +58,7 @@ class FirebaseDatabase {
       'stock': stock,
       'telfproveedor': telfproveedor,
     });
-  }
+  }*/
 
 
 
@@ -80,4 +80,4 @@ class FirebaseDatabase {
       dialogError.dialogError(context, error);
     }
   }
-}
+}*/

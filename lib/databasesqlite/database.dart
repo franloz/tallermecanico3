@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/model/Vehicle.dart';
+import 'package:tallermecanico/model/repairorder.dart';
+import 'package:tallermecanico/model/spare.dart';
 
 import '../model/client.dart';
 import '../model/mechanic.dart';
@@ -23,6 +25,12 @@ class DatabaseSqlite {
         await db.execute(
           "CREATE TABLE Vehiculos (matricula TEXT PRIMARY KEY, marca TEXT NOT NULL, modelo TEXT NOT NULL, clientedni TEXT NOT NULL,FOREIGN KEY (clientedni) REFERENCES Clientes (dni))",
         ); ////////////poner las otras tablas, pensar la repeticion de datos para hacerlo en firebase
+        await db.execute(
+          "CREATE TABLE Recambios (id TEXT PRIMARY KEY, marca TEXT NOT NULL, pieza TEXT NOT NULL, precio REAL NOT NULL,stock INTEGER NOT NULL, telfproveedor INTEGER NOT NULL)",
+        );
+        await db.execute(
+          "CREATE TABLE OrdenesReparacion (id TEXT PRIMARY KEY, vehiculo TEXT NOT NULL, mecanico TEXT NOT NULL, horasreparacion REAL,descripcionreparacion TEXT, inicio TEXT NOT NULL,fin TEXT NOT NULL,FOREIGN KEY (vehiculo) REFERENCES Vehiculos (matricula),FOREIGN KEY (mecanico) REFERENCES Mecanicos (dni))",
+        );
       },
       onUpgrade: (db, int oldversion, int newversion) {
         if (oldversion != newversion) {
@@ -287,4 +295,159 @@ class DatabaseSqlite {
 
 
   //combobox
+
+
+
+  //spare
+
+  Future<void> insertSpare(BuildContext context, Spare spare) async {
+    Database database = await _openDB();
+
+    try {
+      await database.insert("Recambios", spare.toMap());
+    } on DatabaseException catch (e) {
+      String error = 'Este id ya existe, no puede volverlo a introducir';
+      DialogError dialogError = DialogError();
+      dialogError.dialogError(context, error);
+    }
+  }
+
+  Future<void> deleteSpare(String id) async {
+    Database database = await _openDB();
+
+    await database
+        .delete("Recambios", where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> updateSpare(BuildContext context, Spare spare, String id) async {
+    Database database = await _openDB();
+
+    try {
+      await database.update("Recambios", spare.toMap(),
+          where: 'id = ?', whereArgs: [id]);
+    } on DatabaseException catch (e) {
+      String error = 'Este id ya existe, no puede volverlo a introducir';
+      DialogError dialogError = DialogError();
+      dialogError.dialogError(context, error);
+    }
+  }
+  Future<List<Spare>> getSpares() async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database.query('Recambios');
+
+    return List.generate(maps.length, (i) {
+      //convierte la lista de mapas a una lista de clientes
+      return Spare(
+        id: maps[i]['id'],
+        marca: maps[i]['marca'],
+        pieza: maps[i]['pieza'],
+        precio: maps[i]['precio'],
+        stock: maps[i]['stock'],
+        telfproveedor: maps[i]['telfproveedor'],
+      );
+    });
+  }
+
+ 
+
+  Future<List<Spare>> getSpareWhere(String pieza) async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database
+        .rawQuery('SELECT * FROM Recambios WHERE pieza LIKE ?', [pieza + '%']);
+
+    return List.generate(maps.length, (i) {
+      //convierte la lista de mapas a una lista de clientes
+      return Spare(
+        id: maps[i]['id'],
+        marca: maps[i]['marca'],
+        pieza: maps[i]['pieza'],
+        precio: maps[i]['precio'],
+        stock: maps[i]['stock'],
+        telfproveedor: maps[i]['telfproveedor'],
+      );
+    });
+  }
+
+
+  //spare
+
+  //repairorder
+
+  Future<void> insertOrder(BuildContext context, RepairOrder order) async {
+    Database database = await _openDB();
+
+    try {
+      await database.insert("OrdenesReparacion", order.toMap());
+    } on DatabaseException catch (e) {
+      String error = 'Este id ya existe, no puede volverlo a introducir';
+      DialogError dialogError = DialogError();
+      dialogError.dialogError(context, error);
+    }
+  }
+
+  Future<void> deleteOrder(String id) async {
+    Database database = await _openDB();
+
+    await database
+        .delete("OrdenesReparacion", where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> updateOrder(BuildContext context, RepairOrder order, String id) async {
+    Database database = await _openDB();
+
+    try {
+      await database.update("OrdenesReparacion", order.toMap(),
+          where: 'id = ?', whereArgs: [id]);
+    } on DatabaseException catch (e) {
+      String error = 'Este id ya existe, no puede volverlo a introducir';
+      DialogError dialogError = DialogError();
+      dialogError.dialogError(context, error);
+    }
+  }
+  Future<List<RepairOrder>> getOrders() async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database.query('OrdenesReparacion');
+
+    return List.generate(maps.length, (i) {
+      //convierte la lista de mapas a una lista de clientes
+      return RepairOrder(
+        id: maps[i]['id'],
+        vehiculo: maps[i]['vehiculo'],
+        mecanico: maps[i]['mecanico'],
+        horasreparacion: maps[i]['horasreparacion'],
+        descripcionreparacion: maps[i]['descripcionreparacion'],
+        inicio: maps[i]['inicio'],
+        fin:maps[i]['fin'],
+      );
+    });
+  }
+
+ 
+
+  Future<List<RepairOrder>> getOrderWhere(String vehiculo) async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database
+        .rawQuery('SELECT * FROM OrdenesReparacion WHERE vehiculo LIKE ?', [vehiculo + '%']);
+
+    return List.generate(maps.length, (i) {
+      //convierte la lista de mapas a una lista de clientes
+      return RepairOrder(
+        id: maps[i]['id'],
+        vehiculo: maps[i]['vehiculo'],
+        mecanico: maps[i]['mecanico'],
+        horasreparacion: maps[i]['horasreparacion'],
+        descripcionreparacion: maps[i]['descripcionreparacion'],
+        inicio: maps[i]['inicio'],
+        fin:maps[i]['fin'],
+      );
+    });
+  }
+
+
+  //repairorder
+
 }

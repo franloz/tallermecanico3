@@ -1,8 +1,10 @@
-/*class Spare {
+import 'dart:ffi';
+
+class Spare {
   final String id;
   final String marca;
   final String pieza;
-  final double precio;
+  final Float precio;
   final int stock;
   final int telfproveedor;
 
@@ -27,9 +29,9 @@
       'telfproveedor': telfproveedor,
     };
   }
-}*/
+}
 
-class Spare {
+/*class Spare {
   String id;
   final String marca;
   final String pieza;
@@ -56,4 +58,4 @@ class Spare {
       'telfproveedor': telfproveedor,
     };
   }
-}
+}*/
