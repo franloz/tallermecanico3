@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     /*matriculacontroll.text = matricula;*/
                                     marcacontroll.text = marca;
                                     modelocontroll.text = modelo;
-                                    await cl.dialogVehicleUpdate(context,size,matricula,marcacontroll,modelocontroll,clientedni,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    await cl.dialogVehicleUpdate(context,size,matricula,marcacontroll,modelocontroll,clientedni,lista); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(

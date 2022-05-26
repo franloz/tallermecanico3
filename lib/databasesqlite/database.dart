@@ -354,11 +354,23 @@ class DatabaseSqlite {
     }
   }
 
-  Future<void> deleteSpare(String id) async {
+  Future<void> deleteSpare(BuildContext context,String id) async {
     Database database = await _openDB();
 
-    await database
-        .delete("Recambios", where: 'id = ?', whereArgs: [id]);
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM LineasReparacion WHERE idrecambio = ?', [id]);
+    int count=   maps.length;
+    print('jjjj'+count.toString());
+
+    if(count==0){
+      await database.delete("Recambios", where: 'id = ?', whereArgs: [id]);
+      print('bbbbb'+'borrado');
+    }else{
+      String error = 'Este recambio no se puede borrar debido a que existen lineas de órdenes con este recambio, deberá borrarlas antes de poder borrar el recambio';
+      DialogError dialogError = DialogError();
+      await dialogError.dialogError(context, error);
+    }
+
   }
 
   Future<void> updateSpare(BuildContext context, Spare spare, String id) async {
@@ -429,11 +441,23 @@ class DatabaseSqlite {
     }
   }
 
-  Future<void> deleteOrder(String id) async {
+  Future<void> deleteOrder(BuildContext context, String id) async {
     Database database = await _openDB();
 
-    await database
-        .delete("OrdenesReparacion", where: 'id = ?', whereArgs: [id]);
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM LineasReparacion WHERE idorden = ?', [id]);
+    int count=   maps.length;
+    print('jjjj'+count.toString());
+
+    if(count==0){
+      await database.delete("OrdenesReparacion", where: 'id = ?', whereArgs: [id]);
+      print('bbbbb'+'borrado');
+    }else{
+      String error = 'Esta orden no se puede borrar debido a que existen líneas de órdenes con esta orden, deberá borrarlas antes de poder borrar el esta orden';
+      DialogError dialogError = DialogError();
+      await dialogError.dialogError(context, error);
+    }
+    
   }
 
   Future<void> updateOrder(BuildContext context, RepairOrder order, String id) async {

@@ -279,7 +279,7 @@ class DialogVehicles {
           TextEditingController marca,
           TextEditingController modelo,
           String? dnicliente,
-          String oldmatricula, List<String> lista) =>
+           List<String> lista) =>
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -428,7 +428,6 @@ class DialogVehicles {
                                 1.4,
                           child: DropdownButton<String>(
                             isExpanded: true,
-                            hint:Text('Elige cliente'),
                             value: dnicliente,
                             items: lista.map((item)=>DropdownMenuItem<String>(
                               value:item,
@@ -472,7 +471,7 @@ class DialogVehicles {
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
                                     dt.updateVehicle(context, vehicle,
-                                        oldmatricula); //olddni para identificar que registro actualizo
+                                        matricula); //olddni para identificar que registro actualizo
 
                                     marca.clear();
                                     modelo.clear();

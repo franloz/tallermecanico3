@@ -246,8 +246,8 @@ class DialogClients {
           String dni,
           TextEditingController name,
           TextEditingController tlf,
-          TextEditingController direction,
-          String olddni) =>
+          TextEditingController direction
+          ) =>
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -454,8 +454,7 @@ class DialogClients {
                                     );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                    dt.updateClient(context, cliente,olddni); //olddni para identificar que registro actualizo
-
+                                    dt.updateClient(context, cliente,dni); 
                                     dnitxt.clear();
                                     nombretxt.clear();
                                     telftxt.clear();

@@ -123,8 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         dni,
                                         namecontroll,
                                         tlfcontroll,
-                                        direccioncontroll,
-                                        dni); //este ultimo dni q le paso es para identificar que registro actualizo
+                                        direccioncontroll
+                                        ); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(

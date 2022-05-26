@@ -630,7 +630,7 @@ class DialogRepairOrder {
 
   DatabaseSqlite dt = DatabaseSqlite();
 
-  String? mecanico;
+  String? mecanico;//values combobox
   String? vehiculo;
 
   /*String? dnimeca; //para el combobox
@@ -767,7 +767,7 @@ class DialogRepairOrder {
                                             prefixIcon:
                                                 Icon(Icons.circle_outlined),
                                             border: InputBorder.none,
-                                            hintText: "Horas dedicadas",
+                                            hintText: "Horas reparación",
                                             hintStyle: TextStyle(
                                                 color: Colors.white))),
                                   ),
@@ -832,7 +832,7 @@ class DialogRepairOrder {
                                         datestart =await pickDateStart(context);
                                         setState(() {
                                           if(datestart!=null){
-                                            inicio = DateFormat('dd-MM-yyyy').format(datestart!);
+                                            inicio = DateFormat('yyyy-MM-dd').format(datestart!);
                                           }else{
                                             inicio='Inicio';
                                           }
@@ -858,8 +858,8 @@ class DialogRepairOrder {
                                           dateend = await pickDateEnd(
                                               context, datestart);
                                           setState(() {
-                                            if(datestart!=null){
-                                              fin = DateFormat('dd-MM-yyyy').format(dateend!);
+                                            if(dateend!=null){
+                                              fin = DateFormat('yyyy-MM-dd').format(dateend!);
                                             }else{
                                               fin='Fin';
                                             }
@@ -892,10 +892,10 @@ class DialogRepairOrder {
                                         DialogError dialogError = DialogError();
                                         dialogError.dialogError(context, error);
                                       } else {
-                                        var fechahoy=DateTime.now();
-                                        String hoy = DateFormat('dd-MM-yyyy').format(datestart!);
+                                        /*var fechahoy=DateTime.now();
+                                        String hoy = DateFormat('dd-MM-yyyy').format(datestart!);*/
 
-                                        String id=vehiculo.toString()+'//'+hoy;
+                                        String id=vehiculo.toString()+'//'+inicio;
 
                                         var order = RepairOrder(
                                           id:id.toUpperCase(),
@@ -934,19 +934,20 @@ class DialogRepairOrder {
                     ],
                   ))));
 
-  /*Future dialogSpareUpdate(
+  Future dialogOrderUpdate(
           BuildContext context,
           Size size,
-          TextEditingController marcacontroll,
-          TextEditingController piezacontroll,
-          TextEditingController preciocontroll,
-          TextEditingController stockcontroll,
-          TextEditingController telfproveedorcontroll,
-          String id) =>
+
+          List<String> listamecanicos,TextEditingController horasreparaciontxt,TextEditingController descripcionreparaciontxt,String fechafin,String? idmecanico,
+          String idord,String vehiculomatri,String fechainicio
+
+
+
+          ) =>
       showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) => AlertDialog(
+          builder: (context) =>StatefulBuilder(builder: ((context, setState) => AlertDialog(
                 backgroundColor: Colors.grey[600],
                 title: Text('Actualizar Orden',
                     style: TextStyle(color: Colors.white)),
@@ -958,38 +959,25 @@ class DialogRepairOrder {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Row(
-                            //fila con un container y un TextField para email
+                            //fila con un container y un TextField para contraseña
                             mainAxisAlignment: MainAxisAlignment
                                 .center, //Center Row contents horizontally,
                             children: [
-                              Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                    controller:
-                                        marcacontroll, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Marca",
-                                        hintStyle: TextStyle(
-                                          color: Colors.white,
-                                        ))),
-                              ),
+                             Container(
+                          
+                          width: size.width /
+                                1.4,
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            
+                            value: idmecanico,
+                            items: listamecanicos.map((item)=>DropdownMenuItem<String>(
+                              value:item,
+                              child: Text(item) ,
+                            )).toList(),
+                            onChanged: (item)=>setState(()=>idmecanico=item),
+                            
+                            ) )
                             ],
                           ),
 
@@ -1012,8 +1000,13 @@ class DialogRepairOrder {
                                   color: Colors.grey[700],
                                 ),
                                 child: TextField(
+                                  keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
+                                        ], 
                                     controller:
-                                        piezacontroll, //se identifica el controlador del TextField
+                                        horasreparaciontxt, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -1025,7 +1018,7 @@ class DialogRepairOrder {
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
-                                        hintText: "Pieza",
+                                        hintText: "Horas reparación",
                                         hintStyle:
                                             TextStyle(color: Colors.white))),
                               ),
@@ -1051,16 +1044,11 @@ class DialogRepairOrder {
                                   color: Colors.grey[700],
                                 ),
                                 child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                                    ], //para que solo se pueda poner un punto
+                                    
 
-                                    ///para que el teclado sea numerico
 
                                     controller:
-                                        preciocontroll, //se identifica el controlador del TextField
+                                        descripcionreparaciontxt, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -1072,7 +1060,7 @@ class DialogRepairOrder {
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
-                                        hintText: "Precio",
+                                        hintText: "Descripción de la reparación",
                                         hintStyle: TextStyle(
                                           color: Colors.white,
                                         ))),
@@ -1090,83 +1078,39 @@ class DialogRepairOrder {
                                 .center, //Center Row contents horizontally,
                             children: [
                               Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'[0-9]{0,1}[0-9]*')),
-                                    ],
-                                    controller:
-                                        stockcontroll, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
+                                      width: size.width / 3,
+                                      child: ElevatedButton.icon(
+                                        onPressed: () async {
+                                          DateTime date = DateTime.parse(fechainicio);//convierto la fecha de inicio a datetime para pasarla al metodo pickDateEnd
+
+
+                                          dateend = await pickDateEnd(
+                                              context, date);
+                                          setState(() {
+                                            if(dateend!=null){
+                                              fechafin = DateFormat('yyyy-MM-dd').format(dateend!);
+                                            }else{
+                                              fechafin='Fin';
+                                            }
+                                            
+                                          });
+                                        },
+                                        icon: Icon(Icons.calendar_today),
+                                        label: Text(
+                                          fechafin,
+                                          style: TextStyle(
+                                              fontSize: size.height / 65,
+                                              color: Colors.white),
                                         ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Stock",
-                                        hintStyle:
-                                            TextStyle(color: Colors.white))),
-                              ),
-                            ],
+                                      )),
+                            ]
                           ),
 
                           const SizedBox(
                             height: 8,
                           ), //para separar rows
 
-                          Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'[0-9]{0,1}[0-9]*')),
-                                    ],
-                                    controller:
-                                        telfproveedorcontroll, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Teléfono del proveedor",
-                                        hintStyle:
-                                            TextStyle(color: Colors.white))),
-                              ),
-                            ],
-                          ),
+                          
 
                           const SizedBox(
                             height: 8,
@@ -1178,39 +1122,30 @@ class DialogRepairOrder {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  if (marcacontroll.text.isEmpty ||
-                                      piezacontroll.text.isEmpty ||
-                                      preciocontroll.text.isEmpty ||
-                                      stockcontroll.text.isEmpty ||
-                                      telfproveedorcontroll.text.isEmpty) {
-                                    String error =
-                                        'Rellene todos los campos antes de guardar';
-                                    DialogError dialogError = DialogError();
-                                    dialogError.dialogError(context, error);
-                                  } else {
-                                    String marca = marcacontroll.text;
-                                    String pieza =
-                                        piezacontroll.text.toLowerCase();
-                                    double precio =
-                                        double.parse(preciocontroll.text);
-                                    int stock = int.parse(stockcontroll.text);
-                                    int telfproveedor =
-                                        int.parse(telfproveedorcontroll.text);
+                                  
+                                    
 
-//////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                    base.updateSpare(id, marca, pieza, precio,
-                                        stock, telfproveedor);
+                                    var order = RepairOrder(
+                                          id:idord,
+                                          vehiculo: vehiculomatri,
+                                          mecanico: idmecanico.toString(),
+                                          horasreparacion:horasreparaciontxt.text,
+                                          descripcionreparacion:descripcionreparaciontxt.text,
+                                          inicio:fechainicio,
+                                          fin: fechafin,
+                                        );
 
-                                    marcacontroll.clear();
-                                    piezacontroll.clear();
-                                    preciocontroll.clear();
-                                    stockcontroll.clear();
-                                    telfproveedorcontroll.clear();
+
+                                    dt.updateOrder(context,order,idord);
+
+                                    
+                                    descripcionreparaciontxt.clear();
+                                    horasreparaciontxt.clear();
 
                                     Navigator.of(context).pop();
-                                  }
-                                }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                                  },
+                                 //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
                                 child: Text('Guardar',
                                     style: TextStyle(
                                         fontSize: size.height / 35,
@@ -1222,9 +1157,9 @@ class DialogRepairOrder {
                         ],
                       ))
                 ],
-              ));
+              ))));
 
-  Future dialogSpareDelete(BuildContext context, String id) => showDialog(
+  Future dialogOrderDelete(BuildContext context, String id) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
@@ -1240,14 +1175,14 @@ class DialogRepairOrder {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: () {
-                  base.deleteSpare(id);
+                onPressed: () async{
+                  await dt.deleteOrder(context,id);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),
               ),
             ],
-          ));*/
+          ));
 
   Future<DateTime?> pickDateStart(BuildContext context) => showDatePicker(
       context: context,

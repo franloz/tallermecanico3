@@ -328,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: snapshot.data!.map((order) {
                 String id = order.id;
                 String vehiculo =order.vehiculo;
-                String mecanico = order.mecanico;
+                String? mecanico = order.mecanico;//? para combobox
                 String horasreparacion =order.horasreparacion ;
                 String descripcionreparacion = order.descripcionreparacion;
                 String fechainicio = order.inicio;
@@ -355,19 +355,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
                                     /*TextEditingController matriculacontroll =TextEditingController();*/
-                                    TextEditingController marcacontroll = TextEditingController(); 
-                                    TextEditingController modelocontroll =TextEditingController();
-                                    /*matriculacontroll.text = matricula;*/
-                                    //marcacontroll.text = marca;
+                                    TextEditingController horasreparaciontxt = TextEditingController(); 
+                                    TextEditingController descripcionreparaciontxt =TextEditingController();
+                                    horasreparaciontxt.text = horasreparacion;
+                                    descripcionreparaciontxt.text = descripcionreparacion;
                                     //modelocontroll.text = modelo;
-                                    //await cl.dialogVehicleUpdate(context,size,matricula,marcacontroll,modelocontroll,clientedni,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    await dialog.dialogOrderUpdate(context,size,listamecanicos,horasreparaciontxt,descripcionreparaciontxt,fechafin,mecanico,id,vehiculo,fechainicio); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    //await dialog.dialogOrderDelete(context, matricula);
+                                    await dialog.dialogOrderDelete(context, id);
                                     setState(() {});
                                   }),
                             ],

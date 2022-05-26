@@ -248,7 +248,7 @@ class DialogMechanics {
           TextEditingController name,
           TextEditingController tlf,
           TextEditingController direction,
-          String olddni) =>
+           ) =>
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -455,7 +455,7 @@ class DialogMechanics {
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
                                     dt.updateMechanic(context, mechanic,
-                                        olddni); //olddni para identificar que registro actualizo
+                                        dni); //olddni para identificar que registro actualizo
 
                                     dnitxt.clear();
                                     nombretxt.clear();

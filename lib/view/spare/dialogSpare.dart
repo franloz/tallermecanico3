@@ -520,8 +520,8 @@ class DialogSpare {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: () {
-                  dt.deleteSpare(id);
+                onPressed: ()async  {
+                  await dt.deleteSpare(context,id);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),
