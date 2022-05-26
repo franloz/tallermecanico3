@@ -144,8 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   onPressed: () async {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
-                                    await cl.dialogVehicleDelete(
-                                        context, matricula);
+                                    await cl.dialogVehicleDelete(context, matricula);
                                     setState(() {});
                                   }),
                             ],

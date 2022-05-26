@@ -1,8 +1,8 @@
-/*import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+/*import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
+import 'package:tallermecanico/view/vehicle/dialogVehicles.dart';
+
+import '../../model/Vehicle.dart';
 
 class RepairOrdersView extends StatelessWidget {
   const RepairOrdersView({Key? key}) : super(key: key);
@@ -24,18 +24,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DialogRepairOrder dialog = DialogRepairOrder();
+  DialogRepairOrder cl = DialogRepairOrder();
+  DatabaseSqlite dt = DatabaseSqlite();
 
   TextEditingController searchtxt = TextEditingController();
 
   String search = '';
 
-
-  DatabaseSqlite dt = DatabaseSqlite();
-  List<String> listamecanicos = [];
-  List<String> listavehiculos = [];
-
-
+  final List<String> lista = [];
   @override
   void initState() {
     //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
@@ -72,6 +68,223 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          title: Container(
+            width: double.infinity,
+            height: 40,
+            child: Center(
+              child: TextField(
+                controller: searchtxt,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
+                      search = searchtxt.text;
+                      setState(() {});
+                    },
+                  ),
+                  hintText: 'Matrícula a buscar',
+                ),
+              ),
+            ),
+          )),
+      backgroundColor: Colors.grey[800],
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          child: Icon(Icons.add),
+          onPressed: () async {
+            FocusScope.of(context)
+                .unfocus(); //para que el textfield pierda el foco
+
+                for (var age in lista) {
+     print('holaaaaaaaa'+age);
+  }
+            await cl.dialogVehicleInsert(context, size, lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            setState(() {});
+
+            //Navigator.pushNamed(context, 'VehiclesModify');
+          }),
+      body: FutureBuilder<List<Vehicle>>(
+          future: loadList(), ////un metodo que controle si hay busqueda o no
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Vehicle>> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Ha ocurrido un error');
+            }
+            if (snapshot.hasData) {
+              return ListView(
+                  children: snapshot.data!.map((mechanic) {
+                String matricula = mechanic.matricula;
+                String marca = mechanic.marca;
+                String modelo = mechanic.modelo;
+                String? clientedni = mechanic.clientedni;
+
+                return Card(
+                    elevation: 5,
+                    child: ListTile(
+                        onTap: () {
+                          FocusScope.of(context)
+                              .unfocus(); //para que el textfield pierda el foco
+
+                          bottomSheet(matricula, marca, modelo, clientedni);
+                        },
+                        leading: Icon(Icons.car_repair),
+                        title: Text(matricula),
+                        subtitle: Text(marca + ' modelo: ' + modelo),
+                        trailing: SizedBox(
+                          width: size.width / 4,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () async {
+                                    FocusScope.of(context)
+                                        .unfocus(); //para que el textfield pierda el foco
+                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
+                                    /*TextEditingController matriculacontroll =TextEditingController();*/
+                                    TextEditingController marcacontroll = TextEditingController(); 
+                                    TextEditingController modelocontroll =TextEditingController();
+                                    /*matriculacontroll.text = matricula;*/
+                                    marcacontroll.text = marca;
+                                    modelocontroll.text = modelo;
+                                    await cl.dialogVehicleUpdate(context,size,matricula,marcacontroll,modelocontroll,clientedni,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    setState(() {});
+                                  }),
+                              IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () async {
+                                    FocusScope.of(context)
+                                        .unfocus(); //para que el textfield pierda el foco
+                                    await cl.dialogVehicleDelete(
+                                        context, matricula);
+                                    setState(() {});
+                                  }),
+                            ],
+                          ),
+                        )));
+              }).toList());
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+    );
+  }
+
+  Future<List<Vehicle>> loadList() async {
+    if (search != '') {
+      return dt.getVehicleWhere(search);
+    } else {
+      return dt.getVehicles();
+    }
+  }
+
+  void bottomSheet(
+      String matricula, String marca, String modelo, String clientedni) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (context) => Column(
+        children: [
+          ListTile(
+            title: Text('Matricula'),
+            subtitle: Text(matricula),
+          ),
+          ListTile(
+            title: Text('Marca'),
+            subtitle: Text(marca),
+          ),
+          ListTile(
+            title: Text('Modelo'),
+            subtitle: Text(modelo),
+          ),
+          ListTile(
+            title: Text('Cliente Dni'),
+            subtitle: Text(clientedni),
+          ),
+        ],
+      ),
+    );
+  }
+}*/
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tallermecanico/databasesqlite/database.dart';
+import 'package:tallermecanico/model/repairorder.dart';
+import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
+
+class RepairOrdersView extends StatelessWidget {
+  const RepairOrdersView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Taller',
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  DialogRepairOrder dialog = DialogRepairOrder();
+
+  TextEditingController searchtxt = TextEditingController();
+
+  String search = '';
+
+  DatabaseSqlite dt = DatabaseSqlite();
+  List<String> listamecanicos = [];
+  List<String> listavehiculos = [];
+
+  @override
+  void initState() {
+    //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
+    //se convierte una lista de map en una lista de string
+    dt.getMechanicdni().then((listMap) {
+      listMap.map((map) {
+        print('fggfg');
+        print(map.toString());
+
+        return map['dni'];
+      }).forEach((dropDownItem) {
+        listamecanicos.add(dropDownItem);
+        print(dropDownItem.toString());
+      });
+      setState(() {});
+    });
+
+    dt.getVehiclesmatricula().then((listMap) {
+      listMap.map((map) {
+        print('fggfg');
+        print(map.toString());
+
+        return map['matricula'];
+      }).forEach((dropDownItem) {
+        listavehiculos.add(dropDownItem);
+        print(dropDownItem.toString());
+      });
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
         appBar: AppBar(
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             title: Container(
@@ -84,13 +297,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     suffixIcon: IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () {
-                        FocusScope.of(context)
-                            .unfocus(); //para que el textfield pierda el foco
+                        FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                         search = searchtxt.text;
                         setState(() {});
                       },
                     ),
-                    hintText: 'Matrícula del vehículo a buscar en minúscula',
+                    hintText: 'Matrícula del vehículo a buscar',
                   ),
                 ),
               ),
@@ -99,12 +311,98 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: FloatingActionButton(
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             child: Icon(Icons.add),
-            onPressed: () {
+            onPressed: () async{
               FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-              dialog.dialogRepairOrdersInsert(context,size,listamecanicos,listavehiculos); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
-              //setState(() {});
+              await dialog.dialogRepairOrdersInsert(context, size, listamecanicos,listavehiculos); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+              setState(() {});
             }),
-        body: StreamBuilder<QuerySnapshot>(
+        body: FutureBuilder<List<RepairOrder>>(
+          future: loadList(), ////un metodo que controle si hay busqueda o no
+          builder:
+              (BuildContext context, AsyncSnapshot<List<RepairOrder>> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Ha ocurrido un error');
+            }
+            if (snapshot.hasData) {
+              return ListView(
+                  children: snapshot.data!.map((order) {
+                String id = order.id;
+                String vehiculo =order.vehiculo;
+                String mecanico = order.mecanico;
+                String horasreparacion =order.horasreparacion ;
+                String descripcionreparacion = order.descripcionreparacion;
+                String fechainicio = order.inicio;
+                String fechafin = order.fin;
+
+                return Card(
+                    elevation: 5,
+                    child: ListTile(
+                        onTap: () {
+                          FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+
+                          bottomSheet(id, vehiculo, mecanico, horasreparacion,descripcionreparacion,fechainicio,fechafin);
+                        },
+                        leading: Icon(Icons.car_repair),
+                        title: Text(id),
+                        subtitle: Text(vehiculo),
+                        trailing: SizedBox(
+                          width: size.width / 4,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
+                                    /*TextEditingController matriculacontroll =TextEditingController();*/
+                                    TextEditingController marcacontroll = TextEditingController(); 
+                                    TextEditingController modelocontroll =TextEditingController();
+                                    /*matriculacontroll.text = matricula;*/
+                                    //marcacontroll.text = marca;
+                                    //modelocontroll.text = modelo;
+                                    //await cl.dialogVehicleUpdate(context,size,matricula,marcacontroll,modelocontroll,clientedni,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    setState(() {});
+                                  }),
+                              IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                                    //await dialog.dialogOrderDelete(context, matricula);
+                                    setState(() {});
+                                  }),
+                            ],
+                          ),
+                        )));
+              }).toList());
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*body: StreamBuilder<QuerySnapshot>(
           stream: loadList(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -125,13 +423,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 String mecanico = data['mecanico'];
                 String horasdedicadas = data['horasdedicadas'];
                 String descripcionreparacion = data['descripcionreparacion'];
-               // DateTime datefirebaseinicio = DateTime.parse(data['fechainicio'].toDate().toString()); //convierto el timestamp de firebase a dattime
-                //String fechainicio =DateFormat('dd-MM-yyyy').format(datefirebaseinicio);
-                String fechainicio=data['fechainicio'];
+                
+                String fechainicio = data['fechainicio'];
 
-                //DateTime datefirebasefin = DateTime.parse(data['fechafin'].toDate().toString()); //convierto el timestamp de firebase a dattime
-                //String fechafin =DateFormat('dd-MM-yyyy').format(datefirebasefin);
-                String fechafin=data['fechafin'];
+                
+                String fechafin = data['fechafin'];
 
                 return Card(
                     elevation: 5,
@@ -206,7 +502,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }).toList(),
             );
           },
-        ));
+        )*/);
   }
 
   void bottomSheet(
@@ -219,11 +515,13 @@ class _MyHomePageState extends State<MyHomePage> {
       String fechafin) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true,//para que entren todos los elementos en el bottomsheet
+      isScrollControlled:
+          true, //para que entren todos los elementos en el bottomsheet
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => Column(
-        mainAxisSize: MainAxisSize.min,//para que entren todos los elementos en el bottomsheet
+        mainAxisSize: MainAxisSize
+            .min, //para que entren todos los elementos en el bottomsheet
         children: [
           ListTile(
             title: Text('Id de orden'),
@@ -258,7 +556,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Stream<QuerySnapshot> loadList() {
+
+  Future<List<RepairOrder>> loadList() async {
+    if (search != '') {
+      return dt.getOrderWhere(search);
+    } else {
+      return dt.getOrders();
+    }
+  }
+  /*Stream<QuerySnapshot> loadList() {
     if (search != '') {
       print(search.toUpperCase());
       return FirebaseFirestore.instance
@@ -268,5 +574,5 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       return FirebaseFirestore.instance.collection('repairorders').snapshots();
     }
-  }
-}*/
+  }*/
+}

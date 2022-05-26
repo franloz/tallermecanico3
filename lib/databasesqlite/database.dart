@@ -62,28 +62,23 @@ class DatabaseSqlite {
     }
   }
 
-  Future<void> deleteClient(String dni) async {
+  Future<void> deleteClient(BuildContext context,String dni) async {
     Database database = await _openDB();
 
-    
-    /*var x = await database.rawQuery('SELECT COUNT (*) from Vehiculos where clientedni = 'j'');
-    int? count = Sqflite.firstIntValue(x);
-    print('jjjj'+count.toString());*/
-
-    final List<Map<String, dynamic>> maps = await database
-        .rawQuery('SELECT * FROM Vehiculos WHERE clientedni = ?', [dni]);
-    int count=   maps.length;
+    //esto es para saber si el cliente que se quiere borrar tiene vehiculos, si las tiene no le dejará borrar al cliente hasta que borre las vehiculos
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM Vehiculos WHERE clientedni = ?', [dni]);
+    int count=   maps.length;//si dejase borrar a los clientes y luego pulsase sobre modificar en un vehiculo que contenia a ese cliente daria error el combobox porque ese cliente ya no existe
     print('jjjj'+count.toString());
 
     if(count==0){
       await database.delete("Clientes", where: 'dni = ?', whereArgs: [dni]);
+      print('bbbbb'+'borrado');
     }else{
-      /////////mensaje
+      String error = 'Este cliente no se puede borrar debido a que existen vehículos con este cliente, deberá borrarlos antes de poder borrar al cliente';
+      DialogError dialogError = DialogError();
+      await dialogError.dialogError(context, error);
     }
 
-
-
-    
   }
 
   Future<void> updateClient(
@@ -151,10 +146,25 @@ class DatabaseSqlite {
     }
   }
 
-  Future<void> deleteMechanic(String dni) async {
+  Future<void> deleteMechanic(BuildContext context,String dni) async {
     Database database = await _openDB();
 
-    await database.delete("Mecanicos", where: 'dni = ?', whereArgs: [dni]);
+
+    //esto es para saber si el mecanico que se quiere borrar tiene ordenes de reparacion, si las tiene no le dejará borrar al mecanico hasta que borre las ordenes
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM OrdenesReparacion WHERE mecanico = ?', [dni]);
+    int count=   maps.length;
+    print('jjjj'+count.toString());
+
+    if(count==0){
+      await database.delete("Mecanicos", where: 'dni = ?', whereArgs: [dni]);
+      print('bbbbb'+'borrado');
+    }else{
+      String error = 'Este mecánico no se puede borrar debido a que existen órdenes de reparación con este mecánico, deberá borrarlas antes de poder borrar al mecánico';
+      DialogError dialogError = DialogError();
+      await dialogError.dialogError(context, error);
+    }
+
+    
   }
 
   Future<void> updateMechanic(
@@ -220,11 +230,22 @@ class DatabaseSqlite {
     }
   }
 
-  Future<void> deleteVehicle(String matricula) async {
+  Future<void> deleteVehicle(BuildContext context,String matricula) async {
     Database database = await _openDB();
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM OrdenesReparacion WHERE vehiculo = ?', [matricula]);
+    int count=   maps.length;
+    print('jjjj'+count.toString());
 
-    await database
-        .delete("Vehiculos", where: 'matricula = ?', whereArgs: [matricula]);
+    if(count==0){
+      await database.delete("Vehiculos", where: 'matricula = ?', whereArgs: [matricula]);
+      print('bbbbb'+'borrado');
+    }else{
+      String error = 'Este vehículo no se puede borrar debido a que existen órdenes de reparación con este vehículo, deberá borrarlas antes de poder borrar el vehículo';
+      DialogError dialogError = DialogError();
+      await dialogError.dialogError(context, error);
+    }
+
+    
   }
 
   Future<void> updateVehicle(

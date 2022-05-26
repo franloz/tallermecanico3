@@ -5,11 +5,12 @@ import 'package:tallermecanico/main.dart';
 class DialogError {
   
 
-  void dialogError(BuildContext context, String error) {
+  Future dialogError(BuildContext context, String error) =>
     showDialog<String>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) => AlertDialog(
+              backgroundColor: Colors.grey[600],
               title: const Text('Atención'),
               content: Text(error),
               actions: <Widget>[
@@ -20,7 +21,7 @@ class DialogError {
                 ),
               ],
             ));
-  }
+  
 
   
 

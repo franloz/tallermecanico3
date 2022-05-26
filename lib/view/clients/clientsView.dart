@@ -134,8 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
-                                    FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                     await cl.dialogClientDelete(context, dni);
                                     setState(() {});
                                   }),

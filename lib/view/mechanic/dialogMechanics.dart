@@ -494,8 +494,8 @@ class DialogMechanics {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: () {
-                  dt.deleteMechanic(dni);
+                onPressed: () async{
+                  await dt.deleteMechanic(context,dni);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

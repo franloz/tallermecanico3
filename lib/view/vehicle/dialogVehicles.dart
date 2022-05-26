@@ -16,7 +16,7 @@ class DialogVehicles {
 
 
 
-  String cliente='';
+  //String cliente='';
   String? cli;
 
 
@@ -229,8 +229,8 @@ class DialogVehicles {
                             onPressed: () {
                               if (matriculatxt.text.isEmpty ||
                                   marcatxt.text.isEmpty ||
-                                  modelotxt.text.isEmpty //||
-                                  //cliente==''
+                                  modelotxt.text.isEmpty ||
+                                  cli==null
                                  ) {
                                 String error =
                                     'Rellene todos los campos antes de guardar';
@@ -510,8 +510,8 @@ class DialogVehicles {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: () {
-                  dt.deleteVehicle(dni);
+                onPressed: () async {
+                  await dt.deleteVehicle(context,dni);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

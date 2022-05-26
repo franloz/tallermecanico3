@@ -37,7 +37,7 @@ class RepairOrder {
   final String id;
   final String vehiculo;
   final String mecanico;
-  final Float horasreparacion;
+  final String horasreparacion;
   final String descripcionreparacion;
   final String inicio;
   final String fin;

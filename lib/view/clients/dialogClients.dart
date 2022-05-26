@@ -493,8 +493,8 @@ class DialogClients {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: () {
-                  dt.deleteClient(dni);
+                onPressed: ()async {
+                  await dt.deleteClient(context,dni);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),
