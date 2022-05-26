@@ -330,6 +330,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 String vehiculo =order.vehiculo;
                 String? mecanico = order.mecanico;//? para combobox
                 String horasreparacion =order.horasreparacion ;
+                String preciohora=order.preciohora;
                 String descripcionreparacion = order.descripcionreparacion;
                 String fechainicio = order.inicio;
                 String fechafin = order.fin;
@@ -340,7 +341,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         onTap: () {
                           FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
-                          bottomSheet(id, vehiculo, mecanico, horasreparacion,descripcionreparacion,fechainicio,fechafin);
+                          bottomSheet(id, vehiculo, mecanico, horasreparacion,preciohora,descripcionreparacion,fechainicio,fechafin);
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(id),
@@ -357,11 +358,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     /*TextEditingController matriculacontroll =TextEditingController();*/
                                     TextEditingController horasreparaciontxt = TextEditingController(); 
                                     TextEditingController descripcionreparaciontxt =TextEditingController();
+                                    TextEditingController preciohoratxt =TextEditingController();
+
                                     horasreparaciontxt.text = horasreparacion;
                                     descripcionreparaciontxt.text = descripcionreparacion;
+                                    preciohoratxt.text=preciohora;
                                     //modelocontroll.text = modelo;
-                                    await dialog.dialogOrderUpdate(context,size,listamecanicos,horasreparaciontxt,descripcionreparaciontxt,fechafin,mecanico,id,vehiculo,fechainicio); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    await dialog.dialogOrderUpdate(context,size,listamecanicos,horasreparaciontxt,preciohoratxt,descripcionreparaciontxt,fechafin,mecanico,id,vehiculo,fechainicio); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
+
+                                    
                                   }),
                               IconButton(
                                   icon: const Icon(Icons.delete),
@@ -510,6 +516,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String vehiculo,
       String mecanico,
       String horasdedicadas,
+      String preciohora,
       String descripcionreparacion,
       String fechainicio,
       String fechafin) {
@@ -538,6 +545,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: Text('Horas dedicadas al vehículo'),
             subtitle: Text(horasdedicadas),
+          ),
+          ListTile(
+            title: Text('Precio hora'),
+            subtitle: Text(preciohora),
           ),
           ListTile(
             title: Text('Descripción de la reparación'),

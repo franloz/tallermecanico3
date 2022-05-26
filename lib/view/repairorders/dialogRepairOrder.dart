@@ -619,6 +619,7 @@ class DialogRepairOrder {
   TextEditingController vehiculotxt = TextEditingController();
   TextEditingController mecanicotxt =TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
   TextEditingController horasreparaciontxt = TextEditingController();
+  TextEditingController preciohoratxt= TextEditingController();
   TextEditingController descripcionreparaciontxt = TextEditingController();
   TextEditingController fechainiciotxt = TextEditingController();
   TextEditingController fechafintxt = TextEditingController();
@@ -774,9 +775,57 @@ class DialogRepairOrder {
                                 ],
                               ),
 
+
+
                               const SizedBox(
                                 height: 8,
                               ), //para separar rows
+                              
+
+                               Row(
+                            //fila con un container y un TextField para contraseña
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, //Center Row contents horizontally,
+                            children: [
+                              Container(
+                                width: size.width /
+                                    1.4, //ancho del TextField en relación al ancho de la pantalla
+                                height: size.height / 17,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20)), //bordes circulares
+                                  color: Colors.grey[700],
+                                ),
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
+                                        ], 
+                                    controller:
+                                        preciohoratxt, //se identifica el controlador del TextField
+                                    decoration: const InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          borderSide: BorderSide(
+                                              width: 1,
+                                              color: Color.fromARGB(
+                                                  255, 0, 229, 255)),
+                                        ),
+                                        prefixIcon: Icon(Icons.circle_outlined),
+                                        border: InputBorder.none,
+                                        hintText: "Precio hora",
+                                        hintStyle:
+                                            TextStyle(color: Colors.white))),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(
+                            height: 8,
+                          ), 
+                        
 
                               Row(
                                 //fila con un container y un TextField para contraseña
@@ -902,6 +951,7 @@ class DialogRepairOrder {
                                           vehiculo: vehiculo.toString(),
                                           mecanico: mecanico.toString(),
                                           horasreparacion:horasreparaciontxt.text,
+                                          preciohora:preciohoratxt.text,
                                           descripcionreparacion:descripcionreparaciontxt.text,
                                           inicio: inicio,
                                           fin: fin,
@@ -912,6 +962,7 @@ class DialogRepairOrder {
 
                                         horasreparaciontxt.clear();
                                         descripcionreparaciontxt.clear();
+                                        preciohoratxt.clear();
                                         //matriculavehi =
                                            // 'Elige vehículo'; //restauro los combobox
                                        // dnimeca = 'Elige mecánico';
@@ -938,7 +989,7 @@ class DialogRepairOrder {
           BuildContext context,
           Size size,
 
-          List<String> listamecanicos,TextEditingController horasreparaciontxt,TextEditingController descripcionreparaciontxt,String fechafin,String? idmecanico,
+          List<String> listamecanicos,TextEditingController horasreparaciontxt,TextEditingController preciohoratxt,TextEditingController descripcionreparaciontxt,String fechafin,String? idmecanico,
           String idord,String vehiculomatri,String fechainicio
 
 
@@ -1019,6 +1070,50 @@ class DialogRepairOrder {
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
                                         hintText: "Horas reparación",
+                                        hintStyle:
+                                            TextStyle(color: Colors.white))),
+                              ),
+                            ],
+                          ),
+
+
+const SizedBox(
+                            height: 8,
+                          ), 
+                          Row(
+                            //fila con un container y un TextField para contraseña
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, //Center Row contents horizontally,
+                            children: [
+                              Container(
+                                width: size.width /
+                                    1.4, //ancho del TextField en relación al ancho de la pantalla
+                                height: size.height / 17,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20)), //bordes circulares
+                                  color: Colors.grey[700],
+                                ),
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
+                                        ], 
+                                    controller:
+                                        preciohoratxt, //se identifica el controlador del TextField
+                                    decoration: const InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          borderSide: BorderSide(
+                                              width: 1,
+                                              color: Color.fromARGB(
+                                                  255, 0, 229, 255)),
+                                        ),
+                                        prefixIcon: Icon(Icons.circle_outlined),
+                                        border: InputBorder.none,
+                                        hintText: "Precio hora",
                                         hintStyle:
                                             TextStyle(color: Colors.white))),
                               ),
@@ -1131,6 +1226,7 @@ class DialogRepairOrder {
                                           vehiculo: vehiculomatri,
                                           mecanico: idmecanico.toString(),
                                           horasreparacion:horasreparaciontxt.text,
+                                          preciohora:preciohoratxt.text ,
                                           descripcionreparacion:descripcionreparaciontxt.text,
                                           inicio:fechainicio,
                                           fin: fechafin,
@@ -1142,6 +1238,7 @@ class DialogRepairOrder {
                                     
                                     descripcionreparaciontxt.clear();
                                     horasreparaciontxt.clear();
+                                    preciohoratxt.clear();
 
                                     Navigator.of(context).pop();
                                   },

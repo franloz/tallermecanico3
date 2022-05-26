@@ -29,7 +29,7 @@ class DatabaseSqlite {
           "CREATE TABLE Recambios (id TEXT PRIMARY KEY, marca TEXT NOT NULL, pieza TEXT NOT NULL, precio TEXT NOT NULL,stock INTEGER NOT NULL, telfproveedor INTEGER NOT NULL)",
         );
         await db.execute(
-          "CREATE TABLE OrdenesReparacion (id TEXT PRIMARY KEY, vehiculo TEXT NOT NULL, mecanico TEXT NOT NULL, horasreparacion TEXT,descripcionreparacion TEXT, inicio TEXT NOT NULL,fin TEXT,FOREIGN KEY (vehiculo) REFERENCES Vehiculos (matricula),FOREIGN KEY (mecanico) REFERENCES Mecanicos (dni))",
+          "CREATE TABLE OrdenesReparacion (id TEXT PRIMARY KEY, vehiculo TEXT NOT NULL, mecanico TEXT NOT NULL, horasreparacion TEXT,preciohora TEXT,descripcionreparacion TEXT, inicio TEXT NOT NULL,fin TEXT,FOREIGN KEY (vehiculo) REFERENCES Vehiculos (matricula),FOREIGN KEY (mecanico) REFERENCES Mecanicos (dni))",
         );//añadirle un apartado de facturada, si es true q no le deje generar mas facturas
         await db.execute(
           "CREATE TABLE LineasReparacion (idorden TEXTNOT NULL, idlinea TEXT NOT NULL, idrecambio TEXT NOT NULL, cantidad INTEGER NOT NULL,PRIMARY KEY (idorden, idlinea),FOREIGN KEY (idorden) REFERENCES OrdenesReparacion (id),FOREIGN KEY (idrecambio) REFERENCES Recambios (id))",
@@ -484,6 +484,7 @@ class DatabaseSqlite {
         vehiculo: maps[i]['vehiculo'],
         mecanico: maps[i]['mecanico'],
         horasreparacion: maps[i]['horasreparacion'],
+        preciohora: maps[i]['preciohora'],
         descripcionreparacion: maps[i]['descripcionreparacion'],
         inicio: maps[i]['inicio'],
         fin:maps[i]['fin'],
@@ -506,6 +507,7 @@ class DatabaseSqlite {
         vehiculo: maps[i]['vehiculo'],
         mecanico: maps[i]['mecanico'],
         horasreparacion: maps[i]['horasreparacion'],
+        preciohora: maps[i]['preciohora'],
         descripcionreparacion: maps[i]['descripcionreparacion'],
         inicio: maps[i]['inicio'],
         fin:maps[i]['fin'],

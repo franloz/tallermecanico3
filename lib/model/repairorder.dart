@@ -38,6 +38,7 @@ class RepairOrder {
   final String vehiculo;
   final String mecanico;
   final String horasreparacion;
+  final String preciohora;
   final String descripcionreparacion;
   final String inicio;
   final String fin;
@@ -47,6 +48,7 @@ class RepairOrder {
       required this.vehiculo,
       required this.mecanico,
       required this.horasreparacion,
+      required this.preciohora,
       required this.descripcionreparacion,
       required this.inicio,
       required this.fin
@@ -60,6 +62,7 @@ class RepairOrder {
       'vehiculo': vehiculo,
       'mecanico': mecanico,
       'horasreparacion': horasreparacion,
+      'preciohora': preciohora,
       'descripcionreparacion': descripcionreparacion,
       'inicio': inicio,
       'fin':fin
