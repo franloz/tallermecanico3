@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         'ClientsView': (context) => ClientsView(),
         'VehiclesView': (context) => VehiclesView(),
         'SpareView': (context) => SpareView(),
-        'RepairordersView': (context) => RepairOrdersView(),
+        //'RepairordersView': (context) => RepairOrdersView(),
         'BillsView': (context) => BillsView(),
         'VehiclePhotosView': (context) => VehiclePhotosView(),
         'VehiclePhotosList': (context) => VehiclePhotosList(),

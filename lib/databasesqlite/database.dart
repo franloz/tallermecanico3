@@ -26,10 +26,13 @@ class DatabaseSqlite {
           "CREATE TABLE Vehiculos (matricula TEXT PRIMARY KEY, marca TEXT NOT NULL, modelo TEXT NOT NULL, clientedni TEXT NOT NULL,FOREIGN KEY (clientedni) REFERENCES Clientes (dni))",
         ); ////////////poner las otras tablas, pensar la repeticion de datos para hacerlo en firebase
         await db.execute(
-          "CREATE TABLE Recambios (id TEXT PRIMARY KEY, marca TEXT NOT NULL, pieza TEXT NOT NULL, precio REAL NOT NULL,stock INTEGER NOT NULL, telfproveedor INTEGER NOT NULL)",
+          "CREATE TABLE Recambios (id TEXT PRIMARY KEY, marca TEXT NOT NULL, pieza TEXT NOT NULL, precio TEXT NOT NULL,stock INTEGER NOT NULL, telfproveedor INTEGER NOT NULL)",
         );
         await db.execute(
-          "CREATE TABLE OrdenesReparacion (id TEXT PRIMARY KEY, vehiculo TEXT NOT NULL, mecanico TEXT NOT NULL, horasreparacion REAL,descripcionreparacion TEXT, inicio TEXT NOT NULL,fin TEXT NOT NULL,FOREIGN KEY (vehiculo) REFERENCES Vehiculos (matricula),FOREIGN KEY (mecanico) REFERENCES Mecanicos (dni))",
+          "CREATE TABLE OrdenesReparacion (id TEXT PRIMARY KEY, vehiculo TEXT NOT NULL, mecanico TEXT NOT NULL, horasreparacion TEXT,descripcionreparacion TEXT, inicio TEXT NOT NULL,fin TEXT,FOREIGN KEY (vehiculo) REFERENCES Vehiculos (matricula),FOREIGN KEY (mecanico) REFERENCES Mecanicos (dni))",
+        );//añadirle un apartado de facturada, si es true q no le deje generar mas facturas
+        await db.execute(
+          "CREATE TABLE LineasReparacion (idorden TEXTNOT NULL, idlinea TEXT NOT NULL, idrecambio TEXT NOT NULL, cantidad INTEGER NOT NULL,PRIMARY KEY (idorden, idlinea),FOREIGN KEY (idorden) REFERENCES OrdenesReparacion (id),FOREIGN KEY (idrecambio) REFERENCES Recambios (id))",
         );
       },
       onUpgrade: (db, int oldversion, int newversion) {
@@ -62,7 +65,25 @@ class DatabaseSqlite {
   Future<void> deleteClient(String dni) async {
     Database database = await _openDB();
 
-    await database.delete("Clientes", where: 'dni = ?', whereArgs: [dni]);
+    
+    /*var x = await database.rawQuery('SELECT COUNT (*) from Vehiculos where clientedni = 'j'');
+    int? count = Sqflite.firstIntValue(x);
+    print('jjjj'+count.toString());*/
+
+    final List<Map<String, dynamic>> maps = await database
+        .rawQuery('SELECT * FROM Vehiculos WHERE clientedni = ?', [dni]);
+    int count=   maps.length;
+    print('jjjj'+count.toString());
+
+    if(count==0){
+      await database.delete("Clientes", where: 'dni = ?', whereArgs: [dni]);
+    }else{
+      /////////mensaje
+    }
+
+
+
+    
   }
 
   Future<void> updateClient(
@@ -306,7 +327,7 @@ class DatabaseSqlite {
     try {
       await database.insert("Recambios", spare.toMap());
     } on DatabaseException catch (e) {
-      String error = 'Este id ya existe, no puede volverlo a introducir';
+      String error = 'Este recambio (id) ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
       dialogError.dialogError(context, error);
     }

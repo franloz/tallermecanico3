@@ -244,7 +244,7 @@ class DialogMechanics {
   Future dialogMechanicUpdate(
           BuildContext context,
           Size size,
-          TextEditingController dni,
+          String dni,
           TextEditingController name,
           TextEditingController tlf,
           TextEditingController direction,
@@ -263,7 +263,7 @@ class DialogMechanics {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
+                          /*Row(
                             //fila con un container y un TextField para email
                             mainAxisAlignment: MainAxisAlignment
                                 .center, //Center Row contents horizontally,
@@ -278,8 +278,7 @@ class DialogMechanics {
                                   color: Colors.grey[700],
                                 ),
                                 child: TextField(
-                                    controller:
-                                        dni, //se identifica el controlador del TextField
+                                    controller:dni, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -297,7 +296,7 @@ class DialogMechanics {
                                         ))),
                               ),
                             ],
-                          ),
+                          ),*/
 
                           const SizedBox(
                             height: 8,
@@ -433,7 +432,7 @@ class DialogMechanics {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  if (dni.text.isEmpty ||
+                                  if (/*dni.text.isEmpty ||*/
                                       name.text.isEmpty ||
                                       tlf.text.isEmpty ||
                                       direction.text.isEmpty) {
@@ -442,13 +441,13 @@ class DialogMechanics {
                                     DialogError dialogError = DialogError();
                                     dialogError.dialogError(context, error);
                                   } else {
-                                    String dnii = dni.text;
+                                    
                                     String nombre = name.text;
                                     int telf = int.parse(tlf.text);
                                     String direccion = direction.text;
 
                                     var mechanic = Mechanic(
-                                      dni: dnii,
+                                      dni: dni,
                                       nombre: nombre,
                                       telf: telf,
                                       direccion: direccion,

@@ -109,9 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     FocusScope.of(context)
                           .unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                    TextEditingController dnicontroll =
+                                    /*TextEditingController dnicontroll =
                                         TextEditingController();
-                                    dnicontroll.text = dni;
+                                    dnicontroll.text = dni;*/
                                     TextEditingController namecontroll =
                                         TextEditingController();
                                     namecontroll.text = name;
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     await cl.dialogClientUpdate(
                                         context,
                                         size,
-                                        dnicontroll,
+                                        dni,
                                         namecontroll,
                                         tlfcontroll,
                                         direccioncontroll,

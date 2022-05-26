@@ -243,7 +243,7 @@ class DialogClients {
   Future dialogClientUpdate(
           BuildContext context,
           Size size,
-          TextEditingController dni,
+          String dni,
           TextEditingController name,
           TextEditingController tlf,
           TextEditingController direction,
@@ -262,7 +262,7 @@ class DialogClients {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
+                          /*Row(
                             //fila con un container y un TextField para email
                             mainAxisAlignment: MainAxisAlignment
                                 .center, //Center Row contents horizontally,
@@ -296,7 +296,7 @@ class DialogClients {
                                         ))),
                               ),
                             ],
-                          ),
+                          ),*/
 
                           const SizedBox(
                             height: 8,
@@ -432,7 +432,7 @@ class DialogClients {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  if (dni.text.isEmpty ||
+                                  if (/*dni.text.isEmpty ||*/
                                       name.text.isEmpty ||
                                       tlf.text.isEmpty ||
                                       direction.text.isEmpty) {
@@ -441,21 +441,20 @@ class DialogClients {
                                     DialogError dialogError = DialogError();
                                     dialogError.dialogError(context, error);
                                   } else {
-                                    String dnii = dni.text;
+                                    
                                     String nombre = name.text;
                                     int telf = int.parse(tlf.text);
                                     String direccion = direction.text;
 
                                     var cliente = Client(
-                                      dni: dnii,
+                                      dni: dni,
                                       nombre: nombre,
                                       telf: telf,
                                       direccion: direccion,
                                     );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                    dt.updateClient(context, cliente,
-                                        olddni); //olddni para identificar que registro actualizo
+                                    dt.updateClient(context, cliente,olddni); //olddni para identificar que registro actualizo
 
                                     dnitxt.clear();
                                     nombretxt.clear();

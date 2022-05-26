@@ -4,7 +4,7 @@ class Spare {
   final String id;
   final String marca;
   final String pieza;
-  final Float precio;
+  final String precio;
   final int stock;
   final int telfproveedor;
 

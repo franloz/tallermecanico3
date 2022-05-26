@@ -1,4 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/spare.dart';
@@ -63,10 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () async {
-            FocusScope.of(context)
-                .unfocus(); //para que el textfield pierda el foco
-            await cl.dialogSpareInsert(context,
-                size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+            await cl.dialogSpareInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
           }),
       body: FutureBuilder<List<Spare>>(
@@ -83,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 String id=spare.id;
                 String marca=spare.marca;
                 String pieza=spare.pieza;
-                double precio=spare.precio;
+                String precio=spare.precio;
                 int stock=spare.stock;
                 int telfproveedor=spare.telfproveedor;
 
@@ -108,35 +107,25 @@ class _MyHomePageState extends State<MyHomePage> {
                               IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {
-                                    FocusScope.of(context)
-                                        .unfocus(); //para que el textfield pierda el foco
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                    TextEditingController idcontroll =TextEditingController();
-                                    TextEditingController marcacontroll =TextEditingController();
-                                    TextEditingController piezacontroll =TextEditingController();
+                                    //TextEditingController idcontroll =TextEditingController();
+                                    //TextEditingController marcacontroll =TextEditingController();
+                                    //TextEditingController piezacontroll =TextEditingController();
                                     TextEditingController preciocontroll =TextEditingController();
                                     TextEditingController stockcontroll =TextEditingController();
                                     TextEditingController telfproveedorcontroll =TextEditingController();
-                                    idcontroll.text = id;
-                                    marcacontroll.text = marca;
-                                    piezacontroll.text = pieza;
-                                    preciocontroll.text = precio.toString();
+                                    //idcontroll.text = id;
+                                    //marcacontroll.text = marca;
+                                    //piezacontroll.text = pieza;
+                                    preciocontroll.text = precio;
                                     stockcontroll.text = stock.toString();
                                     telfproveedorcontroll.text = telfproveedor.toString();
 
 
 
 
-                                    await cl.dialogSpareUpdate(
-                                        context,
-                                        size,
-                                        idcontroll,
-                                        marcacontroll,
-                                        piezacontroll,
-                                        preciocontroll,
-                                        stockcontroll,
-                                        telfproveedorcontroll,
-                                        id); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    await cl.dialogSpareUpdate(context,size,marca,pieza,preciocontroll,stockcontroll,telfproveedorcontroll,id); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(
@@ -144,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   onPressed: () async {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
-                                    await cl.dialogSpareDelete(context, dni);
+                                    await cl.dialogSpareDelete(context, id);
                                     setState(() {});
                                   }),
                             ],
@@ -168,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void bottomSheet(String id,String marca,String pieza,double precio,int stock,int telfproveedor) {
+  void bottomSheet(String id,String marca,String pieza,String precio,int stock,int telfproveedor) {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(

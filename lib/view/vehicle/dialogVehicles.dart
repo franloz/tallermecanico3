@@ -275,7 +275,7 @@ class DialogVehicles {
   Future dialogVehicleUpdate(
           BuildContext context,
           Size size,
-          TextEditingController matricula,
+          String matricula,
           TextEditingController marca,
           TextEditingController modelo,
           String? dnicliente,
@@ -294,7 +294,7 @@ class DialogVehicles {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
+                          /*Row(
                             //fila con un container y un TextField para email
                             mainAxisAlignment: MainAxisAlignment
                                 .center, //Center Row contents horizontally,
@@ -328,7 +328,7 @@ class DialogVehicles {
                                         ))),
                               ),
                             ],
-                          ),
+                          ),*/
 
                           const SizedBox(
                             height: 8,
@@ -388,7 +388,7 @@ class DialogVehicles {
                                   color: Colors.grey[700],
                                 ),
                                 child: TextField(
-                                    keyboardType: TextInputType.number,
+                                    
 
                                     ///para que el teclado sea numerico
 
@@ -450,22 +450,21 @@ class DialogVehicles {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  if (matricula.text.isEmpty ||
+                                  if (/*matricula.text.isEmpty ||*/
                                       marca.text.isEmpty ||
                                       modelo.text.isEmpty //||
                                       //cliente==''
                                       ) {
-                                    String error =
-                                        'Rellene todos los campos antes de guardar';
+                                    String error ='Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
                                     dialogError.dialogError(context, error);
                                   } else {
-                                    String matriculaa = matricula.text;
+                                    
                                     String marcaa = marca.text;
                                     String modeloo = modelo.text;
 
                                     var vehicle = Vehicle(
-                                      matricula: matriculaa,
+                                      matricula: matricula,
                                       marca: marcaa,
                                       modelo: modeloo,
                                       clientedni: dnicliente.toString(),
@@ -475,7 +474,6 @@ class DialogVehicles {
                                     dt.updateVehicle(context, vehicle,
                                         oldmatricula); //olddni para identificar que registro actualizo
 
-                                    matricula.clear();
                                     marca.clear();
                                     modelo.clear();
                                     //dnicliente.clear();

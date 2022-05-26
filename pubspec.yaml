@@ -44,6 +44,7 @@ dependencies:
   cached_network_image: ^3.2.0
   sqflite: ^2.0.2+1
   intl: ^0.17.0 #para dar formato a fechas
+  uuid: ^3.0.6 #generar id unico
 
 dev_dependencies:
   flutter_test:

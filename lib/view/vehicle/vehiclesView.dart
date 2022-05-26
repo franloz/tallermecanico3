@@ -130,13 +130,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                    TextEditingController matriculacontroll =TextEditingController();
+                                    /*TextEditingController matriculacontroll =TextEditingController();*/
                                     TextEditingController marcacontroll = TextEditingController(); 
                                     TextEditingController modelocontroll =TextEditingController();
-                                    matriculacontroll.text = matricula;
+                                    /*matriculacontroll.text = matricula;*/
                                     marcacontroll.text = marca;
                                     modelocontroll.text = modelo;
-                                    await cl.dialogVehicleUpdate(context,size,matriculacontroll,marcacontroll,modelocontroll,clientedni,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    await cl.dialogVehicleUpdate(context,size,matricula,marcacontroll,modelocontroll,clientedni,matricula,lista); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(
