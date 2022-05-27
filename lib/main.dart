@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:tallermecanico/view/login/loginSignUp.dart';
 import 'package:tallermecanico/view/mechanic/mechanicsView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosList.dart';
+import 'package:tallermecanico/view/repairlines/repairLinesView.dart';
 import 'package:tallermecanico/view/repairorders/repairordersView.dart';
 import 'package:tallermecanico/view/spare/spareView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosView.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         'VehiclesView': (context) => VehiclesView(),
         'SpareView': (context) => SpareView(),
         'RepairordersView': (context) => RepairOrdersView(),
+        'RepairLinesView': (context) => RepairLinesView(),
         'BillsView': (context) => BillsView(),
         'VehiclePhotosView': (context) => VehiclePhotosView(),
         'VehiclePhotosList': (context) => VehiclePhotosList(),
