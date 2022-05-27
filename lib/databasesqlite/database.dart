@@ -335,6 +335,17 @@ class DatabaseSqlite {
     }*/
   }
 
+  Future<List<Map<String, dynamic>>> getRecambiosId() async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps =
+        await database.rawQuery('SELECT id FROM Recambios');
+    return maps;
+    /*forEach(maps){
+      String dni=maps;
+    }*/
+  }
+
 
 
   //combobox
@@ -535,10 +546,16 @@ class DatabaseSqlite {
     }
   }
 
-  Future<void> deleteLines(BuildContext context, String idorden, String idlinea ) async {
+  Future<void> deleteLines( String idorden, String idlinea ) async {
     Database database = await _openDB();
 
-      //await database.delete("LineasReparacion", where: 'id = ?', whereArgs: [id]);
+
+      var resultSet = await database.rawQuery("SELECT stock  FROM Recambios where id= ?", []);
+      // Get first result
+      var dbItem = resultSet.first;
+      // Access its id
+      var resourceId = dbItem['r_id'] as String;
+
 
       await database.rawDelete("DELETE FROM  LineasReparacion WHERE idorden= ? AND idlinea = ?", [idorden,idlinea]);
 
@@ -565,11 +582,24 @@ class DatabaseSqlite {
     });
   }
 
-/*var resultSet = await db.rawQuery("SELECT r.id AS r_id FROM test r");
-// Get first result
-var dbItem = resultSet.first;
-// Access its id
-var resourceId = dbItem['r_id'] as String;*/ 
+  Future<List<RepairLines>> getLinesWhere(String recambio,String idorden) async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database
+        .rawQuery('SELECT * FROM LineasReparacion WHERE idorden = ? and idrecambio LIKE ?', [idorden,recambio + '%']);
+
+    return List.generate(maps.length, (i) {
+      //convierte la lista de mapas a una lista de clientes
+      return RepairLines(
+       idorden: maps[i]['idorden'],
+        idlinea: maps[i]['idlinea'],
+        idrecambio: maps[i]['idrecambio'],
+        cantidad: maps[i]['cantidad'],
+      );
+    });
+  }
+
+
 
   //repairlines
 

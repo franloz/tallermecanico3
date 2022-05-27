@@ -1262,7 +1262,7 @@ const SizedBox(
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:
-                Text('Borrar Mecánico', style: TextStyle(color: Colors.white)),
+                Text('Borrar Orden', style: TextStyle(color: Colors.white)),
             content: Text('¿Estas seguro de borrar esta orden?'),
             actions: <Widget>[
               TextButton(
