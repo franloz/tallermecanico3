@@ -9,8 +9,7 @@ class DialogClients {
 
   TextEditingController dnitxt = TextEditingController();
   TextEditingController nombretxt = TextEditingController();
-  TextEditingController telftxt =
-      TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
+  TextEditingController telftxt =TextEditingController(); 
   TextEditingController direcciontxt = TextEditingController();
 
   Future dialogClientInsert(BuildContext context, Size size) => showDialog(
@@ -18,9 +17,8 @@ class DialogClients {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
-            title:
-                Text('Añadir Cliente', style: TextStyle(color: Colors.white)),
-            //content: Text(error),
+            title:Text('Añadir Cliente', style: TextStyle(color: Colors.white)),
+            
             actions: <Widget>[
               Container(
                   width: size.width / 1,
@@ -28,30 +26,23 @@ class DialogClients {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
-                        //fila con un container y un TextField para email
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [
                           Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
+                            width: size.width /1.4, //ancho del TextField en relación al ancho de la pantalla
                             height: size.height / 17,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
+                              borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
                               color: Colors.grey[700],
                             ),
                             child: TextField(
-                                controller:
-                                    dnitxt, //se identifica el controlador del TextField
+                                controller:dnitxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
+                                      borderRadius:BorderRadius.all(Radius.circular(20)),
                                       borderSide: BorderSide(
                                           width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
+                                          color:Color.fromARGB(255, 0, 229, 255)),
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
@@ -68,30 +59,23 @@ class DialogClients {
                       ), //para separar rows
 
                       Row(
-                        //fila con un container y un TextField para contraseña
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [
                           Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
+                            width: size.width /1.4, //ancho del TextField en relación al ancho de la pantalla
                             height: size.height / 17,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
+                              borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
                               color: Colors.grey[700],
                             ),
                             child: TextField(
-                                controller:
-                                    nombretxt, //se identifica el controlador del TextField
+                                controller:nombretxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
+                                      borderRadius:BorderRadius.all(Radius.circular(20)),
                                       borderSide: BorderSide(
                                           width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
+                                          color:Color.fromARGB(255, 0, 229, 255)),
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
@@ -106,36 +90,25 @@ class DialogClients {
                       ), //para separar rows
 
                       Row(
-                        //fila con un container y un TextField para email
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [
                           Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
+                            width: size.width /1.4, //ancho del TextField en relación al ancho de la pantalla
                             height: size.height / 17,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
+                              borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
                               color: Colors.grey[700],
                             ),
                             child: TextField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[
-  FilteringTextInputFormatter.allow(RegExp(r'[0-9]{0,1}[0-9]*')),],//para que no se puedan poner puntos o comas
-
-                                ///para que el teclado sea numerico
-
-                                controller:
-                                    telftxt, //se identifica el controlador del TextField
+                                keyboardType: TextInputType.number,///para que el teclado sea numerico
+                                inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9]{0,1}[0-9]*')),], //para que no se puedan poner puntos o comas
+                                controller:telftxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
+                                      borderRadius:BorderRadius.all(Radius.circular(20)),
                                       borderSide: BorderSide(
                                           width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
+                                          color:Color.fromARGB(255, 0, 229, 255)),
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
@@ -152,30 +125,23 @@ class DialogClients {
                       ), //para separar rows
 
                       Row(
-                        //fila con un container y un TextField para contraseña
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [
                           Container(
-                            width: size.width /
-                                1.4, //ancho del TextField en relación al ancho de la pantalla
+                            width: size.width /1.4, //ancho del TextField en relación al ancho de la pantalla
                             height: size.height / 17,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(20)), //bordes circulares
+                              borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
                               color: Colors.grey[700],
                             ),
                             child: TextField(
-                                controller:
-                                    direcciontxt, //se identifica el controlador del TextField
+                                controller:direcciontxt, //se identifica el controlador del TextField
                                 decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
+                                      borderRadius:BorderRadius.all(Radius.circular(20)),
                                       borderSide: BorderSide(
                                           width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 229, 255)),
+                                          color:Color.fromARGB(255, 0, 229, 255)),
                                     ),
                                     prefixIcon: Icon(Icons.circle_outlined),
                                     border: InputBorder.none,
@@ -190,17 +156,15 @@ class DialogClients {
                       ), //para separar rows
 
                       Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, //Center Row contents horizontally,
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [
                           TextButton(
                             onPressed: () {
                               if (dnitxt.text.isEmpty ||
                                   nombretxt.text.isEmpty ||
                                   telftxt.text.isEmpty ||
-                                  direcciontxt.text.isEmpty) {
-                                String error =
-                                    'Rellene todos los campos antes de guardar';
+                                  direcciontxt.text.isEmpty) {//comprueba que los campos no estén vacios
+                                String error ='Rellene todos los campos antes de guardar';//si están vacios lanza un dialog comunicando que debe rellenarlos
                                 DialogError dialogError = DialogError();
                                 dialogError.dialogError(context, error);
                               } else {
@@ -246,8 +210,7 @@ class DialogClients {
           String dni,
           TextEditingController name,
           TextEditingController tlf,
-          TextEditingController direction
-          ) =>
+          TextEditingController direction) =>
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -358,7 +321,9 @@ class DialogClients {
                                 child: TextField(
                                     keyboardType: TextInputType.number,
                                     inputFormatters: <TextInputFormatter>[
-  FilteringTextInputFormatter.allow(RegExp(r'[0-9]{0,1}[0-9]*')),],//para que no se puedan poner puntos o comas
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'[0-9]{0,1}[0-9]*')),
+                                    ], //para que no se puedan poner puntos o comas
 
                                     ///para que el teclado sea numerico
 
@@ -434,14 +399,13 @@ class DialogClients {
                                 onPressed: () {
                                   if (/*dni.text.isEmpty ||*/
                                       name.text.isEmpty ||
-                                      tlf.text.isEmpty ||
-                                      direction.text.isEmpty) {
+                                          tlf.text.isEmpty ||
+                                          direction.text.isEmpty) {
                                     String error =
                                         'Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
                                     dialogError.dialogError(context, error);
                                   } else {
-                                    
                                     String nombre = name.text;
                                     int telf = int.parse(tlf.text);
                                     String direccion = direction.text;
@@ -454,7 +418,7 @@ class DialogClients {
                                     );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                    dt.updateClient(context, cliente,dni); 
+                                    dt.updateClient(context, cliente, dni);
                                     dnitxt.clear();
                                     nombretxt.clear();
                                     telftxt.clear();
@@ -492,8 +456,8 @@ class DialogClients {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: ()async {
-                  await dt.deleteClient(context,dni);
+                onPressed: () async {
+                  await dt.deleteClient(context, dni);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

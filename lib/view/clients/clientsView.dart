@@ -24,13 +24,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DialogClients cl = DialogClients();
+  DialogClients cl = DialogClients();//alertdialog para insertar, modificar y eliminar clientes
   DatabaseSqlite dt = DatabaseSqlite();
 
-  TextEditingController searchtxt = TextEditingController();
+  TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda del cliente
 
-  String search='';
-
+  String search = '';//esta variable se usará para buscar en la lista de clientes
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +42,15 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 40,
             child: Center(
               child: TextField(
-                
                 controller: searchtxt,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
-                      FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
+                      FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
-                      search=searchtxt.text;
-                      setState(() {});
-                      
+                      search = searchtxt.text;
+                      setState(() {});//para actualizar la vista
                     },
                   ),
                   hintText: 'Nombre del cliente a buscar',
@@ -67,14 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () async {
-            FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
-            await cl.dialogClientInsert(context,
-                size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+            await cl.dialogClientInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
           }),
       body: FutureBuilder<List<Client>>(
-          future: loadList(),//dt.getClients(),//un metodo que controle si hay busqueda o no
+          future:loadList(), //un metodo que controle si hay busqueda o no
           builder:
               (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
             if (snapshot.hasError) {
@@ -83,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
             if (snapshot.hasData) {
               return ListView(
                   children: snapshot.data!.map((client) {
+                //variables donde se introducen los datos de los textfield
                 String dni = client.dni;
                 String name = client.nombre;
                 int tlf = client.telf;
@@ -92,9 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     elevation: 5,
                     child: ListTile(
                         onTap: () {
-                          FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
-                          bottomSheet(dni, name, tlf, direccion);
+                          FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                          bottomSheet(dni, name, tlf, direccion);//metodo para mostrar los datos de los clientes
                         },
                         leading: Icon(Icons.person),
                         title: Text(dni),
@@ -106,36 +100,29 @@ class _MyHomePageState extends State<MyHomePage> {
                               IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {
-                                    FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
-                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                    /*TextEditingController dnicontroll =
-                                        TextEditingController();
-                                    dnicontroll.text = dni;*/
-                                    TextEditingController namecontroll =
-                                        TextEditingController();
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                                    //le asigno a los controladores del alertdialog los valores del cliente a modificar para que aparezcan escrios en los textFields del dialog de modificar
+                                    
+                                    TextEditingController namecontroll =TextEditingController();
                                     namecontroll.text = name;
-                                    TextEditingController tlfcontroll =
-                                        TextEditingController();
+                                    TextEditingController tlfcontroll =TextEditingController();
                                     tlfcontroll.text = tlf.toString();
-                                    TextEditingController direccioncontroll =
-                                        TextEditingController();
+                                    TextEditingController direccioncontroll =TextEditingController();
                                     direccioncontroll.text = direccion;
-                                    await cl.dialogClientUpdate(
+                                    await cl.dialogClientUpdate(//alertdialog para actualizar
                                         context,
                                         size,
                                         dni,
                                         namecontroll,
                                         tlfcontroll,
-                                        direccioncontroll
-                                        ); //este ultimo dni q le paso es para identificar que registro actualizo
+                                        direccioncontroll); 
                                     setState(() {});
                                   }),
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    await cl.dialogClientDelete(context, dni);
+                                    await cl.dialogClientDelete(context, dni);//dialog para borrar
                                     setState(() {});
                                   }),
                             ],
@@ -144,33 +131,29 @@ class _MyHomePageState extends State<MyHomePage> {
               }).toList());
             } else {
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(),//símbolo de carga
               );
             }
           }),
     );
   }
 
-  Future<List<Client>> loadList() async{
-    if(search!=''){
+  Future<List<Client>> loadList() async {//metodo para mostrar la lista de clientes
+    if (search != '') {//si se introduce texto en el textfield de busqueda llama al metodo getClientsWhere que filtra la lista de clientes
       return dt.getClientsWhere(search);
-
-    }else{
+    } else {
       return dt.getClients();
     }
-
   }
 
   void bottomSheet(String dni, String name, int tlf, String direccion) {
     showModalBottomSheet(
-      isScrollControlled:
-          true, 
+      isScrollControlled: true,
       context: context,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => Column(
-        mainAxisSize: MainAxisSize
-            .min,
+        mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
             title: Text('DNI'),
