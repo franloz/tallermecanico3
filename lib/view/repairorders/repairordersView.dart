@@ -213,11 +213,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }*/
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairorder.dart';
+import 'package:tallermecanico/view/repairlines/repairLinesView.dart';
 import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
 
 class RepairOrdersView extends StatelessWidget {
@@ -342,6 +341,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
                           bottomSheet(id, vehiculo, mecanico, horasreparacion,preciohora,descripcionreparacion,fechainicio,fechafin);
+                        },
+                        onLongPress: (){
+                          //Navigator.pushNamed(context, 'RepairLinesView');
+                          //Navigator.push(context,MaterialPageRoute(builder:((context) => RepairLinesView())));
+                          Navigator.pushNamed(context, 'RepairLinesView', arguments: {"idorden":id });
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(id),

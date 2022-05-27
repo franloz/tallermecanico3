@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/model/Vehicle.dart';
+import 'package:tallermecanico/model/repairLines.dart';
 import 'package:tallermecanico/model/repairorder.dart';
 import 'package:tallermecanico/model/spare.dart';
 
@@ -517,5 +518,59 @@ class DatabaseSqlite {
 
 
   //repairorder
+
+
+  //repairlines
+
+
+  Future<void> insertLines(BuildContext context, RepairLines lines) async {
+    Database database = await _openDB();
+
+    try {
+      await database.insert("LineasReparacion", lines.toMap());
+    } on DatabaseException catch (e) {
+      String error = 'Este id ya existe, no puede volverlo a introducir';
+      DialogError dialogError = DialogError();
+      dialogError.dialogError(context, error);
+    }
+  }
+
+  Future<void> deleteLines(BuildContext context, String idorden, String idlinea ) async {
+    Database database = await _openDB();
+
+      //await database.delete("LineasReparacion", where: 'id = ?', whereArgs: [id]);
+
+      await database.rawDelete("DELETE FROM  LineasReparacion WHERE idorden= ? AND idlinea = ?", [idorden,idlinea]);
+
+    
+    
+  }
+
+  
+
+
+  Future<List<RepairLines>> getLines(String idorden) async {
+    Database database = await _openDB();
+
+    final List<Map<String, dynamic>> maps = await database.rawQuery("SELECT * FROM LineasReparacion WHERE idorden = ?", [idorden]);
+
+    return List.generate(maps.length, (i) {
+      return RepairLines (
+        idorden: maps[i]['idorden'],
+        idlinea: maps[i]['idlinea'],
+        idrecambio: maps[i]['idrecambio'],
+        cantidad: maps[i]['cantidad'],
+       
+      );
+    });
+  }
+
+/*var resultSet = await db.rawQuery("SELECT r.id AS r_id FROM test r");
+// Get first result
+var dbItem = resultSet.first;
+// Access its id
+var resourceId = dbItem['r_id'] as String;*/ 
+
+  //repairlines
 
 }
