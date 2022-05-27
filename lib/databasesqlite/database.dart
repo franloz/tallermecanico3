@@ -484,6 +484,7 @@ class DatabaseSqlite {
       dialogError.dialogError(context, error);
     }
   }
+
   Future<List<RepairOrder>> getOrders() async {
     Database database = await _openDB();
 
@@ -534,25 +535,80 @@ class DatabaseSqlite {
   //repairlines
 
 
-  Future<void> insertLines(BuildContext context, RepairLines lines) async {
+  Future<void> insertLines(BuildContext context, RepairLines lines, String idrecambio, int cantidad) async {
     Database database = await _openDB();
 
     try {
-      await database.insert("LineasReparacion", lines.toMap());
+
+      var resultSet = await database.rawQuery("SELECT stock FROM Recambios WHERE id = ?",[idrecambio]);
+      // Get first result
+      var dbItem = resultSet.first;
+      // Access its id
+      var stock = dbItem['stock'] as int;
+      print(stock);
+
+      if(stock>=cantidad){
+        stock=stock-cantidad;
+        await database.insert("LineasReparacion", lines.toMap());
+        await database.rawUpdate("UPDATE Recambios SET stock = ? WHERE id = ?",[stock,idrecambio]);//se actualiza el stock de reacmbios
+
+      }else{
+        String error = 'No hay suficiente stock para este cantidad del recambio';
+        DialogError dialogError = DialogError();
+        dialogError.dialogError(context, error);
+      }
+
+
+
+
+      
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
       dialogError.dialogError(context, error);
     }
 
-    ///////////////////quitar del stock recambios 
-
-
-
-
-
 
   }
+
+
+
+  Future<void> updateLine(BuildContext context, String idorden,String idlinea,String idrecambio,int cantidadold,int cantidadnew) async {
+    Database database = await _openDB();
+
+    try {
+
+      var resultSet = await database.rawQuery("SELECT stock FROM Recambios WHERE id = ?",[idrecambio]);
+      // Get first result
+      var dbItem = resultSet.first;
+      // Access its id
+      var stock = dbItem['stock'] as int;//saco el stock que hay ahora mismo en el recambio
+
+      //a este stock le sumo cantidadold que es la cantidad que ahora mismo tiene la linea
+      stock=stock+cantidadold;
+
+
+      if(stock>=cantidadnew){//compruebo si la cantidad nueva es igual o mas pequeña que el stock, si es asi actualizo el stock
+        stock=stock-cantidadnew;//ahora le resto a stock cantidadnew que es la nueva cantidad introducida al actualizar
+
+        await database.rawUpdate("UPDATE LineasReparacion SET cantidad = ? WHERE idorden = ? and idlinea = ?",[cantidadnew,idorden,idlinea]);//actualizo la linea con la nueva cantidad
+
+        await database.rawUpdate("UPDATE Recambios SET stock = ? WHERE id = ?",[stock,idrecambio]);//se actualiza el stock de reacmbios
+
+      }else{
+        String error = 'No hay suficiente stock para este cantidad del recambio';
+        DialogError dialogError = DialogError();
+        await dialogError.dialogError(context, error);
+      }
+      
+
+     // await database.update("OrdenesReparacion", lines.toMap(),where: 'id = ?', whereArgs: [id]);
+    } on DatabaseException catch (e) {
+      String error = 'Este id ya existe, no puede volverlo a introducir';
+      DialogError dialogError = DialogError();
+      dialogError.dialogError(context, error);
+    }
+    }
 
   Future<void> deleteLines( String idorden, String idlinea, String idrecambio, int cantidad ) async {
     Database database = await _openDB();

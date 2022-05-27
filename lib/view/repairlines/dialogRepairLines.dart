@@ -129,16 +129,18 @@ class DialogRepairLine {
                                         //String hoy = DateFormat('yyyy-MM-dd HH:mm:ss').format(fechahoy);
 
                                         String idlinea=idorden+'||'+recambio.toString();
+                                        String recambiotx=recambio.toString();
+                                        int cantidadtx=int.parse(cantidadtxt.text);
 
                                         var line = RepairLines(
                                           idorden: idorden,
                                           idlinea: idlinea,
-                                          idrecambio: recambio.toString(),
-                                          cantidad: int.parse(cantidadtxt.text),
+                                          idrecambio:recambiotx ,
+                                          cantidad:cantidadtx ,
                                         );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                        dt.insertLines(context, line);
+                                        dt.insertLines(context, line,recambiotx,cantidadtx);
 
                                         cantidadtxt.clear();
                                         
@@ -164,7 +166,108 @@ class DialogRepairLine {
                     ],
                   ))));
 
-  
+  Future dialogLineUpdate(
+          BuildContext context,
+          Size size,String idorden,String idlinea,String idrecambio,TextEditingController cantidadtxt, int cantidadold
+
+
+
+          ) =>
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) =>StatefulBuilder(builder: ((context, setState) => AlertDialog(
+                backgroundColor: Colors.grey[600],
+                title: Text('Actualizar Línea',
+                    style: TextStyle(color: Colors.white)),
+                //content: Text(error),
+                actions: <Widget>[
+                  Container(
+                      width: size.width / 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          
+                          
+                         
+
+                          Row(
+                            //fila con un container y un TextField para email
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, //Center Row contents horizontally,
+                            children: [
+                              Container(
+                                width: size.width /
+                                    1.4, //ancho del TextField en relación al ancho de la pantalla
+                                height: size.height / 17,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20)), //bordes circulares
+                                  color: Colors.grey[700],
+                                ),
+                                child: TextField(
+                                    
+
+
+                                    controller:
+                                        cantidadtxt, //se identifica el controlador del TextField
+                                    decoration: const InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          borderSide: BorderSide(
+                                              width: 1,
+                                              color: Color.fromARGB(
+                                                  255, 0, 229, 255)),
+                                        ),
+                                        prefixIcon: Icon(Icons.circle_outlined),
+                                        border: InputBorder.none,
+                                        hintText: "Cantidad",
+                                        hintStyle: TextStyle(
+                                          color: Colors.white,
+                                        ))),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(
+                            height: 8,
+                          ), //para separar rows
+
+                          
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, //Center Row contents horizontally,
+                            children: [
+                              TextButton(
+                                onPressed: () async{
+                                  
+                                    
+                                  int cantidadnew=int.parse(cantidadtxt.text);
+
+                                   
+
+                                    await dt.updateLine(context, idorden,idlinea, idrecambio, cantidadold, cantidadnew);
+
+                                    
+                                    cantidadtxt.clear();
+                                    
+
+                                    Navigator.of(context).pop();
+                                  },
+                                 //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                                child: Text('Guardar',
+                                    style: TextStyle(
+                                        fontSize: size.height / 35,
+                                        color: Colors
+                                            .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                              ),
+                            ],
+                          ),
+                        ],
+                      ))
+                ],
+              ))));
 
   Future dialogOrderDelete(BuildContext context, String idorden,String idlinea, String idrecambio, int cantidad) => showDialog(
       context: context,

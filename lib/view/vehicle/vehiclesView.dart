@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(matricula),
-                        subtitle: Text(marca + ' modelo: ' + modelo),
+                        subtitle: Text(marca + ' '+ modelo),
                         trailing: SizedBox(
                           width: size.width / 4,
                           child: Row(

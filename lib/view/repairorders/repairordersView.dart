@@ -366,7 +366,7 @@ class _ScreenState extends State<RepairOrdersView> {
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(id),
-                        subtitle: Text(vehiculo),
+                        subtitle: Text('Matrícula: '+vehiculo),
                         trailing: SizedBox(
                           width: size.width / 4,
                           child: Row(

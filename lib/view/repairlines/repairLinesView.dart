@@ -136,12 +136,30 @@ class _ScreenState extends State<RepairLinesView> {
                         },
                         
                         leading: Icon(Icons.car_repair),
-                        title: Text(idorden),
-                        subtitle: Text(idrecambio),
+                        title: Text(idrecambio),
+                        subtitle: Text(cantidad.toString()),
                         trailing: SizedBox(
                           width: size.width / 4,
                           child: Row(
                             children: [
+                              IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
+                                    /*TextEditingController matriculacontroll =TextEditingController();*/
+                                    TextEditingController cantidadtxt = TextEditingController(); 
+                                    
+
+                                    cantidadtxt.text=cantidad.toString();
+                                    int cantidadold=cantidad;//le paso la cantidad vieja para sumarselo a los recambios y luego quitarle la nueva cantidad que introduzca
+                                    
+                                    //modelocontroll.text = modelo;
+                                    await dialog.dialogLineUpdate(context,size,idorden,idlinea,idrecambio,cantidadtxt,cantidadold); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    setState(() {});
+
+                                    
+                                  }),
                               
                               IconButton(
                                   icon: const Icon(Icons.delete),
