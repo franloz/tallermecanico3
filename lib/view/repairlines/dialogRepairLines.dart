@@ -166,7 +166,7 @@ class DialogRepairLine {
 
   
 
-  Future dialogOrderDelete(BuildContext context, String idorden,String idlinea) => showDialog(
+  Future dialogOrderDelete(BuildContext context, String idorden,String idlinea, String idrecambio, int cantidad) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
@@ -183,7 +183,7 @@ class DialogRepairLine {
               ),
               TextButton(
                 onPressed: () async{
-                  await dt.deleteLines(idorden,idlinea);
+                  await dt.deleteLines(idorden,idlinea,idrecambio,cantidad);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

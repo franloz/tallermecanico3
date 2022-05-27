@@ -544,18 +544,31 @@ class DatabaseSqlite {
       DialogError dialogError = DialogError();
       dialogError.dialogError(context, error);
     }
+
+    ///////////////////quitar del stock recambios 
+
+
+
+
+
+
   }
 
-  Future<void> deleteLines( String idorden, String idlinea ) async {
+  Future<void> deleteLines( String idorden, String idlinea, String idrecambio, int cantidad ) async {
     Database database = await _openDB();
 
 
-      var resultSet = await database.rawQuery("SELECT stock  FROM Recambios where id= ?", []);
+      var resultSet = await database.rawQuery("SELECT stock FROM Recambios WHERE id = ?",[idrecambio]);
       // Get first result
       var dbItem = resultSet.first;
       // Access its id
-      var resourceId = dbItem['r_id'] as String;
+      var stock = dbItem['stock'] as int;
+      print(stock);
 
+
+      stock=stock+cantidad;//nuevo stock despues de borrar
+
+      await database.rawUpdate("UPDATE Recambios SET stock = ? WHERE id = ?",[stock,idrecambio]);//se actualiza el stock de reacmbios
 
       await database.rawDelete("DELETE FROM  LineasReparacion WHERE idorden= ? AND idlinea = ?", [idorden,idlinea]);
 

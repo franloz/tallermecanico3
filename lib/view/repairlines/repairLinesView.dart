@@ -147,7 +147,7 @@ class _ScreenState extends State<RepairLinesView> {
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    await dialog.dialogOrderDelete(context, idorden,idlinea);
+                                    await dialog.dialogOrderDelete(context, idorden,idlinea,idrecambio,cantidad);
                                     setState(() {});
                                   }),
                             ],
