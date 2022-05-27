@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
             if (snapshot.hasData) {
               return ListView(
                   children: snapshot.data!.map((client) {
-                //variables donde se introducen los datos de los textfield
+                //variables donde se introducen los datos de los objetos de la lista
                 String dni = client.dni;
                 String name = client.nombre;
                 int tlf = client.telf;

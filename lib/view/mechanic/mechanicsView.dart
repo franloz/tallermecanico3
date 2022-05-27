@@ -24,12 +24,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DialogMechanics cl = DialogMechanics();
+  DialogMechanics cl = DialogMechanics();//alertdialog para insertar, modificar y eliminar mecánicos
   DatabaseSqlite dt = DatabaseSqlite();
 
-  TextEditingController searchtxt = TextEditingController();
+  TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda del mecanico
 
-  String search = '';
+  String search = '';//esta variable se usará para buscar en la lista de clientes
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   suffixIcon: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
-                      FocusScope.of(context)
-                          .unfocus(); //para que el textfield pierda el foco
+                      FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                       search = searchtxt.text;
                       setState(() {});
                     },
@@ -63,10 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () async {
-            FocusScope.of(context)
-                .unfocus(); //para que el textfield pierda el foco
-            await cl.dialogMechanicInsert(context,
-                size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+            await cl.dialogMechanicInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
           }),
       body: FutureBuilder<List<Mechanic>>(
@@ -79,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
             if (snapshot.hasData) {
               return ListView(
                   children: snapshot.data!.map((mechanic) {
+                    //variables donde se introducen los datos de los objetos de la lista
                 String dni = mechanic.dni;
                 String name = mechanic.nombre;
                 int tlf = mechanic.telf;
@@ -88,12 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     elevation: 5,
                     child: ListTile(
                         onTap: () {
-                          FocusScope.of(context)
-                              .unfocus(); //para que el textfield pierda el foco
+                          FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
-                          bottomSheet(dni, name, tlf, direccion);
-
-                         
+                          bottomSheet(dni, name, tlf, direccion);//metodo para mostrar los datos de los clientes
                         },
                         leading: Icon(Icons.person),
                         title: Text(dni),
@@ -105,34 +100,30 @@ class _MyHomePageState extends State<MyHomePage> {
                               IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {
-                                    FocusScope.of(context)
-                                        .unfocus(); //para que el textfield pierda el foco
-                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                    /*TextEditingController dnicontroll =
-                                        TextEditingController();
-                                    dnicontroll.text = dni;*/
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escritos en los textFields del dialog
+                                    
                                     TextEditingController namecontroll =TextEditingController();
                                     namecontroll.text = name;
                                     TextEditingController tlfcontroll =TextEditingController();
                                     tlfcontroll.text = tlf.toString();
                                     TextEditingController direccioncontroll =TextEditingController();
                                     direccioncontroll.text = direccion;
-                                    await cl.dialogMechanicUpdate(
+                                    await cl.dialogMechanicUpdate(//alertdialog para actualizar
                                         context,
                                         size,
                                         dni,
                                         namecontroll,
                                         tlfcontroll,
                                         direccioncontroll
-                                        ); //este ultimo dni q le paso es para identificar que registro actualizo
+                                        ); 
                                     setState(() {});
                                   }),
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
-                                    FocusScope.of(context)
-                                        .unfocus(); //para que el textfield pierda el foco
-                                    await cl.dialogMechanicDelete(context, dni);
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                                    await cl.dialogMechanicDelete(context, dni);//dialog para borrar
                                     setState(() {});
                                   }),
                             ],
@@ -148,9 +139,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<List<Mechanic>> loadList() async {
+  Future<List<Mechanic>> loadList() async {//metodo para mostrar la lista de clientes
     if (search != '') {
-      return dt.getMechanicWhere(search);
+      return dt.getMechanicWhere(search);//si se introduce texto en el textfield de busqueda llama al metodo getClientsWhere que filtra la lista de clientes
     } else {
       return dt.getMechanics();
     }

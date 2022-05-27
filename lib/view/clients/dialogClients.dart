@@ -163,7 +163,7 @@ class DialogClients {
                               if (dnitxt.text.isEmpty ||
                                   nombretxt.text.isEmpty ||
                                   telftxt.text.isEmpty ||
-                                  direcciontxt.text.isEmpty) {//comprueba que los campos no estén vacios
+                                  direcciontxt.text.isEmpty) {//comprueba que los campos estén vacios
                                 String error ='Rellene todos los campos antes de guardar';//si están vacios lanza un dialog comunicando que debe rellenarlos
                                 DialogError dialogError = DialogError();
                                 dialogError.dialogError(context, error);
@@ -173,29 +173,27 @@ class DialogClients {
                                 int telf = int.parse(telftxt.text);
                                 String direccion = direcciontxt.text;
 
-                                var cliente = Client(
+                                var cliente = Client(//se crea un objeto cliente
                                   dni: dni,
                                   nombre: nombre,
                                   telf: telf,
                                   direccion: direccion,
                                 );
-//////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                dt.insertClient(context, cliente);
+                                dt.insertClient(context, cliente);//se insertan los datos
 
-                                dnitxt.clear();
+                                dnitxt.clear();// se vacian los campos de texto
                                 nombretxt.clear();
                                 telftxt.clear();
                                 direcciontxt.clear();
 
-                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();//se vuelve a la pantalla anterior
                               }
-                            }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                            }, 
                             child: Text('Guardar',
                                 style: TextStyle(
                                     fontSize: size.height / 35,
-                                    color: Colors
-                                        .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                                    color: Colors.white)), 
                           ),
                         ],
                       ),
@@ -218,84 +216,39 @@ class DialogClients {
                 backgroundColor: Colors.grey[600],
                 title: Text('Actualizar Cliente',
                     style: TextStyle(color: Colors.white)),
-                //content: Text(error),
                 actions: <Widget>[
                   Container(
                       width: size.width / 1,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          /*Row(
-                            //fila con un container y un TextField para email
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                    controller:
-                                        dni, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "DNI",
-                                        hintStyle: TextStyle(
-                                          color: Colors.white,
-                                        ))),
-                              ),
-                            ],
-                          ),*/
-
                           const SizedBox(
                             height: 8,
                           ), //para separar rows
 
                           Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
+                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                             children: [
                               Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
+                                width: size.width /1.4, //ancho del TextField en relación al ancho de la pantalla
                                 height: size.height / 17,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
+                                  borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
                                   color: Colors.grey[700],
                                 ),
                                 child: TextField(
-                                    controller:
-                                        name, //se identifica el controlador del TextField
+                                    controller:name, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
+                                          borderRadius: BorderRadius.all( Radius.circular(20)),
                                           borderSide: BorderSide(
                                               width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
+                                              color: Color.fromARGB(255, 0, 229, 255)),
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
                                         hintText: "Nombre",
-                                        hintStyle:
-                                            TextStyle(color: Colors.white))),
+                                        hintStyle: TextStyle(color: Colors.white))),
                               ),
                             ],
                           ),
@@ -305,38 +258,25 @@ class DialogClients {
                           ), //para separar rows
 
                           Row(
-                            //fila con un container y un TextField para email
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
+                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                             children: [
                               Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
+                                width: size.width /1.4, //ancho del TextField en relación al ancho de la pantalla
                                 height: size.height / 17,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
+                                  borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
                                   color: Colors.grey[700],
                                 ),
                                 child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'[0-9]{0,1}[0-9]*')),
-                                    ], //para que no se puedan poner puntos o comas
-
-                                    ///para que el teclado sea numerico
-
-                                    controller:
-                                        tlf, //se identifica el controlador del TextField
+                                    keyboardType: TextInputType.number,///para que el teclado sea numerico
+                                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9]{0,1}[0-9]*')),], //para que no se puedan poner puntos o comas
+                                    controller:tlf, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
+                                          borderRadius: BorderRadius.all(Radius.circular(20)),
                                           borderSide: BorderSide(
                                               width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
+                                              color: Color.fromARGB(255, 0, 229, 255)),
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
@@ -353,36 +293,28 @@ class DialogClients {
                           ), //para separar rows
 
                           Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
+                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                             children: [
                               Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
+                                width: size.width /1.4, //ancho del TextField en relación al ancho de la pantalla
                                 height: size.height / 17,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
+                                  borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
                                   color: Colors.grey[700],
                                 ),
                                 child: TextField(
-                                    controller:
-                                        direction, //se identifica el controlador del TextField
+                                    controller:direction, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
+                                          borderRadius: BorderRadius.all(Radius.circular(20)),
                                           borderSide: BorderSide(
                                               width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
+                                              color: Color.fromARGB(255, 0, 229, 255)),
                                         ),
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
                                         hintText: "Dirección",
-                                        hintStyle:
-                                            TextStyle(color: Colors.white))),
+                                        hintStyle:TextStyle(color: Colors.white))),
                               ),
                             ],
                           ),
@@ -392,17 +324,15 @@ class DialogClients {
                           ), //para separar rows
 
                           Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
+                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  if (/*dni.text.isEmpty ||*/
+                                  if (
                                       name.text.isEmpty ||
                                           tlf.text.isEmpty ||
                                           direction.text.isEmpty) {
-                                    String error =
-                                        'Rellene todos los campos antes de guardar';
+                                    String error ='Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
                                     dialogError.dialogError(context, error);
                                   } else {
@@ -416,22 +346,20 @@ class DialogClients {
                                       telf: telf,
                                       direccion: direccion,
                                     );
-//////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                    dt.updateClient(context, cliente, dni);
+                                    dt.updateClient(context, cliente, dni);//metodo que actualiza
                                     dnitxt.clear();
                                     nombretxt.clear();
                                     telftxt.clear();
                                     direcciontxt.clear();
 
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();//se vuelve a pantalla anterior
                                   }
-                                }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                                }, 
                                 child: Text('Guardar',
                                     style: TextStyle(
                                         fontSize: size.height / 35,
-                                        color: Colors
-                                            .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                                        color: Colors.white)),
                               ),
                             ],
                           ),
@@ -445,8 +373,7 @@ class DialogClients {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
-            title:
-                Text('Borrar Cliente', style: TextStyle(color: Colors.white)),
+            title:Text('Borrar Cliente', style: TextStyle(color: Colors.white)),
             content: Text('¿Estas seguro de borrar este cliente?'),
             actions: <Widget>[
               TextButton(
@@ -457,7 +384,7 @@ class DialogClients {
               ),
               TextButton(
                 onPressed: () async {
-                  await dt.deleteClient(context, dni);
+                  await dt.deleteClient(context, dni);//se borra
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),
