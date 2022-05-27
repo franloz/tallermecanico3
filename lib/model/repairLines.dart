@@ -3,7 +3,7 @@ class RepairLines {
   final String idorden;
   final String idlinea;
   final String idrecambio;
-  final String cantidad;
+  final int cantidad;
  
 
   const RepairLines(

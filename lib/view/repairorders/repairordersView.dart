@@ -216,10 +216,9 @@ class _MyHomePageState extends State<MyHomePage> {
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairorder.dart';
-import 'package:tallermecanico/view/repairlines/repairLinesView.dart';
 import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
 
-class RepairOrdersView extends StatelessWidget {
+/*class RepairOrdersView extends StatelessWidget {
   const RepairOrdersView({Key? key}) : super(key: key);
 
   @override
@@ -247,8 +246,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   DatabaseSqlite dt = DatabaseSqlite();
   List<String> listamecanicos = [];
-  List<String> listavehiculos = [];
+  List<String> listavehiculos = [];*/
+class RepairOrdersView extends StatefulWidget {
+  const RepairOrdersView({Key? key}) : super(key: key);
 
+  @override
+  State<RepairOrdersView> createState() => _ScreenState();
+}
+
+class _ScreenState extends State<RepairOrdersView> {
+
+  DialogRepairOrder dialog = DialogRepairOrder();
+
+  TextEditingController searchtxt = TextEditingController();
+
+  String search = '';
+
+  DatabaseSqlite dt = DatabaseSqlite();
+  List<String> listamecanicos = [];
+  List<String> listavehiculos = [];
   @override
   void initState() {
     //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
@@ -285,6 +301,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             title: Container(
               width: double.infinity,

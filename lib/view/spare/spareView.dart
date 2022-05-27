@@ -159,10 +159,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void bottomSheet(String id,String marca,String pieza,String precio,int stock,int telfproveedor) {
     showModalBottomSheet(
+      isScrollControlled:
+          true, 
       context: context,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => Column(
+        mainAxisSize: MainAxisSize
+            .min,
         children: [
           ListTile(
             title: Text('Id'),

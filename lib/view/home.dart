@@ -227,7 +227,7 @@ class Home extends StatelessWidget {
 
                 onPressed: () {
                   Navigator.pushNamed(context, 'RepairordersView');
-                }, //se lanza la actividad de Ördenes de reparación
+                }, //se lanza la actividad de Órdenes de reparación
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,

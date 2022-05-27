@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairLines.dart';
 import 'package:tallermecanico/model/repairorder.dart';
+import 'package:tallermecanico/view/repairlines/dialogRepairLines.dart';
 import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
 
-class RepairLinesView extends StatelessWidget {
+/*class RepairLinesView extends StatelessWidget {
   const RepairLinesView({Key? key}) : super(key: key);
 
   @override
@@ -31,22 +32,37 @@ class _MyHomePageState extends State<MyHomePage> {
   String search = '';
 
   DatabaseSqlite dt = DatabaseSqlite();
-  List<String> listamecanicos = [];
-  
-  
+  List<String> listamecanicos = [];*/
 
+class RepairLinesView extends StatefulWidget {
+  const RepairLinesView({Key? key}) : super(key: key);
+
+  @override
+  State<RepairLinesView> createState() => _ScreenState();
+}
+
+class _ScreenState extends State<RepairLinesView> {
+
+  DialogRepairLine dialog = DialogRepairLine();
+
+  TextEditingController searchtxt = TextEditingController();
+
+  String search = '';
+
+  DatabaseSqlite dt = DatabaseSqlite();
+  List<String> listarecambios = [];
   @override
   void initState() {
     //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
     //se convierte una lista de map en una lista de string
-    dt.getMechanicdni().then((listMap) {
+    dt.getRecambiosId().then((listMap) {
       listMap.map((map) {
         print('fggfg');
         print(map.toString());
 
-        return map['dni'];
+        return map['id'];
       }).forEach((dropDownItem) {
-        listamecanicos.add(dropDownItem);
+        listarecambios.add(dropDownItem);
         print(dropDownItem.toString());
       });
       setState(() {});
@@ -63,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String idorden = parametros!["idorden"];
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             title: Container(
               width: double.infinity,
@@ -79,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(() {});
                       },
                     ),
-                    hintText: 'Matrícula del vehículo a buscar',
+                    hintText: 'Id del Recambio a buscar',
                   ),
                 ),
               ),
@@ -90,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Icon(Icons.add),
             onPressed: () async{
               FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-             // await dialog.dialogRepairOrdersInsert(context, size, listamecanicos,listavehiculos); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+              await dialog.dialogRepairLinesInsert(context, size,listarecambios,idorden); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
               setState(() {});
             }),
         body: FutureBuilder<List<RepairLines>>(
@@ -106,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 String idorden = line.idorden;
                 String idlinea =line.idlinea;
                 String idrecambio =line.idrecambio;
-                String cantidad =line.cantidad;
+                int cantidad =line.cantidad;
                 
 
                 return Card(
@@ -130,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                   // await dialog.dialogOrderDelete(context, id);
+                                    await dialog.dialogOrderDelete(context, idorden,idlinea);
                                     setState(() {});
                                   }),
                             ],
@@ -151,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String idorden,
       String idlinea,
       String idrecambio,
-      String cantidad,
+      int cantidad,
       ) {
     showModalBottomSheet(
       context: context,
@@ -177,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ListTile(
             title: Text('Cantidad'),
-            subtitle: Text(cantidad),
+            subtitle: Text(cantidad.toString()),
           ),
           
         ],
@@ -187,11 +204,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   Future<List<RepairLines>> loadList(String idorden ) async {
-    /*if (search != '') {
-      return dt.getLinesWhere(search);
-    } else {*/
+    if (search != '') {
+      return dt.getLinesWhere(search,idorden);
+    } else {
       return dt.getLines(idorden);
-   // }
+    }
   }
   
 }
