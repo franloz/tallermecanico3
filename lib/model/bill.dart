@@ -1,4 +1,7 @@
-class RepairOrder {
+
+////firebase
+
+class Bill {
   final String idorden;
   final String baseimponible;
   final String descuento;
@@ -6,7 +9,7 @@ class RepairOrder {
   final String totalfactura;
   
 
-  RepairOrder(
+  Bill(
       {
       required this.idorden,
       required this.baseimponible,

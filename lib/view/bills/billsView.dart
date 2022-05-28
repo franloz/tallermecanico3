@@ -93,7 +93,7 @@ class _ScreenState extends State<BillsView> {
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-                String idorden = data['norden'];
+                String idorden = data['idorden'];
                 String baseimponible = data['baseimponible'];
                 String descuento = data['descuento'];
                 String iva = data['iva'];

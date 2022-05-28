@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/firebasedatabase.dart';
+import 'package:tallermecanico/model/bill.dart';
 import 'package:tallermecanico/model/repairorder.dart';
 
 class DialogBills {
 
+  TextEditingController descuentotxt = TextEditingController();
+  TextEditingController ivatxt = TextEditingController();
 
   FirebaseDatabase base = FirebaseDatabase();
 
@@ -27,6 +31,96 @@ class DialogBills {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                            
+                              
+
+                               Row(
+                            //fila con un container y un TextField para contraseña
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, //Center Row contents horizontally,
+                            children: [
+                              Container(
+                                width: size.width /
+                                    1.4, //ancho del TextField en relación al ancho de la pantalla
+                                height: size.height / 17,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20)), //bordes circulares
+                                  color: Colors.grey[700],
+                                ),
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
+                                        ], 
+                                    controller:
+                                        descuentotxt, //se identifica el controlador del TextField
+                                    decoration: const InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          borderSide: BorderSide(
+                                              width: 1,
+                                              color: Color.fromARGB(
+                                                  255, 0, 229, 255)),
+                                        ),
+                                        prefixIcon: Icon(Icons.circle_outlined),
+                                        border: InputBorder.none,
+                                        hintText: "Descuento",
+                                        hintStyle:
+                                            TextStyle(color: Colors.white))),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(
+                            height: 8,
+                          ), 
+
+                           Row(
+                            //fila con un container y un TextField para contraseña
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, //Center Row contents horizontally,
+                            children: [
+                              Container(
+                                width: size.width /
+                                    1.4, //ancho del TextField en relación al ancho de la pantalla
+                                height: size.height / 17,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20)), //bordes circulares
+                                  color: Colors.grey[700],
+                                ),
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
+                                        ], 
+                                    controller:
+                                        ivatxt, //se identifica el controlador del TextField
+                                    decoration: const InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          borderSide: BorderSide(
+                                              width: 1,
+                                              color: Color.fromARGB(
+                                                  255, 0, 229, 255)),
+                                        ),
+                                        prefixIcon: Icon(Icons.circle_outlined),
+                                        border: InputBorder.none,
+                                        hintText: "Iva",
+                                        hintStyle:
+                                            TextStyle(color: Colors.white))),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(
+                            height: 8,
+                          ), 
                               Row(
                                 //fila con un container y un TextField para contraseña
                                 mainAxisAlignment: MainAxisAlignment
@@ -69,8 +163,25 @@ class DialogBills {
                                         dialogError.dialogError(context, error);
                                       } else {
                                         String idorden=orden.toString();
+                                        double descuento;
+                                        double iva;
 
-                                        base.insertBill(context,idorden);
+                                        if(descuentotxt.text.isEmpty){
+                                          descuento=0;
+                                        }else{
+                                          descuento=double.parse(descuentotxt.text);
+                                        }
+
+                                        if(ivatxt.text.isEmpty){
+                                          iva=0;
+                                        }else{
+                                          iva=double.parse(ivatxt.text);
+                                        }
+
+                                        
+
+                                        
+                                        base.insertBill(context,idorden,descuento,iva);
                                         
 
                                         Navigator.of(context).pop();
