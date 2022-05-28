@@ -12,7 +12,7 @@ import '../model/client.dart';
 import '../model/mechanic.dart';
 
 class DatabaseSqlite {
-  Future<Database> _openDB() async {
+  Future<Database> openDB() async {
     return openDatabase(
       join(await getDatabasesPath(), 'my_db.db'),
       version: 1,
@@ -52,7 +52,7 @@ class DatabaseSqlite {
 
   //cliente
   Future<void> insertClient(BuildContext context, Client client) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.insert("Clientes", client.toMap());
@@ -64,7 +64,7 @@ class DatabaseSqlite {
   }
 
   Future<void> deleteClient(BuildContext context,String dni) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     //esto es para saber si el cliente que se quiere borrar tiene vehiculos, si las tiene no le dejará borrar al cliente hasta que borre las vehiculos
     final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM Vehiculos WHERE clientedni = ?', [dni]);
@@ -84,7 +84,7 @@ class DatabaseSqlite {
 
   Future<void> updateClient(
       BuildContext context, Client client, String dni) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.update("Clientes", client.toMap(),
@@ -97,7 +97,7 @@ class DatabaseSqlite {
   }
 
   Future<List<Client>> getClients() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database.query('Clientes');
 
@@ -115,7 +115,7 @@ class DatabaseSqlite {
  
 
   Future<List<Client>> getClientsWhere(String nombre) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database
         .rawQuery('SELECT * FROM Clientes WHERE nombre LIKE ?', [nombre + '%']);
@@ -136,7 +136,7 @@ class DatabaseSqlite {
   //mecanico
 
   Future<void> insertMechanic(BuildContext context, Mechanic mechanic) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.insert("Mecanicos", mechanic.toMap());
@@ -148,7 +148,7 @@ class DatabaseSqlite {
   }
 
   Future<void> deleteMechanic(BuildContext context,String dni) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
 
     //esto es para saber si el mecanico que se quiere borrar tiene ordenes de reparacion, si las tiene no le dejará borrar al mecanico hasta que borre las ordenes
@@ -170,7 +170,7 @@ class DatabaseSqlite {
 
   Future<void> updateMechanic(
       BuildContext context, Mechanic mechanic, String dni) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.update("Mecanicos", mechanic.toMap(),
@@ -183,7 +183,7 @@ class DatabaseSqlite {
   }
 
   Future<List<Mechanic>> getMechanics() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database.query('Mecanicos');
 
@@ -199,7 +199,7 @@ class DatabaseSqlite {
   }
 
   Future<List<Mechanic>> getMechanicWhere(String nombre) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database.rawQuery(
         'SELECT * FROM Mecanicos WHERE nombre LIKE ?', [nombre + '%']);
@@ -220,7 +220,7 @@ class DatabaseSqlite {
   //vehículos
 
   Future<void> insertVehicle(BuildContext context, Vehicle vehicle) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.insert("Vehiculos", vehicle.toMap());
@@ -232,7 +232,7 @@ class DatabaseSqlite {
   }
 
   Future<void> deleteVehicle(BuildContext context,String matricula) async {
-    Database database = await _openDB();
+    Database database = await openDB();
     final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM OrdenesReparacion WHERE vehiculo = ?', [matricula]);
     int count=   maps.length;
     print('jjjj'+count.toString());
@@ -251,7 +251,7 @@ class DatabaseSqlite {
 
   Future<void> updateVehicle(
       BuildContext context, Vehicle vehicle, String matricula) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.update("Vehiculos", vehicle.toMap(),
@@ -264,7 +264,7 @@ class DatabaseSqlite {
   }
 
   Future<List<Vehicle>> getVehicles() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database.query('Vehiculos');
 
@@ -280,7 +280,7 @@ class DatabaseSqlite {
   }
 
   Future<List<Vehicle>> getVehicleWhere(String matricula) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database.rawQuery(
         'SELECT * FROM Vehiculos WHERE matricula LIKE ?', [matricula + '%']);
@@ -302,7 +302,7 @@ class DatabaseSqlite {
   //combobox
 
    Future<List<Map<String, dynamic>>> getClientsdni() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps =
         await database.rawQuery('SELECT dni FROM Clientes');
@@ -314,7 +314,7 @@ class DatabaseSqlite {
 
 
   Future<List<Map<String, dynamic>>> getVehiclesmatricula() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps =
         await database.rawQuery('SELECT matricula FROM Vehiculos');
@@ -325,7 +325,7 @@ class DatabaseSqlite {
   }
 
   Future<List<Map<String, dynamic>>> getMechanicdni() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps =
         await database.rawQuery('SELECT dni FROM Mecanicos');
@@ -336,10 +336,21 @@ class DatabaseSqlite {
   }
 
   Future<List<Map<String, dynamic>>> getRecambiosId() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps =
         await database.rawQuery('SELECT id FROM Recambios');
+    return maps;
+    /*forEach(maps){
+      String dni=maps;
+    }*/
+  }
+
+  Future<List<Map<String, dynamic>>> getOrdenesId() async {
+    Database database = await openDB();
+
+    final List<Map<String, dynamic>> maps =
+        await database.rawQuery('SELECT id FROM OrdenesReparacion');
     return maps;
     /*forEach(maps){
       String dni=maps;
@@ -355,7 +366,7 @@ class DatabaseSqlite {
   //spare
 
   Future<void> insertSpare(BuildContext context, Spare spare) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.insert("Recambios", spare.toMap());
@@ -367,7 +378,7 @@ class DatabaseSqlite {
   }
 
   Future<void> deleteSpare(BuildContext context,String id) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
 
     final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM LineasReparacion WHERE idrecambio = ?', [id]);
@@ -386,7 +397,7 @@ class DatabaseSqlite {
   }
 
   Future<void> updateSpare(BuildContext context, Spare spare, String id) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.update("Recambios", spare.toMap(),
@@ -398,7 +409,7 @@ class DatabaseSqlite {
     }
   }
   Future<List<Spare>> getSpares() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database.query('Recambios');
 
@@ -418,7 +429,7 @@ class DatabaseSqlite {
  
 
   Future<List<Spare>> getSpareWhere(String pieza) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database
         .rawQuery('SELECT * FROM Recambios WHERE pieza LIKE ?', [pieza + '%']);
@@ -442,7 +453,7 @@ class DatabaseSqlite {
   //repairorder
 
   Future<void> insertOrder(BuildContext context, RepairOrder order) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.insert("OrdenesReparacion", order.toMap());
@@ -454,7 +465,7 @@ class DatabaseSqlite {
   }
 
   Future<void> deleteOrder(BuildContext context, String id) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
 
     final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM LineasReparacion WHERE idorden = ?', [id]);
@@ -473,7 +484,7 @@ class DatabaseSqlite {
   }
 
   Future<void> updateOrder(BuildContext context, RepairOrder order, String id) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
       await database.update("OrdenesReparacion", order.toMap(),
@@ -486,7 +497,7 @@ class DatabaseSqlite {
   }
 
   Future<List<RepairOrder>> getOrders() async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database.query('OrdenesReparacion');
 
@@ -508,7 +519,7 @@ class DatabaseSqlite {
  
 
   Future<List<RepairOrder>> getOrderWhere(String vehiculo) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database
         .rawQuery('SELECT * FROM OrdenesReparacion WHERE vehiculo LIKE ?', [vehiculo + '%']);
@@ -536,7 +547,7 @@ class DatabaseSqlite {
 
 
   Future<void> insertLines(BuildContext context, RepairLines lines, String idrecambio, int cantidad) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
 
@@ -574,7 +585,7 @@ class DatabaseSqlite {
 
 
   Future<void> updateLine(BuildContext context, String idorden,String idlinea,String idrecambio,int cantidadold,int cantidadnew) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     try {
 
@@ -611,7 +622,7 @@ class DatabaseSqlite {
     }
 
   Future<void> deleteLines( String idorden, String idlinea, String idrecambio, int cantidad ) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
 
       var resultSet = await database.rawQuery("SELECT stock FROM Recambios WHERE id = ?",[idrecambio]);
@@ -636,7 +647,7 @@ class DatabaseSqlite {
 
 
   Future<List<RepairLines>> getLines(String idorden) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database.rawQuery("SELECT * FROM LineasReparacion WHERE idorden = ?", [idorden]);
 
@@ -652,7 +663,7 @@ class DatabaseSqlite {
   }
 
   Future<List<RepairLines>> getLinesWhere(String recambio,String idorden) async {
-    Database database = await _openDB();
+    Database database = await openDB();
 
     final List<Map<String, dynamic>> maps = await database
         .rawQuery('SELECT * FROM LineasReparacion WHERE idorden = ? and idrecambio LIKE ?', [idorden,recambio + '%']);

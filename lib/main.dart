@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/view/billsView.dart';
+import 'package:tallermecanico/view/bills/billsView.dart';
 import 'package:tallermecanico/view/clients/clientsView.dart';
 
 import 'package:tallermecanico/view/home.dart';
