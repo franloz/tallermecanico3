@@ -224,8 +224,8 @@ class DialogBills {
                     ],
                   ))));
 
-/*
-  Future dialogSpareDelete(BuildContext context, String id) => showDialog(
+
+  Future dialogBillsDelete(BuildContext context, String id, String idorden) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
@@ -242,12 +242,12 @@ class DialogBills {
               ),
               TextButton(
                 onPressed: () {
-                  base.deleteSpare(id);
+                  base.deleteBill(id,idorden);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),
               ),
             ],
-          ));*/
+          ));
 
 }

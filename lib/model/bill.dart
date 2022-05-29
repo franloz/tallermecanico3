@@ -2,6 +2,7 @@
 ////firebase
 
 class Bill {
+  String id;
   final String idorden;
   final String baseimponible;
   final String descuento;
@@ -11,6 +12,7 @@ class Bill {
 
   Bill(
       {
+      this.id='',
       required this.idorden,
       required this.baseimponible,
       required this.descuento,
@@ -21,6 +23,7 @@ class Bill {
   Map<String, dynamic> toJson() {
     //coleccion de llaves y valores
     return {
+      'id':id,
       'idorden': idorden,
       'baseimponible': baseimponible,
       'descuento': descuento,

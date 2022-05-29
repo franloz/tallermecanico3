@@ -15,7 +15,7 @@ class FirebaseDatabase {
     Database database = await db.openDB();
 
 
-    ///si esta facturada q no haga nada
+  
     
 
 
@@ -109,8 +109,9 @@ class FirebaseDatabase {
         double totalfactura=total-(total*(descuento/100))+(total*(iva/100));
 
         String totalfactstring = totalfactura.toStringAsFixed(2); //se redondea el total
-
+        final docBill = FirebaseFirestore.instance.collection('facturas').doc();
         var bill = Bill(
+          id:docBill.id,
           idorden: idorden,
           baseimponible: baseimponible,
           descuento: descuento.toString(),
@@ -118,7 +119,7 @@ class FirebaseDatabase {
           totalfactura: totalfactstring,
         );
 
-        final docBill = FirebaseFirestore.instance.collection('facturas').doc();
+        
         // spare.id = docSpare.id; //le asigno el id que genere firebase
 
         final json = bill.toJson();
@@ -139,10 +140,17 @@ class FirebaseDatabase {
     }
   }
 
-  Future deleteSpare(String id) async {
-    final docSpare = FirebaseFirestore.instance.collection('spare').doc(id);
+  Future deleteBill(String id, String idorden) async {
+    final docbill = FirebaseFirestore.instance.collection('facturas').doc(id);
 
-    docSpare.delete();
+    docbill.delete();
+
+    //actualizo la orden de la factura y la pongo en no facturada
+    DatabaseSqlite db = DatabaseSqlite();
+    Database database = await db.openDB();
+    await database.rawUpdate("UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?",[0,idorden]);
+
+
   }
 }
 

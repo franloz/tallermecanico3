@@ -14,9 +14,7 @@ class _ScreenState extends State<BillsView> {
 
   DialogBills dialog = DialogBills();
 
-  TextEditingController searchtxt = TextEditingController();
 
-  String search = '';
 
   List<String> listaordenes = [];
   DatabaseSqlite dt = DatabaseSqlite();
@@ -47,26 +45,7 @@ class _ScreenState extends State<BillsView> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
-            title: Container(
-              width: double.infinity,
-              height: 40,
-              child: Center(
-                child: TextField(
-                  controller: searchtxt,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                        search = searchtxt.text;
-                        setState(() {});
-                      },
-                    ),
-                    hintText: 'Matrícula del vehículo a buscar',
-                  ),
-                ),
-              ),
-            )),
+            title: Text('Facturas')),
         backgroundColor: Colors.grey[800],
         floatingActionButton: FloatingActionButton(
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
@@ -78,7 +57,7 @@ class _ScreenState extends State<BillsView> {
             }),
         
         body: StreamBuilder<QuerySnapshot>(
-          stream: loadList(),
+          stream:  FirebaseFirestore.instance.collection('facturas').snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
@@ -93,6 +72,7 @@ class _ScreenState extends State<BillsView> {
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
+                String id=data['id'];
                 String idorden = data['idorden'];
                 String baseimponible = data['baseimponible'];
                 String descuento = data['descuento'];
@@ -128,8 +108,7 @@ class _ScreenState extends State<BillsView> {
                                   onPressed: () async {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
-                                    /*print(id);
-                                    await dialog.dialogSpareDelete(context, id);*/
+                                    await dialog.dialogBillsDelete(context, id,idorden);
                                     //setState(() {});
                                   }),
                             ],
@@ -185,15 +164,5 @@ class _ScreenState extends State<BillsView> {
 
 
   
-  Stream<QuerySnapshot> loadList() {
-    if (search != '') {
-      print(search.toUpperCase());
-      return FirebaseFirestore.instance
-          .collection('facturas')
-          .where('vehiculo', isEqualTo: search)/////////////////////////        
-          .snapshots();
-    } else {
-      return FirebaseFirestore.instance.collection('facturas').snapshots();
-    }
-  }
+
 }
