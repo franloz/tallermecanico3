@@ -15,7 +15,7 @@ class DatabaseSqlite {
   Future<Database> openDB() async {
     return openDatabase(
       join(await getDatabasesPath(), 'my_db.db'),
-      version: 1,
+      version: 3,
       onCreate: (db, version) async {
         await db.execute(
           "CREATE TABLE Clientes (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
@@ -30,7 +30,7 @@ class DatabaseSqlite {
           "CREATE TABLE Recambios (id TEXT PRIMARY KEY, marca TEXT NOT NULL, pieza TEXT NOT NULL, precio TEXT NOT NULL,stock INTEGER NOT NULL, telfproveedor INTEGER NOT NULL)",
         );
         await db.execute(
-          "CREATE TABLE OrdenesReparacion (id TEXT PRIMARY KEY, vehiculo TEXT NOT NULL, mecanico TEXT NOT NULL, horasreparacion TEXT,preciohora TEXT,descripcionreparacion TEXT, inicio TEXT NOT NULL,fin TEXT,FOREIGN KEY (vehiculo) REFERENCES Vehiculos (matricula),FOREIGN KEY (mecanico) REFERENCES Mecanicos (dni))",
+          "CREATE TABLE OrdenesReparacion (id TEXT PRIMARY KEY, vehiculo TEXT NOT NULL, mecanico TEXT NOT NULL, horasreparacion TEXT,preciohora TEXT,descripcionreparacion TEXT, inicio TEXT NOT NULL,fin TEXT,facturada INTEGER NOT NULL,FOREIGN KEY (vehiculo) REFERENCES Vehiculos (matricula),FOREIGN KEY (mecanico) REFERENCES Mecanicos (dni))",
         );//añadirle un apartado de facturada, si es true q no le deje generar mas facturas
         await db.execute(
           "CREATE TABLE LineasReparacion (idorden TEXTNOT NULL, idlinea TEXT NOT NULL, idrecambio TEXT NOT NULL, cantidad INTEGER NOT NULL,PRIMARY KEY (idorden, idlinea),FOREIGN KEY (idorden) REFERENCES OrdenesReparacion (id),FOREIGN KEY (idrecambio) REFERENCES Recambios (id))",
@@ -59,7 +59,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este dni ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -92,7 +92,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este dni ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -143,7 +143,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este dni ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -178,7 +178,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este dni ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -227,7 +227,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Esta matricula ya existe, no puede volverla a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -259,7 +259,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Esta matricula ya existe, no puede volverla a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -373,7 +373,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este recambio (id) ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -405,7 +405,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
   Future<List<Spare>> getSpares() async {
@@ -460,7 +460,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -483,6 +483,13 @@ class DatabaseSqlite {
     
   }
 
+/////
+  
+
+
+
+///     
+
   Future<void> updateOrder(BuildContext context, RepairOrder order, String id) async {
     Database database = await openDB();
 
@@ -492,7 +499,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
   }
 
@@ -512,6 +519,7 @@ class DatabaseSqlite {
         descripcionreparacion: maps[i]['descripcionreparacion'],
         inicio: maps[i]['inicio'],
         fin:maps[i]['fin'],
+        facturada:maps[i]['facturada'],
       );
     });
   }
@@ -535,6 +543,7 @@ class DatabaseSqlite {
         descripcionreparacion: maps[i]['descripcionreparacion'],
         inicio: maps[i]['inicio'],
         fin:maps[i]['fin'],
+        facturada:maps[i]['facturada'],
       );
     });
   }
@@ -566,7 +575,7 @@ class DatabaseSqlite {
       }else{
         String error = 'No hay suficiente stock para este cantidad del recambio';
         DialogError dialogError = DialogError();
-        dialogError.dialogError(context, error);
+        await dialogError.dialogError(context, error);
       }
 
 
@@ -576,7 +585,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
 
 
@@ -617,7 +626,7 @@ class DatabaseSqlite {
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
-      dialogError.dialogError(context, error);
+      await dialogError.dialogError(context, error);
     }
     }
 
@@ -625,7 +634,10 @@ class DatabaseSqlite {
     Database database = await openDB();
 
 
-      var resultSet = await database.rawQuery("SELECT stock FROM Recambios WHERE id = ?",[idrecambio]);
+
+
+
+      var resultSet = await database.rawQuery("SELECT stock FROM Recambios WHERE id = ?",[idrecambio]);//saco el stock actual del recambio
       // Get first result
       var dbItem = resultSet.first;
       // Access its id
@@ -633,7 +645,7 @@ class DatabaseSqlite {
       print(stock);
 
 
-      stock=stock+cantidad;//nuevo stock despues de borrar
+      stock=stock+cantidad;//nuevo stock despues de borrar. Al stock actual le sumo el del recambio que tenia esta linea
 
       await database.rawUpdate("UPDATE Recambios SET stock = ? WHERE id = ?",[stock,idrecambio]);//se actualiza el stock de reacmbios
 

@@ -41,6 +41,7 @@ class RepairOrder {
   final String descripcionreparacion;
   final String inicio;
   final String fin;
+  final int facturada;
 
   const RepairOrder(
       {required this.id,
@@ -50,7 +51,8 @@ class RepairOrder {
       required this.preciohora,
       required this.descripcionreparacion,
       required this.inicio,
-      required this.fin
+      required this.fin,
+      required this.facturada
       
       });
 
@@ -64,7 +66,8 @@ class RepairOrder {
       'preciohora': preciohora,
       'descripcionreparacion': descripcionreparacion,
       'inicio': inicio,
-      'fin':fin
+      'fin':fin,
+      'facturada':facturada
     };
   }
 }

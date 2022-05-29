@@ -214,6 +214,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }*/
 
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairorder.dart';
 import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
@@ -255,7 +257,6 @@ class RepairOrdersView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairOrdersView> {
-
   DialogRepairOrder dialog = DialogRepairOrder();
 
   TextEditingController searchtxt = TextEditingController();
@@ -300,42 +301,45 @@ class _ScreenState extends State<RepairOrdersView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
           automaticallyImplyLeading: false,
-            backgroundColor: Color.fromARGB(255, 0, 229, 255),
-            title: Container(
-              width: double.infinity,
-              height: 40,
-              child: Center(
-                child: TextField(
-                  controller: searchtxt,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                        search = searchtxt.text;
-                        setState(() {});
-                      },
-                    ),
-                    hintText: 'Matrícula del vehículo a buscar',
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          title: Container(
+            width: double.infinity,
+            height: 40,
+            child: Center(
+              child: TextField(
+                controller: searchtxt,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      FocusScope.of(context)
+                          .unfocus(); //para que el textfield pierda el foco
+                      search = searchtxt.text;
+                      setState(() {});
+                    },
                   ),
+                  hintText: 'Matrícula del vehículo a buscar',
                 ),
               ),
-            )),
-        backgroundColor: Colors.grey[800],
-        floatingActionButton: FloatingActionButton(
-            backgroundColor: Color.fromARGB(255, 0, 229, 255),
-            child: Icon(Icons.add),
-            onPressed: () async{
-              FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-              await dialog.dialogRepairOrdersInsert(context, size, listamecanicos,listavehiculos); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
-              setState(() {});
-            }),
-        body: FutureBuilder<List<RepairOrder>>(
+            ),
+          )),
+      backgroundColor: Colors.grey[800],
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          child: Icon(Icons.add),
+          onPressed: () async {
+            FocusScope.of(context)
+                .unfocus(); //para que el textfield pierda el foco
+            await dialog.dialogRepairOrdersInsert(context, size, listamecanicos,
+                listavehiculos); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            setState(() {});
+          }),
+      body: FutureBuilder<List<RepairOrder>>(
           future: loadList(), ////un metodo que controle si hay busqueda o no
-          builder:
-              (BuildContext context, AsyncSnapshot<List<RepairOrder>> snapshot) {
+          builder: (BuildContext context,
+              AsyncSnapshot<List<RepairOrder>> snapshot) {
             if (snapshot.hasError) {
               return Text('Ha ocurrido un error');
             }
@@ -343,10 +347,10 @@ class _ScreenState extends State<RepairOrdersView> {
               return ListView(
                   children: snapshot.data!.map((order) {
                 String id = order.id;
-                String vehiculo =order.vehiculo;
-                String? mecanico = order.mecanico;//? para combobox
-                String horasreparacion =order.horasreparacion ;
-                String preciohora=order.preciohora;
+                String vehiculo = order.vehiculo;
+                String? mecanico = order.mecanico; //? para combobox
+                String horasreparacion = order.horasreparacion;
+                String preciohora = order.preciohora;
                 String descripcionreparacion = order.descripcionreparacion;
                 String fechainicio = order.inicio;
                 String fechafin = order.fin;
@@ -355,18 +359,28 @@ class _ScreenState extends State<RepairOrdersView> {
                     elevation: 5,
                     child: ListTile(
                         onTap: () {
-                          FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                          FocusScope.of(context)
+                              .unfocus(); //para que el textfield pierda el foco
 
-                          bottomSheet(id, vehiculo, mecanico, horasreparacion,preciohora,descripcionreparacion,fechainicio,fechafin);
+                          bottomSheet(
+                              id,
+                              vehiculo,
+                              mecanico,
+                              horasreparacion,
+                              preciohora,
+                              descripcionreparacion,
+                              fechainicio,
+                              fechafin);
                         },
-                        onLongPress: (){
+                        onLongPress: () {
                           //Navigator.pushNamed(context, 'RepairLinesView');
                           //Navigator.push(context,MaterialPageRoute(builder:((context) => RepairLinesView())));
-                          Navigator.pushNamed(context, 'RepairLinesView', arguments: {"idorden":id });
+                          Navigator.pushNamed(context, 'RepairLinesView',
+                              arguments: {"idorden": id});
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(id),
-                        subtitle: Text('Matrícula: '+vehiculo),
+                        subtitle: Text('Matrícula: ' + vehiculo),
                         trailing: SizedBox(
                           width: size.width / 4,
                           child: Row(
@@ -374,28 +388,86 @@ class _ScreenState extends State<RepairOrdersView> {
                               IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {
-                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                    /*TextEditingController matriculacontroll =TextEditingController();*/
-                                    TextEditingController horasreparaciontxt = TextEditingController(); 
-                                    TextEditingController descripcionreparaciontxt =TextEditingController();
-                                    TextEditingController preciohoratxt =TextEditingController();
+                                    Database database = await dt.openDB();
+                                    var resultSet = await database.rawQuery(
+                                        "SELECT facturada FROM OrdenesReparacion WHERE id = ?",
+                                        [id]);
+                                    // Get first result
+                                    var dbItem = resultSet.first;
+                                    // Access its id
+                                    var facturada = dbItem['facturada'] as int;
+                                    print('fac' + facturada.toString());
 
-                                    horasreparaciontxt.text = horasreparacion;
-                                    descripcionreparaciontxt.text = descripcionreparacion;
-                                    preciohoratxt.text=preciohora;
-                                    //modelocontroll.text = modelo;
-                                    await dialog.dialogOrderUpdate(context,size,listamecanicos,horasreparaciontxt,preciohoratxt,descripcionreparaciontxt,fechafin,mecanico,id,vehiculo,fechainicio); //este ultimo dni q le paso es para identificar que registro actualizo
-                                    setState(() {});
+                                    if (facturada == 0) {
+                                      //si facturada es igual a 0 significa q no esta facturada y se puede borrar, si no es igual a 0 no se puede borrar
 
-                                    
+                                      FocusScope.of(context)
+                                          .unfocus(); //para que el textfield pierda el foco
+                                      //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
+                                      /*TextEditingController matriculacontroll =TextEditingController();*/
+                                      TextEditingController horasreparaciontxt =
+                                          TextEditingController();
+                                      TextEditingController
+                                          descripcionreparaciontxt =
+                                          TextEditingController();
+                                      TextEditingController preciohoratxt =
+                                          TextEditingController();
+
+                                      horasreparaciontxt.text = horasreparacion;
+                                      descripcionreparaciontxt.text =
+                                          descripcionreparacion;
+                                      preciohoratxt.text = preciohora;
+                                      //modelocontroll.text = modelo;
+
+                                      await dialog.dialogOrderUpdate(
+                                          context,
+                                          size,
+                                          listamecanicos,
+                                          horasreparaciontxt,
+                                          preciohoratxt,
+                                          descripcionreparaciontxt,
+                                          fechafin,
+                                          mecanico,
+                                          id,
+                                          vehiculo,
+                                          fechainicio); //este ultimo dni q le paso es para identificar que registro actualizo
+                                      setState(() {});
+                                    } else {
+                                      String error =
+                                          'Las órdenes que han sido facturadas no se pueden borrar';
+                                      DialogError dialogError = DialogError();
+                                      await dialogError.dialogError(
+                                          context, error);
+                                    }
                                   }),
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
-                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    await dialog.dialogOrderDelete(context, id);
-                                    setState(() {});
+                                    Database database = await dt.openDB();
+                                    var resultSet = await database.rawQuery(
+                                        "SELECT facturada FROM OrdenesReparacion WHERE id = ?",
+                                        [id]);
+                                    // Get first result
+                                    var dbItem = resultSet.first;
+                                    // Access its id
+                                    var facturada = dbItem['facturada'] as int;
+                                    print('fac' + facturada.toString());
+
+                                    if (facturada == 0) {
+                                      //si facturada es igual a 0 significa q no esta facturada y se puede borrar, si no es igual a 0 no se puede borrar
+
+                                      FocusScope.of(context)
+                                          .unfocus(); //para que el textfield pierda el foco
+                                      await dialog.dialogOrderDelete(
+                                          context, id);
+                                      setState(() {});
+                                    } else {
+                                      String error =
+                                          'Las órdenes que han sido facturadas no se pueden borrar';
+                                      DialogError dialogError = DialogError();
+                                      await dialogError.dialogError(
+                                          context, error);
+                                    }
                                   }),
                             ],
                           ),
@@ -408,28 +480,7 @@ class _ScreenState extends State<RepairOrdersView> {
             }
           }),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*body: StreamBuilder<QuerySnapshot>(
+      /*body: StreamBuilder<QuerySnapshot>(
           stream: loadList(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -529,7 +580,8 @@ class _ScreenState extends State<RepairOrdersView> {
               }).toList(),
             );
           },
-        )*/);
+        )*/
+    );
   }
 
   void bottomSheet(
@@ -587,7 +639,6 @@ class _ScreenState extends State<RepairOrdersView> {
       ),
     );
   }
-
 
   Future<List<RepairOrder>> loadList() async {
     if (search != '') {

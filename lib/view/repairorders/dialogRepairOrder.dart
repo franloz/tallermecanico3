@@ -605,11 +605,10 @@ class DialogRepairOrder {
     DropdownMenuItem(value:item, child: Text(item),);
 }*/
 
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairorder.dart';
@@ -617,9 +616,10 @@ import 'package:tallermecanico/model/repairorder.dart';
 class DialogRepairOrder {
   //TextEditingController idtxt = TextEditingController();
   TextEditingController vehiculotxt = TextEditingController();
-  TextEditingController mecanicotxt =TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
+  TextEditingController mecanicotxt =
+      TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
   TextEditingController horasreparaciontxt = TextEditingController();
-  TextEditingController preciohoratxt= TextEditingController();
+  TextEditingController preciohoratxt = TextEditingController();
   TextEditingController descripcionreparaciontxt = TextEditingController();
   TextEditingController fechainiciotxt = TextEditingController();
   TextEditingController fechafintxt = TextEditingController();
@@ -631,7 +631,7 @@ class DialogRepairOrder {
 
   DatabaseSqlite dt = DatabaseSqlite();
 
-  String? mecanico;//values combobox
+  String? mecanico; //values combobox
   String? vehiculo;
 
   /*String? dnimeca; //para el combobox
@@ -662,24 +662,23 @@ class DialogRepairOrder {
                                     .center, //Center Row contents horizontally,
                                 children: [
                                   Container(
-                                    width: size.width / 1.4,
-                                    child: DropdownButton<String>(
+                                      width: size.width / 1.4,
+                                      child: DropdownButton<String>(
                                         isExpanded: true,
-                                        hint:Text('Elige vehículo'),
+                                        hint: Text('Elige vehículo'),
                                         value: vehiculo,
-                                        items: listavehiculos.map((item)=>DropdownMenuItem<String>(
-                                          value:item,
-                                          child: Text(item) ,
-                                        )).toList(),
-                                        onChanged: (item)=>setState(()=>vehiculo=item),
-                                        
-                                        )
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    /*DropdownButton<String>(
+                                        items: listavehiculos
+                                            .map((item) =>
+                                                DropdownMenuItem<String>(
+                                                  value: item,
+                                                  child: Text(item),
+                                                ))
+                                            .toList(),
+                                        onChanged: (item) =>
+                                            setState(() => vehiculo = item),
+                                      )
+
+                                      /*DropdownButton<String>(
                                       hint: Text('Elige mecánico'),
                                       isExpanded: true,
 
@@ -697,7 +696,7 @@ class DialogRepairOrder {
 
                                       value: dnimeca,
                                     ),*/
-                                  )
+                                      )
                                   //se convierte la lista de String a DropdownMenuItem<String>
                                 ],
                               ),
@@ -712,19 +711,21 @@ class DialogRepairOrder {
                                     .center, //Center Row contents horizontally,
                                 children: [
                                   Container(
-                                    width: size.width / 1.4,
-                                    child: DropdownButton<String>(
+                                      width: size.width / 1.4,
+                                      child: DropdownButton<String>(
                                         isExpanded: true,
-                                        hint:Text('Elige mecánico'),
+                                        hint: Text('Elige mecánico'),
                                         value: mecanico,
-                                        items: listamecanicos.map((item)=>DropdownMenuItem<String>(
-                                          value:item,
-                                          child: Text(item) ,
-                                        )).toList(),
-                                        onChanged: (item)=>setState(()=>mecanico=item),
-                                        
-                                        )
-                                  )
+                                        items: listamecanicos
+                                            .map((item) =>
+                                                DropdownMenuItem<String>(
+                                                  value: item,
+                                                  child: Text(item),
+                                                ))
+                                            .toList(),
+                                        onChanged: (item) =>
+                                            setState(() => mecanico = item),
+                                      ))
                                   //se convierte la lista de String a DropdownMenuItem<String>
                                 ],
                               ),
@@ -775,57 +776,55 @@ class DialogRepairOrder {
                                 ],
                               ),
 
-
-
                               const SizedBox(
                                 height: 8,
                               ), //para separar rows
-                              
 
-                               Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
+                              Row(
+                                //fila con un container y un TextField para contraseña
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                    width: size.width /
+                                        1.4, //ancho del TextField en relación al ancho de la pantalla
+                                    height: size.height / 17,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              20)), //bordes circulares
+                                      color: Colors.grey[700],
+                                    ),
+                                    child: TextField(
+                                        keyboardType: TextInputType.number,
                                         inputFormatters: <TextInputFormatter>[
                                           FilteringTextInputFormatter.allow(
                                               RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                                        ], 
-                                    controller:
-                                        preciohoratxt, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Precio hora",
-                                        hintStyle:
-                                            TextStyle(color: Colors.white))),
+                                        ],
+                                        controller:
+                                            preciohoratxt, //se identifica el controlador del TextField
+                                        decoration: const InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 229, 255)),
+                                            ),
+                                            prefixIcon:
+                                                Icon(Icons.circle_outlined),
+                                            border: InputBorder.none,
+                                            hintText: "Precio hora",
+                                            hintStyle: TextStyle(
+                                                color: Colors.white))),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
 
-                          const SizedBox(
-                            height: 8,
-                          ), 
-                        
+                              const SizedBox(
+                                height: 8,
+                              ),
 
                               Row(
                                 //fila con un container y un TextField para contraseña
@@ -878,14 +877,15 @@ class DialogRepairOrder {
                                     width: size.width / 3,
                                     child: ElevatedButton.icon(
                                       onPressed: () async {
-                                        datestart =await pickDateStart(context);
+                                        datestart =
+                                            await pickDateStart(context);
                                         setState(() {
-                                          if(datestart!=null){
-                                            inicio = DateFormat('yyyy-MM-dd').format(datestart!);
-                                          }else{
-                                            inicio='Inicio';
+                                          if (datestart != null) {
+                                            inicio = DateFormat('yyyy-MM-dd')
+                                                .format(datestart!);
+                                          } else {
+                                            inicio = 'Inicio';
                                           }
-                                          
                                         });
                                       },
                                       icon: Icon(Icons.calendar_today),
@@ -907,12 +907,12 @@ class DialogRepairOrder {
                                           dateend = await pickDateEnd(
                                               context, datestart);
                                           setState(() {
-                                            if(dateend!=null){
-                                              fin = DateFormat('yyyy-MM-dd').format(dateend!);
-                                            }else{
-                                              fin='Fin';
+                                            if (dateend != null) {
+                                              fin = DateFormat('yyyy-MM-dd')
+                                                  .format(dateend!);
+                                            } else {
+                                              fin = 'Fin';
                                             }
-                                            
                                           });
                                         },
                                         icon: Icon(Icons.calendar_today),
@@ -933,39 +933,46 @@ class DialogRepairOrder {
                                     .center, //Center Row contents horizontally,
                                 children: [
                                   TextButton(
-                                    onPressed: () {
-                                      if (mecanico ==null||vehiculo == null||
+                                    onPressed: () async {
+                                      if (mecanico == null ||
+                                          vehiculo == null ||
                                           datestart == null) {
                                         String error =
                                             'Debe elegir al mecánico, el vehículo y la fecha de inicio';
                                         DialogError dialogError = DialogError();
-                                        dialogError.dialogError(context, error);
+                                        await dialogError.dialogError(
+                                            context, error);
                                       } else {
                                         /*var fechahoy=DateTime.now();
                                         String hoy = DateFormat('dd-MM-yyyy').format(datestart!);*/
 
-                                        String id=vehiculo.toString()+'//'+inicio;
+                                        String id =
+                                            vehiculo.toString() + '//' + inicio;
 
                                         var order = RepairOrder(
-                                          id:id.toUpperCase(),
-                                          vehiculo: vehiculo.toString(),
-                                          mecanico: mecanico.toString(),
-                                          horasreparacion:horasreparaciontxt.text,
-                                          preciohora:preciohoratxt.text,
-                                          descripcionreparacion:descripcionreparaciontxt.text,
-                                          inicio: inicio,
-                                          fin: fin,
-                                        );
+                                            id: id.toUpperCase(),
+                                            vehiculo: vehiculo.toString(),
+                                            mecanico: mecanico.toString(),
+                                            horasreparacion:
+                                                horasreparaciontxt.text,
+                                            preciohora: preciohoratxt.text,
+                                            descripcionreparacion:
+                                                descripcionreparaciontxt.text,
+                                            inicio: inicio,
+                                            fin: fin,
+                                            facturada:
+                                                0 //facturada 0 significa que no ha sido facturada
+                                            );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                        dt.insertOrder(context, order);
+                                        await dt.insertOrder(context, order);
 
                                         horasreparaciontxt.clear();
                                         descripcionreparaciontxt.clear();
                                         preciohoratxt.clear();
                                         //matriculavehi =
-                                           // 'Elige vehículo'; //restauro los combobox
-                                       // dnimeca = 'Elige mecánico';
+                                        // 'Elige vehículo'; //restauro los combobox
+                                        // dnimeca = 'Elige mecánico';
                                         //inicio='Inicio';//restauro los botones de fechas
                                         // fin='Fin';
 
@@ -988,281 +995,282 @@ class DialogRepairOrder {
   Future dialogOrderUpdate(
           BuildContext context,
           Size size,
-
-          List<String> listamecanicos,TextEditingController horasreparaciontxt,TextEditingController preciohoratxt,TextEditingController descripcionreparaciontxt,String fechafin,String? idmecanico,
-          String idord,String vehiculomatri,String fechainicio
-
-
-
-          ) =>
+          List<String> listamecanicos,
+          TextEditingController horasreparaciontxt,
+          TextEditingController preciohoratxt,
+          TextEditingController descripcionreparaciontxt,
+          String fechafin,
+          String? idmecanico,
+          String idord,
+          String vehiculomatri,
+          String fechainicio) =>
       showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) =>StatefulBuilder(builder: ((context, setState) => AlertDialog(
-                backgroundColor: Colors.grey[600],
-                title: Text('Actualizar Orden',
-                    style: TextStyle(color: Colors.white)),
-                //content: Text(error),
-                actions: <Widget>[
-                  Container(
-                      width: size.width / 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
+          builder: (context) => StatefulBuilder(
+              builder: ((context, setState) => AlertDialog(
+                    backgroundColor: Colors.grey[600],
+                    title: Text('Actualizar Orden',
+                        style: TextStyle(color: Colors.white)),
+                    //content: Text(error),
+                    actions: <Widget>[
+                      Container(
+                          width: size.width / 1,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                             Container(
-                          
-                          width: size.width /
-                                1.4,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            
-                            value: idmecanico,
-                            items: listamecanicos.map((item)=>DropdownMenuItem<String>(
-                              value:item,
-                              child: Text(item) ,
-                            )).toList(),
-                            onChanged: (item)=>setState(()=>idmecanico=item),
-                            
-                            ) )
-                            ],
-                          ),
+                              Row(
+                                //fila con un container y un TextField para contraseña
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                      width: size.width / 1.4,
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        value: idmecanico,
+                                        items: listamecanicos
+                                            .map((item) =>
+                                                DropdownMenuItem<String>(
+                                                  value: item,
+                                                  child: Text(item),
+                                                ))
+                                            .toList(),
+                                        onChanged: (item) =>
+                                            setState(() => idmecanico = item),
+                                      ))
+                                ],
+                              ),
 
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
 
-                          Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
+                              Row(
+                                //fila con un container y un TextField para contraseña
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                    width: size.width /
+                                        1.4, //ancho del TextField en relación al ancho de la pantalla
+                                    height: size.height / 17,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              20)), //bordes circulares
+                                      color: Colors.grey[700],
+                                    ),
+                                    child: TextField(
+                                        keyboardType: TextInputType.number,
                                         inputFormatters: <TextInputFormatter>[
                                           FilteringTextInputFormatter.allow(
                                               RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                                        ], 
-                                    controller:
-                                        horasreparaciontxt, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Horas reparación",
-                                        hintStyle:
-                                            TextStyle(color: Colors.white))),
+                                        ],
+                                        controller:
+                                            horasreparaciontxt, //se identifica el controlador del TextField
+                                        decoration: const InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 229, 255)),
+                                            ),
+                                            prefixIcon:
+                                                Icon(Icons.circle_outlined),
+                                            border: InputBorder.none,
+                                            hintText: "Horas reparación",
+                                            hintStyle: TextStyle(
+                                                color: Colors.white))),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
 
-
-const SizedBox(
-                            height: 8,
-                          ), 
-                          Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                //fila con un container y un TextField para contraseña
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                    width: size.width /
+                                        1.4, //ancho del TextField en relación al ancho de la pantalla
+                                    height: size.height / 17,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              20)), //bordes circulares
+                                      color: Colors.grey[700],
+                                    ),
+                                    child: TextField(
+                                        keyboardType: TextInputType.number,
                                         inputFormatters: <TextInputFormatter>[
                                           FilteringTextInputFormatter.allow(
                                               RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                                        ], 
-                                    controller:
-                                        preciohoratxt, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Precio hora",
-                                        hintStyle:
-                                            TextStyle(color: Colors.white))),
+                                        ],
+                                        controller:
+                                            preciohoratxt, //se identifica el controlador del TextField
+                                        decoration: const InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 229, 255)),
+                                            ),
+                                            prefixIcon:
+                                                Icon(Icons.circle_outlined),
+                                            border: InputBorder.none,
+                                            hintText: "Precio hora",
+                                            hintStyle: TextStyle(
+                                                color: Colors.white))),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
+
+                              Row(
+                                //fila con un container y un TextField para email
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                    width: size.width /
+                                        1.4, //ancho del TextField en relación al ancho de la pantalla
+                                    height: size.height / 17,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              20)), //bordes circulares
+                                      color: Colors.grey[700],
+                                    ),
+                                    child: TextField(
+                                        controller:
+                                            descripcionreparaciontxt, //se identifica el controlador del TextField
+                                        decoration: const InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 229, 255)),
+                                            ),
+                                            prefixIcon:
+                                                Icon(Icons.circle_outlined),
+                                            border: InputBorder.none,
+                                            hintText:
+                                                "Descripción de la reparación",
+                                            hintStyle: TextStyle(
+                                              color: Colors.white,
+                                            ))),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
+
+                              Row(
+                                  //fila con un container y un TextField para contraseña
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .center, //Center Row contents horizontally,
+                                  children: [
+                                    Container(
+                                        width: size.width / 3,
+                                        child: ElevatedButton.icon(
+                                          onPressed: () async {
+                                            DateTime date = DateTime.parse(
+                                                fechainicio); //convierto la fecha de inicio a datetime para pasarla al metodo pickDateEnd
+
+                                            dateend = await pickDateEnd(
+                                                context, date);
+                                            setState(() {
+                                              if (dateend != null) {
+                                                fechafin =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(dateend!);
+                                              } else {
+                                                fechafin = 'Fin';
+                                              }
+                                            });
+                                          },
+                                          icon: Icon(Icons.calendar_today),
+                                          label: Text(
+                                            fechafin,
+                                            style: TextStyle(
+                                                fontSize: size.height / 65,
+                                                color: Colors.white),
+                                          ),
+                                        )),
+                                  ]),
+
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
+
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  TextButton(
+                                    onPressed: () async {
+                                      var order = RepairOrder(
+                                        id: idord,
+                                        vehiculo: vehiculomatri,
+                                        mecanico: idmecanico.toString(),
+                                        horasreparacion:
+                                            horasreparaciontxt.text,
+                                        preciohora: preciohoratxt.text,
+                                        descripcionreparacion:
+                                            descripcionreparaciontxt.text,
+                                        inicio: fechainicio,
+                                        fin: fechafin,
+                                        facturada: 0,
+                                      );
+
+                                      await dt.updateOrder(
+                                          context, order, idord);
+
+                                      descripcionreparaciontxt.clear();
+                                      horasreparaciontxt.clear();
+                                      preciohoratxt.clear();
+
+                                      Navigator.of(context).pop();
+                                    },
+                                    //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                                    child: Text('Guardar',
+                                        style: TextStyle(
+                                            fontSize: size.height / 35,
+                                            color: Colors
+                                                .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
-
-                          Row(
-                            //fila con un container y un TextField para email
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                width: size.width /
-                                    1.4, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                    
-
-
-                                    controller:
-                                        descripcionreparaciontxt, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Descripción de la reparación",
-                                        hintStyle: TextStyle(
-                                          color: Colors.white,
-                                        ))),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
-
-                          Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                      width: size.width / 3,
-                                      child: ElevatedButton.icon(
-                                        onPressed: () async {
-                                          DateTime date = DateTime.parse(fechainicio);//convierto la fecha de inicio a datetime para pasarla al metodo pickDateEnd
-
-
-                                          dateend = await pickDateEnd(
-                                              context, date);
-                                          setState(() {
-                                            if(dateend!=null){
-                                              fechafin = DateFormat('yyyy-MM-dd').format(dateend!);
-                                            }else{
-                                              fechafin='Fin';
-                                            }
-                                            
-                                          });
-                                        },
-                                        icon: Icon(Icons.calendar_today),
-                                        label: Text(
-                                          fechafin,
-                                          style: TextStyle(
-                                              fontSize: size.height / 65,
-                                              color: Colors.white),
-                                        ),
-                                      )),
-                            ]
-                          ),
-
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
-
-                          
-
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, //Center Row contents horizontally,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  
-                                    
-
-
-                                    var order = RepairOrder(
-                                          id:idord,
-                                          vehiculo: vehiculomatri,
-                                          mecanico: idmecanico.toString(),
-                                          horasreparacion:horasreparaciontxt.text,
-                                          preciohora:preciohoratxt.text ,
-                                          descripcionreparacion:descripcionreparaciontxt.text,
-                                          inicio:fechainicio,
-                                          fin: fechafin,
-                                        );
-
-
-                                    dt.updateOrder(context,order,idord);
-
-                                    
-                                    descripcionreparaciontxt.clear();
-                                    horasreparaciontxt.clear();
-                                    preciohoratxt.clear();
-
-                                    Navigator.of(context).pop();
-                                  },
-                                 //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
-                                child: Text('Guardar',
-                                    style: TextStyle(
-                                        fontSize: size.height / 35,
-                                        color: Colors
-                                            .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
-                              ),
-                            ],
-                          ),
-                        ],
-                      ))
-                ],
-              ))));
+                          ))
+                    ],
+                  ))));
 
   Future dialogOrderDelete(BuildContext context, String id) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
-            title:
-                Text('Borrar Orden', style: TextStyle(color: Colors.white)),
+            title: Text('Borrar Orden', style: TextStyle(color: Colors.white)),
             content: Text('¿Estas seguro de borrar esta orden?'),
             actions: <Widget>[
               TextButton(
@@ -1272,8 +1280,9 @@ const SizedBox(
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: () async{
-                  await dt.deleteOrder(context,id);
+                onPressed: () async {
+                  await dt.deleteOrder(context, id);
+
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),
@@ -1292,6 +1301,4 @@ const SizedBox(
           initialDate: datestart,
           firstDate: datestart,
           lastDate: DateTime(2200));
-
-  
 }

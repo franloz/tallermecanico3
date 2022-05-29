@@ -226,7 +226,7 @@ class DialogVehicles {
                             .center, //Center Row contents horizontally,
                         children: [
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async{
                               if (matriculatxt.text.isEmpty ||
                                   marcatxt.text.isEmpty ||
                                   modelotxt.text.isEmpty ||
@@ -235,7 +235,7 @@ class DialogVehicles {
                                 String error =
                                     'Rellene todos los campos antes de guardar';
                                 DialogError dialogError = DialogError();
-                                dialogError.dialogError(context, error);
+                                await dialogError.dialogError(context, error);
                               } else {
                                 String matricula = matriculatxt.text;
                                 String marca = marcatxt.text;
@@ -249,7 +249,7 @@ class DialogVehicles {
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                dt.insertVehicle(context, vehicle);
+                                await dt.insertVehicle(context, vehicle);
 
                                 matriculatxt.clear();
                                 marcatxt.clear();
@@ -448,7 +448,7 @@ class DialogVehicles {
                                 .center, //Center Row contents horizontally,
                             children: [
                               TextButton(
-                                onPressed: () {
+                                onPressed: () async{
                                   if (/*matricula.text.isEmpty ||*/
                                       marca.text.isEmpty ||
                                       modelo.text.isEmpty //||
@@ -456,7 +456,7 @@ class DialogVehicles {
                                       ) {
                                     String error ='Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
-                                    dialogError.dialogError(context, error);
+                                    await dialogError.dialogError(context, error);
                                   } else {
                                     
                                     String marcaa = marca.text;
@@ -470,7 +470,7 @@ class DialogVehicles {
                                     );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                    dt.updateVehicle(context, vehicle,
+                                    await dt.updateVehicle(context, vehicle,
                                         matricula); //olddni para identificar que registro actualizo
 
                                     marca.clear();

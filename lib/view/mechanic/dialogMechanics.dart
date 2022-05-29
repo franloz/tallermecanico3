@@ -161,14 +161,14 @@ class DialogMechanics {
                         mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async{
                               if (dnitxt.text.isEmpty ||//comprueba que los campos estén vacios
                                   nombretxt.text.isEmpty ||
                                   telftxt.text.isEmpty ||
                                   direcciontxt.text.isEmpty) {//si están vacios lanza un dialog comunicando que debe rellenarlos
                                 String error ='Rellene todos los campos antes de guardar';
                                 DialogError dialogError = DialogError();
-                                dialogError.dialogError(context, error);
+                                await dialogError.dialogError(context, error);
                               } else {
                                 String dni = dnitxt.text;
                                 String nombre = nombretxt.text;
@@ -182,7 +182,7 @@ class DialogMechanics {
                                   direccion: direccion,
                                 );
 
-                                dt.insertMechanic(context, mechanic);//metodo para insertar
+                                await dt.insertMechanic(context, mechanic);//metodo para insertar
 
                                 dnitxt.clear();//para vaciar campos del alertdialog
                                 nombretxt.clear();
@@ -325,11 +325,11 @@ class DialogMechanics {
                             mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                             children: [
                               TextButton(
-                                onPressed: () {
+                                onPressed: () async{
                                   if ( name.text.isEmpty ||tlf.text.isEmpty ||direction.text.isEmpty) {
                                     String error ='Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
-                                    dialogError.dialogError(context, error);
+                                    await dialogError.dialogError(context, error);
                                   } else {
                                     String nombre = name.text;
                                     int telf = int.parse(tlf.text);
@@ -342,7 +342,7 @@ class DialogMechanics {
                                       direccion: direccion,
                                     );
 
-                                    dt.updateMechanic(context, mechanic,dni); 
+                                    await dt.updateMechanic(context, mechanic,dni); 
 
                                     dnitxt.clear();
                                     nombretxt.clear();

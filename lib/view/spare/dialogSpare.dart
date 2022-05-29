@@ -207,7 +207,7 @@ class DialogSpare {
                         mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                         children: [
                           TextButton(
-                            onPressed: () {
+                            onPressed: ()async {
                               if (marcatxt.text.isEmpty ||
                                   piezatxt.text.isEmpty ||
                                   preciotxt.text.isEmpty ||
@@ -215,7 +215,7 @@ class DialogSpare {
                                   telfproveedortxt.text.isEmpty) {
                                 String error ='Rellene todos los campos antes de guardar';
                                 DialogError dialogError = DialogError();
-                                dialogError.dialogError(context, error);
+                                await dialogError.dialogError(context, error);
                               } else {
                                 String marca = marcatxt.text;
                                 String pieza = piezatxt.text.toLowerCase(); //lo pongo en minuscula siempre para q al buscar por este campo se busque en minuscula
@@ -238,7 +238,7 @@ class DialogSpare {
                                 );
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                dt.insertSpare(context, spare);
+                                await dt.insertSpare(context, spare);
 
                                 marcatxt.clear();
                                 piezatxt.clear();
@@ -456,7 +456,7 @@ class DialogSpare {
                                 .center, //Center Row contents horizontally,
                             children: [
                               TextButton(
-                                onPressed: () {
+                                onPressed: () async{
                                   if (/*marcacontroll.text.isEmpty ||
                                       piezacontroll.text.isEmpty ||*/
                                       preciocontroll.text.isEmpty ||
@@ -464,7 +464,7 @@ class DialogSpare {
                                       telfproveedorcontroll.text.isEmpty) {
                                     String error ='Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
-                                    dialogError.dialogError(context, error);
+                                    await dialogError.dialogError(context, error);
                                   } else {
                                     //String marca = marcacontroll.text;
                                     //String pieza =piezacontroll.text;
@@ -485,7 +485,7 @@ class DialogSpare {
 
 //////////////////////////////////////capturar excepcion de PK repetida, q no se puedan escribir letras en telefono ni numeros en nombre
 
-                                    dt.updateSpare(context,spare,id);
+                                    await dt.updateSpare(context,spare,id);
 
                                     
                                     preciocontroll.clear();
