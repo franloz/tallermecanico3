@@ -51,7 +51,7 @@ class _ScreenState extends State<ClientsView> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
-          onPressed: () async {
+          onPressed: ()  {
             FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
             //await cl.dialogClientInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             Navigator.pushNamed(context, 'ClientInsertView');
@@ -89,7 +89,7 @@ class _ScreenState extends State<ClientsView> {
                             children: [
                               IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: () async {
+                                  onPressed: ()  {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del cliente a modificar para que aparezcan escrios en los textFields del dialog de modificar
                                     

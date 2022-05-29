@@ -2,28 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/view/vehicle/dialogVehicles.dart';
 
-import '../../model/Vehicle.dart';
+import '../../model/vehicle.dart';
 
-class VehiclesView extends StatelessWidget {
+class VehiclesView extends StatefulWidget {
   const VehiclesView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Taller',
-      home: const MyHomePage(),
-    );
-  }
+  State<VehiclesView> createState() => _ScreenState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _ScreenState extends State<VehiclesView> {
   DialogVehicles cl = DialogVehicles();
   DatabaseSqlite dt = DatabaseSqlite();
 
@@ -55,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           title: Container(
             width: double.infinity,
@@ -81,17 +70,19 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
-          onPressed: () async {
+          onPressed: () {
             FocusScope.of(context)
                 .unfocus(); //para que el textfield pierda el foco
 
-                for (var age in lista) {
+            /*for (var age in lista) {
      print('holaaaaaaaa'+age);
-  }
-            await cl.dialogVehicleInsert(context, size, lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
-            setState(() {});
+  }*/
+            //await cl.dialogVehicleInsert(context, size, lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            Navigator.pushNamed(context, 'VehicleInsertView', arguments: {
+              "lista": lista,
+            });
 
-            //Navigator.pushNamed(context, 'VehiclesModify');
+            setState(() {});
           }),
       body: FutureBuilder<List<Vehicle>>(
           future: loadList(), ////un metodo que controle si hay busqueda o no
@@ -119,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(matricula),
-                        subtitle: Text(marca + ' '+ modelo),
+                        subtitle: Text(marca + ' ' + modelo),
                         trailing: SizedBox(
                           width: size.width / 4,
                           child: Row(
@@ -131,12 +122,31 @@ class _MyHomePageState extends State<MyHomePage> {
                                         .unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
                                     /*TextEditingController matriculacontroll =TextEditingController();*/
-                                    TextEditingController marcacontroll = TextEditingController(); 
-                                    TextEditingController modelocontroll =TextEditingController();
+                                    TextEditingController marcacontroll =
+                                        TextEditingController();
+                                    TextEditingController modelocontroll =
+                                        TextEditingController();
                                     /*matriculacontroll.text = matricula;*/
                                     marcacontroll.text = marca;
                                     modelocontroll.text = modelo;
-                                    await cl.dialogVehicleUpdate(context,size,matricula,marcacontroll,modelocontroll,clientedni,lista); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    /*await cl.dialogVehicleUpdate(
+                                        context,
+                                        size,
+                                        matricula,
+                                        marcacontroll,
+                                        modelocontroll,
+                                        clientedni,
+                                        lista);*/ //este ultimo dni q le paso es para identificar que registro actualizo
+
+                                    Navigator.pushNamed(context, 'VehicleUpdateView',arguments: {
+                                          "matricula": matricula,
+                                          "marcacontroll":marcacontroll,
+                                          "clientedni":clientedni,
+                                          "modelocontroll":modelocontroll,
+                                          "lista":lista,
+                                          
+                                          
+                                          });
                                     setState(() {});
                                   }),
                               IconButton(
@@ -144,7 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   onPressed: () async {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
-                                    await cl.dialogVehicleDelete(context, matricula);
+                                    await cl.dialogVehicleDelete(
+                                        context, matricula);
                                     setState(() {});
                                   }),
                             ],
@@ -171,14 +182,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void bottomSheet(
       String matricula, String marca, String modelo, String clientedni) {
     showModalBottomSheet(
-      isScrollControlled:
-          true, 
+      isScrollControlled: true,
       context: context,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => Column(
-        mainAxisSize: MainAxisSize
-            .min,
+        mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
             title: Text('Matricula'),

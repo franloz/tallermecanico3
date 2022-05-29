@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 
-import '../../model/mechanic.dart';
 
-class DialogMechanics {
+class DialogMechanicsDelete {
   DatabaseSqlite dt = DatabaseSqlite();
 
   TextEditingController dnitxt = TextEditingController();
@@ -13,7 +10,7 @@ class DialogMechanics {
   TextEditingController telftxt = TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
   TextEditingController direcciontxt = TextEditingController();
 
-  Future dialogMechanicInsert(BuildContext context, Size size) => showDialog(
+  /*Future dialogMechanicInsert(BuildContext context, Size size) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
@@ -200,9 +197,9 @@ class DialogMechanics {
                     ],
                   ))
             ],
-          ));
+          ));*/
 
-  Future dialogMechanicUpdate(
+  /*Future dialogMechanicUpdate(
     BuildContext context,
     Size size,
     String dni,
@@ -362,7 +359,7 @@ class DialogMechanics {
                         ],
                       ))
                 ],
-              ));
+              ));*/
 
   Future dialogMechanicDelete(BuildContext context, String dni) => showDialog(
       context: context,

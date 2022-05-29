@@ -10,13 +10,17 @@ import 'package:tallermecanico/view/login/forgotPassword.dart';
 import 'package:tallermecanico/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tallermecanico/view/login/loginSignUp.dart';
+import 'package:tallermecanico/view/mechanic/mechanicinsertView.dart';
 import 'package:tallermecanico/view/mechanic/mechanicsView.dart';
+import 'package:tallermecanico/view/mechanic/mechanicupdateView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosList.dart';
 import 'package:tallermecanico/view/repairlines/repairLinesView.dart';
 import 'package:tallermecanico/view/repairorders/repairordersView.dart';
 import 'package:tallermecanico/view/spare/spareView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosView.dart';
+import 'package:tallermecanico/view/vehicle/vehicleinsertView.dart';
 import 'package:tallermecanico/view/vehicle/vehiclesView.dart';
+import 'package:tallermecanico/view/vehicle/vehicleupdateView.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +52,10 @@ class MyApp extends StatelessWidget {
         'VehiclePhotosList': (context) => VehiclePhotosList(),
         'ClientInsertView': (context) => ClientInsertView(),
         'ClientUpdateView': (context) => ClientUpdateView(),
+        'MechanicUpdateView': (context) => MechanicUpdateView(),
+        'MechanicInsertView': (context) => MechanicInsertView(),
+        'VehicleUpdateView': (context) => VehicleUpdateView(),
+        'VehicleInsertView': (context) => VehicleInsertView(),
 
       },
       navigatorKey: navigatorKey,

@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/model/Vehicle.dart';
+import 'package:tallermecanico/model/vehicle.dart';
 import 'package:tallermecanico/model/repairLines.dart';
 import 'package:tallermecanico/model/repairorder.dart';
 import 'package:tallermecanico/model/spare.dart';

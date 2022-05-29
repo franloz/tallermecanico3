@@ -3,17 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/client.dart';
+import 'package:tallermecanico/model/mechanic.dart';
 
 
 
-class ClientUpdateView extends StatefulWidget {
-  const ClientUpdateView({Key? key}) : super(key: key);
+class MechanicUpdateView extends StatefulWidget {
+  const MechanicUpdateView({Key? key}) : super(key: key);
 
   @override
-  State<ClientUpdateView> createState() => _ScreenState();
+  State<MechanicUpdateView> createState() => _ScreenState();
 }
 
-class _ScreenState extends State<ClientUpdateView> {
+class _ScreenState extends State<MechanicUpdateView> {
 
   DatabaseSqlite dt = DatabaseSqlite();
   
@@ -39,17 +40,17 @@ class _ScreenState extends State<ClientUpdateView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
-          title: Text('Actualizar cliente'),),
+          title: Text('Actualizar mecánico'),),
       backgroundColor: Colors.grey[800],
       
       body: Column(
-                        
                         children: [
-                           const SizedBox(
+                          const SizedBox(
                             height: 20,
-                          ),
+                          ), 
 
                           Row(
+                            //fila con un container y un TextField para contraseña
                             mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                             children: [
                               Container(
@@ -60,10 +61,10 @@ class _ScreenState extends State<ClientUpdateView> {
                                   color: Colors.grey[700],
                                 ),
                                 child: TextField(
-                                    controller:name, //se identifica el controlador del TextField
+                                    controller: name, //se identifica el controlador del TextField
                                     decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all( Radius.circular(20)),
+                                          borderRadius: BorderRadius.all(Radius.circular(20)),
                                           borderSide: BorderSide(
                                               width: 1,
                                               color: Color.fromARGB(255, 0, 229, 255)),
@@ -71,7 +72,7 @@ class _ScreenState extends State<ClientUpdateView> {
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
                                         hintText: "Nombre",
-                                        hintStyle: TextStyle(color: Colors.white))),
+                                        hintStyle:TextStyle(color: Colors.white))),
                               ),
                             ],
                           ),
@@ -104,8 +105,7 @@ class _ScreenState extends State<ClientUpdateView> {
                                         prefixIcon: Icon(Icons.circle_outlined),
                                         border: InputBorder.none,
                                         hintText: "Teléfono",
-                                        hintStyle: TextStyle(
-                                          color: Colors.white,
+                                        hintStyle: TextStyle( color: Colors.white,
                                         ))),
                               ),
                             ],
@@ -116,6 +116,7 @@ class _ScreenState extends State<ClientUpdateView> {
                           ), //para separar rows
 
                           Row(
+                            //fila con un container y un TextField para contraseña
                             mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                             children: [
                               Container(
@@ -151,10 +152,7 @@ class _ScreenState extends State<ClientUpdateView> {
                             children: [
                               TextButton(
                                 onPressed: () async{
-                                  if (
-                                      name.text.isEmpty ||
-                                          tlf.text.isEmpty ||
-                                          direction.text.isEmpty) {
+                                  if ( name.text.isEmpty ||tlf.text.isEmpty ||direction.text.isEmpty) {
                                     String error ='Rellene todos los campos antes de guardar';
                                     DialogError dialogError = DialogError();
                                     await dialogError.dialogError(context, error);
@@ -163,23 +161,24 @@ class _ScreenState extends State<ClientUpdateView> {
                                     int telf = int.parse(tlf.text);
                                     String direccion = direction.text;
 
-                                    var cliente = Client(
+                                    var mechanic = Mechanic(
                                       dni: dni,
                                       nombre: nombre,
                                       telf: telf,
                                       direccion: direccion,
                                     );
 
-                                    await dt.updateClient(context, cliente, dni);//metodo que actualiza
+                                    await dt.updateMechanic(context, mechanic,dni); 
+
                                     
 
-                                    Navigator.of(context).pop();//se vuelve a pantalla anterior
+                                    Navigator.of(context).pop();
                                   }
-                                }, 
+                                }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
                                 child: Text('Guardar',
                                     style: TextStyle(
                                         fontSize: size.height / 35,
-                                        color: Colors.white)),
+                                        color: Colors.white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
                               ),
                             ],
                           ),

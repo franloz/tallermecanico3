@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/view/mechanic/dialogMechanics.dart';
+import 'package:tallermecanico/view/mechanic/dialogMechanicsDelete.dart';
 
 import '../../model/mechanic.dart';
 
-class MechanicsView extends StatelessWidget {
+class MechanicsView extends StatefulWidget {
   const MechanicsView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Taller',
-      home: const MyHomePage(),
-    );
-  }
+  State<MechanicsView> createState() => _ScreenState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  DialogMechanics cl = DialogMechanics();//alertdialog para insertar, modificar y eliminar mecánicos
+class _ScreenState extends State<MechanicsView> {
+  DialogMechanicsDelete dialog = DialogMechanicsDelete();//alertdialog para insertar, modificar y eliminar mecánicos
   DatabaseSqlite dt = DatabaseSqlite();
 
   TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda del mecanico
@@ -36,6 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+         automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           title: Container(
             width: double.infinity,
@@ -61,9 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
-          onPressed: () async {
+          onPressed: ()  {
             FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-            await cl.dialogMechanicInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            //await cl.dialogMechanicInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            Navigator.pushNamed(context, 'MechanicInsertView');
             setState(() {});
           }),
       body: FutureBuilder<List<Mechanic>>(
@@ -99,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: () async {
+                                  onPressed: ()  {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escritos en los textFields del dialog
                                     
@@ -109,21 +99,29 @@ class _MyHomePageState extends State<MyHomePage> {
                                     tlfcontroll.text = tlf.toString();
                                     TextEditingController direccioncontroll =TextEditingController();
                                     direccioncontroll.text = direccion;
-                                    await cl.dialogMechanicUpdate(//alertdialog para actualizar
+                                    /*await cl.dialogMechanicUpdate(//alertdialog para actualizar
                                         context,
                                         size,
                                         dni,
                                         namecontroll,
                                         tlfcontroll,
                                         direccioncontroll
-                                        ); 
+                                        ); */
+                                    Navigator.pushNamed(context, 'MechanicUpdateView',arguments: {
+                                          "dni": dni,
+                                          "namecontroll":namecontroll,
+                                          "tlfcontroll":tlfcontroll,
+                                          "direccioncontroll":direccioncontroll,
+                                          
+                                          
+                                          });
                                     setState(() {});
                                   }),
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    await cl.dialogMechanicDelete(context, dni);//dialog para borrar
+                                    await dialog.dialogMechanicDelete(context, dni);//dialog para borrar
                                     setState(() {});
                                   }),
                             ],
