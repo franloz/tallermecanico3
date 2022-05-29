@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/view/clients/dialogClients.dart';
+import 'package:tallermecanico/view/clients/dialogClientsDelete.dart';
 
 import '../../model/client.dart';
 
-class ClientsView extends StatelessWidget {
+class ClientsView extends StatefulWidget {
   const ClientsView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Taller',
-      home: const MyHomePage(),
-    );
-  }
+  State<ClientsView> createState() => _ScreenState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  DialogClients cl = DialogClients();//alertdialog para insertar, modificar y eliminar clientes
+class _ScreenState extends State<ClientsView> {
+  DialogClientsDelete cl = DialogClientsDelete();//alertdialog para insertar, modificar y eliminar clientes
   DatabaseSqlite dt = DatabaseSqlite();
 
   TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda del cliente
@@ -36,6 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           title: Container(
             width: double.infinity,
@@ -64,7 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Icon(Icons.add),
           onPressed: () async {
             FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-            await cl.dialogClientInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            //await cl.dialogClientInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            Navigator.pushNamed(context, 'ClientInsertView');
             setState(() {});
           }),
       body: FutureBuilder<List<Client>>(
@@ -109,13 +99,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                     tlfcontroll.text = tlf.toString();
                                     TextEditingController direccioncontroll =TextEditingController();
                                     direccioncontroll.text = direccion;
-                                    await cl.dialogClientUpdate(//alertdialog para actualizar
+                                   /* await cl.dialogClientUpdate(//alertdialog para actualizar
                                         context,
                                         size,
                                         dni,
                                         namecontroll,
                                         tlfcontroll,
-                                        direccioncontroll); 
+                                        direccioncontroll); */
+                                        Navigator.pushNamed(context, 'ClientUpdateView',arguments: {
+                                          "dni": dni,
+                                          "namecontroll":namecontroll,
+                                          "tlfcontroll":tlfcontroll,
+                                          "direccioncontroll":direccioncontroll,
+                                          
+                                          
+                                          });
                                     setState(() {});
                                   }),
                               IconButton(

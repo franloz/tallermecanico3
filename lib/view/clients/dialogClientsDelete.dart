@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/model/client.dart';
 
-class DialogClients {
+class DialogClientsDelete {
   DatabaseSqlite dt = DatabaseSqlite();
 
-  TextEditingController dnitxt = TextEditingController();
+  /*TextEditingController dnitxt = TextEditingController();
   TextEditingController nombretxt = TextEditingController();
   TextEditingController telftxt =TextEditingController(); 
-  TextEditingController direcciontxt = TextEditingController();
+  TextEditingController direcciontxt = TextEditingController();*/
 
-  Future dialogClientInsert(BuildContext context, Size size) => showDialog(
+  /*Future dialogClientInsert(BuildContext context, Size size) => showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: false,//para que no se cierre si toca en la pantalla
       builder: (context) => AlertDialog(
             backgroundColor: Colors.grey[600],
             title:Text('Añadir Cliente', style: TextStyle(color: Colors.white)),
@@ -22,6 +19,7 @@ class DialogClients {
             actions: <Widget>[
               Container(
                   width: size.width / 1,
+                  
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -54,8 +52,8 @@ class DialogClients {
                         ],
                       ),
 
-                      const SizedBox(
-                        height: 8,
+                      SizedBox(
+                        height: 6,
                       ), //para separar rows
 
                       Row(
@@ -86,7 +84,7 @@ class DialogClients {
                       ),
 
                       const SizedBox(
-                        height: 8,
+                        height: 6,
                       ), //para separar rows
 
                       Row(
@@ -121,7 +119,7 @@ class DialogClients {
                       ),
 
                       const SizedBox(
-                        height: 8,
+                        height: 6,
                       ), //para separar rows
 
                       Row(
@@ -152,7 +150,7 @@ class DialogClients {
                       ),
 
                       const SizedBox(
-                        height: 8,
+                        height: 6,
                       ), //para separar rows
 
                       Row(
@@ -200,9 +198,9 @@ class DialogClients {
                     ],
                   ))
             ],
-          ));
+          ));*/
 
-  Future dialogClientUpdate(
+ /* Future dialogClientUpdate(
           BuildContext context,
           Size size,
           String dni,
@@ -222,9 +220,7 @@ class DialogClients {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
+                          
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
@@ -254,7 +250,7 @@ class DialogClients {
                           ),
 
                           const SizedBox(
-                            height: 8,
+                            height: 6,
                           ), //para separar rows
 
                           Row(
@@ -289,7 +285,7 @@ class DialogClients {
                           ),
 
                           const SizedBox(
-                            height: 8,
+                            height: 6,
                           ), //para separar rows
 
                           Row(
@@ -320,7 +316,7 @@ class DialogClients {
                           ),
 
                           const SizedBox(
-                            height: 8,
+                            height: 6,
                           ), //para separar rows
 
                           Row(
@@ -366,7 +362,7 @@ class DialogClients {
                         ],
                       ))
                 ],
-              ));
+              ));*/
 
   Future dialogClientDelete(BuildContext context, String dni) => showDialog(
       context: context,

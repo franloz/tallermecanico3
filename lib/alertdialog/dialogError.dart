@@ -15,7 +15,8 @@ class DialogError {
               content: Text(error),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () {Navigator.of(context).pop();},  //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                  onPressed: () {Navigator.of(context).pop();
+                  },  //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
                   child: const Text(
                       'Ok'), //esto nos permite eliminar el indicador de carga que se lanza en el login
                 ),

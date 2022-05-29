@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/view/bills/billsView.dart';
+import 'package:tallermecanico/view/clients/clientinsertView.dart';
 import 'package:tallermecanico/view/clients/clientsView.dart';
+import 'package:tallermecanico/view/clients/clientupdateView.dart';
 
 import 'package:tallermecanico/view/home.dart';
 import 'package:tallermecanico/view/login/forgotPassword.dart';
@@ -44,6 +46,9 @@ class MyApp extends StatelessWidget {
         'BillsView': (context) => BillsView(),
         'VehiclePhotosView': (context) => VehiclePhotosView(),
         'VehiclePhotosList': (context) => VehiclePhotosList(),
+        'ClientInsertView': (context) => ClientInsertView(),
+        'ClientUpdateView': (context) => ClientUpdateView(),
+
       },
       navigatorKey: navigatorKey,
       home: StreamBuilder<User?>(
