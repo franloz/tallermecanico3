@@ -122,11 +122,19 @@ class _ScreenState extends State<RepairLinesView> {
 
             if (facturada == 0) {
               //si facturada es igual a 0 significa q no esta facturada y se puede insertar lineas, si no es igual a 0 no se puede insertar lineas
-              await dialog.dialogRepairLinesInsert(
+             /* await dialog.dialogRepairLinesInsert(
                   context,
                   size,
                   listarecambios,
-                  idorden); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+                  idorden); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate*/
+
+              await Navigator.pushNamed(context, 'RepairLinesInsertView',arguments: {
+                                          "listarecambios": listarecambios,
+                                          "idorden":idorden,
+                                         
+                                          
+                                          
+                                          });    
               setState(() {});
             } else {
               String error =
