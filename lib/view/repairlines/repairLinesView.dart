@@ -3,9 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairLines.dart';
-import 'package:tallermecanico/model/repairorder.dart';
-import 'package:tallermecanico/view/repairlines/dialogRepairLines.dart';
-import 'package:tallermecanico/view/repairorders/dialogRepairOrderDelete.dart';
+import 'package:tallermecanico/view/repairlines/dialogRepairLinesDelete.dart';
 
 /*class RepairLinesView extends StatelessWidget {
   const RepairLinesView({Key? key}) : super(key: key);
@@ -44,7 +42,7 @@ class RepairLinesView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairLinesView> {
-  DialogRepairLine dialog = DialogRepairLine();
+  DialogRepairLinesDelete dialog = DialogRepairLinesDelete();
 
   TextEditingController searchtxt = TextEditingController();
 
@@ -203,14 +201,26 @@ class _ScreenState extends State<RepairLinesView> {
                                           cantidad; //le paso la cantidad vieja para sumarselo a los recambios y luego quitarle la nueva cantidad que introduzca
 
                                       //modelocontroll.text = modelo;
-                                      await dialog.dialogLineUpdate(
+                                    /*  await dialog.dialogLineUpdate(
                                           context,
                                           size,
                                           idorden,
                                           idlinea,
                                           idrecambio,
                                           cantidadtxt,
-                                          cantidadold); //este ultimo dni q le paso es para identificar que registro actualizo
+                                          cantidadold); //este ultimo dni q le paso es para identificar que registro actualizo*/
+
+                                      await Navigator.pushNamed(context, 'RepairLinesUpdateView',arguments: {
+                                          "idorden": idorden,
+                                          "idlinea":idlinea,
+                                          "idrecambio": idrecambio,
+                                          "cantidadtxt":cantidadtxt,
+                                          "cantidadold": cantidadold,
+                                         
+                                          
+                                          
+                                          }); 
+
                                       setState(() {});
                                     } else {
                                       String error =

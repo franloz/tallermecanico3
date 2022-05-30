@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/model/repairLines.dart';
-import 'package:tallermecanico/model/repairorder.dart';
-import 'package:uuid/uuid.dart';
 
-class DialogRepairLine {
+import 'package:tallermecanico/databasesqlite/database.dart';
+
+class DialogRepairLinesDelete {
  // TextEditingController cantidadtxt = TextEditingController();
 
   DatabaseSqlite dt = DatabaseSqlite();
@@ -168,7 +162,7 @@ class DialogRepairLine {
                     ],
                   ))));*/
 
-  Future dialogLineUpdate(
+ /* Future dialogLineUpdate(
           BuildContext context,
           Size size,
           String idorden,
@@ -271,7 +265,7 @@ class DialogRepairLine {
                             ],
                           ))
                     ],
-                  ))));
+                  ))));*/
 
   Future dialogOrderDelete(BuildContext context, String idorden, String idlinea,
           String idrecambio, int cantidad) =>
@@ -303,7 +297,7 @@ class DialogRepairLine {
                 ],
               ));
 
-  Future<DateTime?> pickDateStart(BuildContext context) => showDatePicker(
+  /*Future<DateTime?> pickDateStart(BuildContext context) => showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
@@ -313,5 +307,5 @@ class DialogRepairLine {
           context: context,
           initialDate: datestart,
           firstDate: datestart,
-          lastDate: DateTime(2200));
+          lastDate: DateTime(2200));*/
 }

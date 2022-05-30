@@ -379,7 +379,8 @@ class _ScreenState extends State<RepairOrdersView> {
                               preciohora,
                               descripcionreparacion,
                               fechainicio,
-                              fechafin);
+                              fechafin,
+                              size);
                         },
                         onLongPress: () {
                           //Navigator.pushNamed(context, 'RepairLinesView');
@@ -481,6 +482,7 @@ class _ScreenState extends State<RepairOrdersView> {
                                           context, error);
                                     }
                                   }),
+                                  
                             ],
                           ),
                         )));
@@ -604,7 +606,7 @@ class _ScreenState extends State<RepairOrdersView> {
       String preciohora,
       String descripcionreparacion,
       String fechainicio,
-      String fechafin) {
+      String fechafin, Size size) {
     showModalBottomSheet(
       context: context,
       isScrollControlled:
@@ -615,6 +617,14 @@ class _ScreenState extends State<RepairOrdersView> {
         mainAxisSize: MainAxisSize
             .min, //para que entren todos los elementos en el bottomsheet
         children: [
+          const SizedBox(
+                                height: 20,
+                              ),
+          Text('Mantenga pulsada la orden para acceder a sus líneas',
+                      style: TextStyle(
+                          fontSize: size.height / 55,
+                          color: Colors
+                              .black)),
           ListTile(
             title: Text('Id de orden'),
             subtitle: Text(numeroorden),
@@ -647,6 +657,7 @@ class _ScreenState extends State<RepairOrdersView> {
             title: Text('Fecha de fin de la reparación'),
             subtitle: Text(fechafin.toString()),
           ),
+          
         ],
       ),
     );
