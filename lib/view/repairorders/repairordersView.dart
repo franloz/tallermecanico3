@@ -218,7 +218,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairorder.dart';
-import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
+import 'package:tallermecanico/view/repairorders/dialogRepairOrderDelete.dart';
 
 /*class RepairOrdersView extends StatelessWidget {
   const RepairOrdersView({Key? key}) : super(key: key);
@@ -257,7 +257,7 @@ class RepairOrdersView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairOrdersView> {
-  DialogRepairOrder dialog = DialogRepairOrder();
+  DialogRepairOrderDelete dialog = DialogRepairOrderDelete();
 
   TextEditingController searchtxt = TextEditingController();
 
@@ -428,18 +428,21 @@ class _ScreenState extends State<RepairOrdersView> {
                                       preciohoratxt.text = preciohora;
                                       //modelocontroll.text = modelo;
 
-                                      await dialog.dialogOrderUpdate(
-                                          context,
-                                          size,
-                                          listamecanicos,
-                                          horasreparaciontxt,
-                                          preciohoratxt,
-                                          descripcionreparaciontxt,
-                                          fechafin,
-                                          mecanico,
-                                          id,
-                                          vehiculo,
-                                          fechainicio); //este ultimo dni q le paso es para identificar que registro actualizo
+                                 
+
+          
+
+                                       await Navigator.pushNamed(context, 'RepairOrdersUpdateView',arguments: {
+                                          "listamecanicos": listamecanicos,
+                                          "horasreparaciontxt":horasreparaciontxt,
+                                          "preciohoratxt":preciohoratxt,
+                                          "descripcionreparaciontxt":descripcionreparaciontxt,
+                                          "fechafin":fechafin,
+                                          "mecanico":mecanico,
+                                          "id":id,
+                                          "vehiculo":vehiculo,
+                                          "fechainicio":fechainicio,
+                                          });
                                       setState(() {});
                                     } else {
                                       String error =

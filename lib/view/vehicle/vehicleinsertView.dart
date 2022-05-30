@@ -159,7 +159,8 @@ class _ScreenState extends State<VehicleInsertView> {
                                 1.1,
                       child: DropdownButton<String>(
                         isExpanded: true,
-                        hint: Text('Elige cliente'),
+                        hint: Text('Elige cliente',style: TextStyle(
+                                             color: Colors.white)),
                         value: cli,
                         items: lista
                             .map((item) => DropdownMenuItem<String>(

@@ -127,7 +127,7 @@ class _ScreenState extends State<VehicleUpdateView> {
               children: [
                 Text('Cliente actual: ' + clienteactual,
                     style: TextStyle(
-                        fontSize: size.height / 38, color: Colors.white))
+                        fontSize: size.height / 45, color: Colors.white))
               ],
             ),
 
@@ -144,7 +144,8 @@ class _ScreenState extends State<VehicleUpdateView> {
                     width: size.width / 1.1,
                     child: DropdownButton<String>(
                       isExpanded: true,
-                      hint: Text('Elige cliente'),
+                      hint: Text('Elige cliente',style: TextStyle(
+                                             color: Colors.white)),
                       value: dnicliente,
                       items: lista
                           .map((item) => DropdownMenuItem<String>(

@@ -5,7 +5,7 @@ import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairLines.dart';
 import 'package:tallermecanico/model/repairorder.dart';
 import 'package:tallermecanico/view/repairlines/dialogRepairLines.dart';
-import 'package:tallermecanico/view/repairorders/dialogRepairOrder.dart';
+import 'package:tallermecanico/view/repairorders/dialogRepairOrderDelete.dart';
 
 /*class RepairLinesView extends StatelessWidget {
   const RepairLinesView({Key? key}) : super(key: key);
