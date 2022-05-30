@@ -12,7 +12,7 @@ class ClientsView extends StatefulWidget {
 }
 
 class _ScreenState extends State<ClientsView> {
-  DialogClientsDelete cl = DialogClientsDelete();//alertdialog para insertar, modificar y eliminar clientes
+  DialogClientsDelete dialog = DialogClientsDelete();//alertdialog para insertar, modificar y eliminar clientes
   DatabaseSqlite dt = DatabaseSqlite();
 
   TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda del cliente
@@ -99,14 +99,8 @@ class _ScreenState extends State<ClientsView> {
                                     tlfcontroll.text = tlf.toString();
                                     TextEditingController direccioncontroll =TextEditingController();
                                     direccioncontroll.text = direccion;
-                                   /* await cl.dialogClientUpdate(//alertdialog para actualizar
-                                        context,
-                                        size,
-                                        dni,
-                                        namecontroll,
-                                        tlfcontroll,
-                                        direccioncontroll); */
-                                        await Navigator.pushNamed(context, 'ClientUpdateView',arguments: {
+                                
+                                        await Navigator.pushNamed(context, 'ClientUpdateView',arguments: {//con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
                                           "dni": dni,
                                           "namecontroll":namecontroll,
                                           "tlfcontroll":tlfcontroll,
@@ -120,7 +114,7 @@ class _ScreenState extends State<ClientsView> {
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    await cl.dialogClientDelete(context, dni);//dialog para borrar
+                                    await dialog.dialogClientDelete(context, dni);//dialog para borrar
                                     setState(() {});
                                   }),
                             ],

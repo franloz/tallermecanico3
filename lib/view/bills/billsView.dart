@@ -11,10 +11,7 @@ class BillsView extends StatefulWidget {
 }
 
 class _ScreenState extends State<BillsView> {
-
   DialogBillsDelete dialog = DialogBillsDelete();
-
-
 
   List<String> listaordenes = [];
   DatabaseSqlite dt = DatabaseSqlite();
@@ -34,8 +31,6 @@ class _ScreenState extends State<BillsView> {
       });
       setState(() {});
     });
-
-   
   }
 
   @override
@@ -43,29 +38,24 @@ class _ScreenState extends State<BillsView> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+            automaticallyImplyLeading: false,//para que no salga error renderflex overflowed keyboard
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             title: Text('Facturas')),
         backgroundColor: Colors.grey[800],
         floatingActionButton: FloatingActionButton(
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             child: Icon(Icons.add),
-            onPressed: () async{
+            onPressed: () async {
               FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-              //await dialog.dialogBillsInsert(context, size, listaordenes); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
-              
-              await Navigator.pushNamed(context, 'BillInsertView',arguments: {
-                                          "listaordenes": listaordenes,
-                                          
-                                          
-                                          
-                                          });
-              
+
+              await Navigator.pushNamed(context, 'BillInsertView', arguments: {
+                "listaordenes": listaordenes,
+              });//con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+
               setState(() {});
             }),
-        
         body: StreamBuilder<QuerySnapshot>(
-          stream:  FirebaseFirestore.instance.collection('facturas').snapshots(),
+          stream: FirebaseFirestore.instance.collection('facturas').snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
@@ -80,44 +70,40 @@ class _ScreenState extends State<BillsView> {
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-                String id=data['id'];
+                String id = data['id'];
                 String idorden = data['idorden'];
                 String baseimponible = data['baseimponible'];
                 String descuento = data['descuento'];
                 String iva = data['iva'];
                 String totalfactura = data['totalfactura'];
-                
 
                 return Card(
                     elevation: 5,
                     child: ListTile(
                         onTap: () {
-                          FocusScope.of(context)
-                              .unfocus(); //para que el textfield pierda el foco
+                          FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
-                          bottomSheet(
-                              idorden,
-                              baseimponible,
-                              descuento,
-                              iva,
-                              totalfactura,
-                             );
+                          bottomSheet(//metodo que muestra los datos
+                            idorden,
+                            baseimponible,
+                            descuento,
+                            iva,
+                            totalfactura,
+                          );
                         },
                         leading: Icon(Icons.euro),
                         title: Text(idorden),
-                        subtitle: Text('Total: '+totalfactura),
+                        subtitle: Text('Total: ' + totalfactura),
                         trailing: SizedBox(
                           width: size.width / 4,
                           child: Row(
                             children: [
-                              
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
-                                    await dialog.dialogBillsDelete(context, id,idorden);
-                                    //setState(() {});
+                                    await dialog.dialogBillsDelete(context, id, idorden);//metodo que borra en la base de datos
                                   }),
                             ],
                           ),
@@ -129,20 +115,19 @@ class _ScreenState extends State<BillsView> {
   }
 
   void bottomSheet(
-      String idorden,
-                              String baseimponible,
-                              String descuento,
-                              String iva,
-                              String totalfactura,) {
-    showModalBottomSheet(
+    String idorden,
+    String baseimponible,
+    String descuento,
+    String iva,
+    String totalfactura,
+  ) {
+    showModalBottomSheet(//combobox
       context: context,
-      isScrollControlled:
-          true, //para que entren todos los elementos en el bottomsheet
+      isScrollControlled:true, //para que entren todos los elementos en el bottomsheet
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => Column(
-        mainAxisSize: MainAxisSize
-            .min, //para que entren todos los elementos en el bottomsheet
+        mainAxisSize: MainAxisSize .min, //para que entren todos los elementos en el bottomsheet
         children: [
           ListTile(
             title: Text('Id de orden'),
@@ -164,13 +149,8 @@ class _ScreenState extends State<BillsView> {
             title: Text('Total factura'),
             subtitle: Text(totalfactura),
           ),
-          
         ],
       ),
     );
   }
-
-
-  
-
 }

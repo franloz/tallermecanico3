@@ -5,35 +5,6 @@ import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/repairLines.dart';
 import 'package:tallermecanico/view/repairlines/dialogRepairLinesDelete.dart';
 
-/*class RepairLinesView extends StatelessWidget {
-  const RepairLinesView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Taller',
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  DialogRepairOrder dialog = DialogRepairOrder();
-
-  TextEditingController searchtxt = TextEditingController();
-
-  String search = '';
-
-  DatabaseSqlite dt = DatabaseSqlite();
-  List<String> listamecanicos = [];*/
-
 class RepairLinesView extends StatefulWidget {
   const RepairLinesView({Key? key}) : super(key: key);
 
@@ -105,34 +76,23 @@ class _ScreenState extends State<RepairLinesView> {
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () async {
-            FocusScope.of(context)
-                .unfocus(); //para que el textfield pierda el foco
+            FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
             Database database = await dt.openDB();
-            var resultSet = await database.rawQuery(
-                "SELECT facturada FROM OrdenesReparacion WHERE id = ?",
-                [idorden]);
+            var resultSet = await database.rawQuery("SELECT facturada FROM OrdenesReparacion WHERE id = ?",[idorden]);//compruebo si esta orden está facturada
             // Get first result
             var dbItem = resultSet.first;
             // Access its id
             var facturada = dbItem['facturada'] as int;
-            print('fac' + facturada.toString());
 
             if (facturada == 0) {
               //si facturada es igual a 0 significa q no esta facturada y se puede insertar lineas, si no es igual a 0 no se puede insertar lineas
-             /* await dialog.dialogRepairLinesInsert(
-                  context,
-                  size,
-                  listarecambios,
-                  idorden); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate*/
-
-              await Navigator.pushNamed(context, 'RepairLinesInsertView',arguments: {
-                                          "listarecambios": listarecambios,
-                                          "idorden":idorden,
-                                         
-                                          
-                                          
-                                          });    
+              
+              await Navigator.pushNamed(context, 'RepairLinesInsertView',
+                  arguments: {
+                    "listarecambios": listarecambios,
+                    "idorden": idorden,
+                  });
               setState(() {});
             } else {
               String error =
@@ -161,8 +121,7 @@ class _ScreenState extends State<RepairLinesView> {
                     elevation: 5,
                     child: ListTile(
                         onTap: () {
-                          FocusScope.of(context)
-                              .unfocus(); //para que el textfield pierda el foco
+                          FocusScope.of(context) .unfocus(); //para que el textfield pierda el foco
 
                           bottomSheet(idorden, idlinea, idrecambio, cantidad);
                         },
@@ -177,74 +136,51 @@ class _ScreenState extends State<RepairLinesView> {
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {
                                     Database database = await dt.openDB();
-                                    var resultSet = await database.rawQuery(
-                                        "SELECT facturada FROM OrdenesReparacion WHERE id = ?",
-                                        [idorden]);
+                                    var resultSet = await database.rawQuery( "SELECT facturada FROM OrdenesReparacion WHERE id = ?",[idorden]);
                                     // Get first result
                                     var dbItem = resultSet.first;
                                     // Access its id
                                     var facturada = dbItem['facturada'] as int;
-                                    print('fac' + facturada.toString());
 
                                     if (facturada == 0) {
                                       //si facturada es igual a 0 significa q no esta facturada y se puede modificar lineas, si no es igual a 0 no se puede modificar lineas
 
-                                      FocusScope.of(context)
-                                          .unfocus(); //para que el textfield pierda el foco
-                                      //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
-                                      /*TextEditingController matriculacontroll =TextEditingController();*/
-                                      TextEditingController cantidadtxt =
-                                          TextEditingController();
-
+                                      FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                                      //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields de la otra pantalla
+                                      TextEditingController cantidadtxt = TextEditingController();
                                       cantidadtxt.text = cantidad.toString();
-                                      int cantidadold =
-                                          cantidad; //le paso la cantidad vieja para sumarselo a los recambios y luego quitarle la nueva cantidad que introduzca
+                                      int cantidadold = cantidad; //le paso la cantidad vieja para sumarselo a los recambios y luego quitarle la nueva cantidad que introduzca
 
-                                      //modelocontroll.text = modelo;
-                                    /*  await dialog.dialogLineUpdate(
-                                          context,
-                                          size,
-                                          idorden,
-                                          idlinea,
-                                          idrecambio,
-                                          cantidadtxt,
-                                          cantidadold); //este ultimo dni q le paso es para identificar que registro actualizo*/
-
-                                      await Navigator.pushNamed(context, 'RepairLinesUpdateView',arguments: {
-                                          "idorden": idorden,
-                                          "idlinea":idlinea,
-                                          "idrecambio": idrecambio,
-                                          "cantidadtxt":cantidadtxt,
-                                          "cantidadold": cantidadold,
-                                         
-                                          
-                                          
-                                          }); 
+                                      await Navigator.pushNamed(
+                                          context, 'RepairLinesUpdateView',
+                                          arguments: {
+                                            "idorden": idorden,
+                                            "idlinea": idlinea,
+                                            "idrecambio": idrecambio,
+                                            "cantidadtxt": cantidadtxt,
+                                            "cantidadold": cantidadold,
+                                          });
 
                                       setState(() {});
                                     } else {
                                       String error =
                                           'No se pueden modificar lineas en las ordenes facturadas';
                                       DialogError dialogError = DialogError();
-                                      await dialogError.dialogError(
-                                          context, error);
+                                      await dialogError.dialogError(context, error);
                                     }
                                   }),
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     Database database = await dt.openDB();
-                                    var resultSet = await database.rawQuery(
-                                        "SELECT facturada FROM OrdenesReparacion WHERE id = ?",
-                                        [idorden]);
+                                    var resultSet = await database.rawQuery( "SELECT facturada FROM OrdenesReparacion WHERE id = ?",[idorden]);
                                     // Get first result
                                     var dbItem = resultSet.first;
                                     // Access its id
                                     var facturada = dbItem['facturada'] as int;
-                                    print('fac' + facturada.toString());
 
                                     if (facturada == 0) {
-                                      //si facturada es igual a 0 significa q no esta facturada y se puede insertar lineas, si no es igual a 0 no se puede insertar lineas
+                                      //si facturada es igual a 0 significa q no esta facturada y se puede borrar lineas, si no es igual a 0 no se puede borrar lineas
                                       FocusScope.of(context)
                                           .unfocus(); //para que el textfield pierda el foco
                                       await dialog.dialogOrderDelete(

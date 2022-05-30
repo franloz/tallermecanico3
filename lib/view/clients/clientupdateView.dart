@@ -27,7 +27,7 @@ class _ScreenState extends State<ClientUpdateView> {
     TextEditingController tlf= TextEditingController();
     TextEditingController direction= TextEditingController();
 
-    String dni = parametros!["dni"];
+    String dni = parametros!["dni"];//se cogen los parametros enviados de la otra pantalla
     name=parametros["namecontroll"];
     tlf=parametros["tlfcontroll"];
     direction=parametros["direccioncontroll"];
