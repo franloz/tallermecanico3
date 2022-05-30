@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/client.dart';
 import 'package:tallermecanico/model/mechanic.dart';
+import 'package:tallermecanico/model/repairorder.dart';
 
 
 
@@ -18,176 +20,355 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
 
   DatabaseSqlite dt = DatabaseSqlite();
   
-  
+  /*List<String> listamecanicos,
+          TextEditingController horasreparaciontxt,
+          TextEditingController preciohoratxt,
+          TextEditingController descripcionreparaciontxt,
+          String fechafin,
+          String? idmecanico,
+          String idord,
+          String vehiculomatri,
+          String fechainicio */
+
+          String? idmecanico;
+          String fechafin = 'Fin';
+          var dateend;
+          
   
   @override
   Widget build(BuildContext context) {
     Map? parametros = ModalRoute.of(context)?.settings.arguments
         as Map?; //para coger el argumento q se pasa desde la otra pantalla
-    TextEditingController name= TextEditingController();
-    TextEditingController tlf= TextEditingController();
-    TextEditingController direction= TextEditingController();
+    TextEditingController horasreparaciontxt= TextEditingController();
+    TextEditingController preciohoratxt= TextEditingController();
+    TextEditingController descripcionreparaciontxt= TextEditingController();
 
-    String dni = parametros!["dni"];
-    name=parametros["namecontroll"];
-    tlf=parametros["tlfcontroll"];
-    direction=parametros["direccioncontroll"];
+    horasreparaciontxt=parametros!["horasreparaciontxt"];
+    preciohoratxt=parametros["preciohoratxt"];
+    descripcionreparaciontxt=parametros["descripcionreparaciontxt"];
+
+    List<String> listamecanicos=parametros["listamecanicos"];
+
+    String idord=parametros["id"];
+    String vehiculomatri=parametros["vehiculo"];
+    String fechainicio=parametros["fechainicio"];
+    String fin=parametros["fechafin"];
+
+
+
+    String mecanicoactual=parametros["mecanico"];
+
         
 
     
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
-          title: Text('Actualizar mecánico'),),
+          title: Text('Actualizar orden'),),
       backgroundColor: Colors.grey[800],
       
       body: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ), 
-
-                          Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                             children: [
-                              Container(
-                                width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
+                              const SizedBox(
+                                height: 20,
+                              ), //para separar rows
+                               Row(
+                                  //fila con un container y un TextField para email
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center, //Center Row contents horizontally,
+                                  children: [
+                                    Text('Mecánico actual: ' + mecanicoactual,
+                                        style: TextStyle(
+                                            fontSize: size.height / 45, color: Colors.white))
+                                  ],
                                 ),
-                                child: TextField(
-                                    controller: name, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Nombre",
-                                        hintStyle:TextStyle(color: Colors.white))),
+
+                                const SizedBox(
+                                height: 8,
                               ),
-                            ],
-                          ),
+                              Row(
+                                //fila con un container y un TextField para contraseña
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                      width: size.width / 1.1,
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        hint: Text('Elige mecánico',style: TextStyle(
+                                             color: Colors.white)),
+                                        value: idmecanico,
+                                        items: listamecanicos
+                                            .map((item) =>
+                                                DropdownMenuItem<String>(
+                                                  value: item,
+                                                  child: Text(item),
+                                                ))
+                                            .toList(),
+                                        onChanged: (item) =>
+                                            setState(() => idmecanico = item),
+                                      ))
+                                ],
+                              ),
 
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
+                              Row(
+                                //fila con un container y un TextField para contraseña
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                    width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
+                                    height: size.height / 17,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              20)), //bordes circulares
+                                      color: Colors.grey[700],
+                                    ),
+                                    child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
+                                        ],
+                                        controller:
+                                            horasreparaciontxt, //se identifica el controlador del TextField
+                                        decoration: const InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 229, 255)),
+                                            ),
+                                            prefixIcon:
+                                                Icon(Icons.circle_outlined),
+                                            border: InputBorder.none,
+                                            hintText: "Horas reparación",
+                                            hintStyle: TextStyle(
+                                                color: Colors.white))),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                //fila con un container y un TextField para contraseña
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                    width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
+                                    height: size.height / 17,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              20)), //bordes circulares
+                                      color: Colors.grey[700],
+                                    ),
+                                    child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
+                                        ],
+                                        controller:
+                                            preciohoratxt, //se identifica el controlador del TextField
+                                        decoration: const InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 229, 255)),
+                                            ),
+                                            prefixIcon:
+                                                Icon(Icons.circle_outlined),
+                                            border: InputBorder.none,
+                                            hintText: "Precio hora",
+                                            hintStyle: TextStyle(
+                                                color: Colors.white))),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
+
+                              Row(
+                                //fila con un container y un TextField para email
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  Container(
+                                    width:size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
+                                    height: size.height / 17,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              20)), //bordes circulares
+                                      color: Colors.grey[700],
+                                    ),
+                                    child: TextField(
+                                        controller:
+                                            descripcionreparaciontxt, //se identifica el controlador del TextField
+                                        decoration: const InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 229, 255)),
+                                            ),
+                                            prefixIcon:
+                                                Icon(Icons.circle_outlined),
+                                            border: InputBorder.none,
+                                            hintText:
+                                                "Descripción de la reparación",
+                                            hintStyle: TextStyle(
+                                              color: Colors.white,
+                                            ))),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
+
+
+                              Row(
+                                  //fila con un container y un TextField para email
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center, //Center Row contents horizontally,
+                                  children: [
+                                    Text('Mecánico actual: ' + fin,
+                                        style: TextStyle(
+                                            fontSize: size.height / 45, color: Colors.white))
+                                  ],
                                 ),
-                                child: TextField(
-                                    keyboardType: TextInputType.number,///para que el teclado sea numerico
-                                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9]{0,1}[0-9]*')),], //para que no se puedan poner puntos o comas
-                                    controller:tlf, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Teléfono",
-                                        hintStyle: TextStyle( color: Colors.white,
-                                        ))),
+
+                                const SizedBox(
+                                height: 8,
+                                ), //para separar rows
+
+                              Row(
+                                  //fila con un container y un TextField para contraseña
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .center, //Center Row contents horizontally,
+                                  children: [
+                                    Container(
+                                        width: size.width / 3,
+                                        child: ElevatedButton.icon(
+                                          onPressed: () async {
+                                            DateTime date = DateTime.parse(
+                                                fechainicio); //convierto la fecha de inicio a datetime para pasarla al metodo pickDateEnd
+
+                                            dateend = await pickDateEnd(
+                                                context, date);
+                                            setState(() {
+                                              if (dateend != null) {
+                                                fechafin =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(dateend!);
+                                              } else {
+                                                fechafin = 'Fin';
+                                              }
+                                            });
+                                          },
+                                          icon: Icon(Icons.calendar_today),
+                                          label: Text(
+                                            fechafin,
+                                            style: TextStyle(
+                                                fontSize: size.height / 65,
+                                                color: Colors.white),
+                                          ),
+                                        )),
+                                  ]),
+
+                              
+
+                              const SizedBox(
+                                height: 8,
+                              ), //para separar rows
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center, //Center Row contents horizontally,
+                                children: [
+                                  TextButton(
+                                    onPressed: () async {
+                                      if (idmecanico == null  ) {
+                                        String error =
+                                            'Debe elegir al mecánico';
+                                        DialogError dialogError = DialogError();
+                                        await dialogError.dialogError(
+                                            context, error);
+                                      } else {
+
+
+                                 
+
+
+
+                                      var order = RepairOrder(
+                                        id: idord,
+                                        vehiculo: vehiculomatri,
+                                        mecanico: idmecanico.toString(),
+                                        horasreparacion:
+                                            horasreparaciontxt.text,
+                                        preciohora: preciohoratxt.text,
+                                        descripcionreparacion:
+                                            descripcionreparaciontxt.text,
+                                        inicio: fechainicio,
+                                        fin: fechafin,
+                                        facturada: 0,
+                                      );
+
+                                      await dt.updateOrder(
+                                          context, order, idord);
+
+                                      descripcionreparaciontxt.clear();
+                                      horasreparaciontxt.clear();
+                                      preciohoratxt.clear();
+
+                                      Navigator.of(context).pop();
+                                      }
+                                    },
+                                    //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                                    child: Text('Guardar',
+                                        style: TextStyle(
+                                            fontSize: size.height / 35,
+                                            color: Colors
+                                                .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
-
-                          Row(
-                            //fila con un container y un TextField para contraseña
-                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
-                            children: [
-                              Container(
-                                width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
-                                height: size.height / 17,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(20)), //bordes circulares
-                                  color: Colors.grey[700],
-                                ),
-                                child: TextField(
-                                    controller:direction, //se identifica el controlador del TextField
-                                    decoration: const InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                                          borderSide: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(255, 0, 229, 255)),
-                                        ),
-                                        prefixIcon: Icon(Icons.circle_outlined),
-                                        border: InputBorder.none,
-                                        hintText: "Dirección",
-                                        hintStyle:TextStyle(color: Colors.white))),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(
-                            height: 8,
-                          ), //para separar rows
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
-                            children: [
-                              TextButton(
-                                onPressed: () async{
-                                  if ( name.text.isEmpty ||tlf.text.isEmpty ||direction.text.isEmpty) {
-                                    String error ='Rellene todos los campos antes de guardar';
-                                    DialogError dialogError = DialogError();
-                                    await dialogError.dialogError(context, error);
-                                  } else {
-                                    String nombre = name.text;
-                                    int telf = int.parse(tlf.text);
-                                    String direccion = direction.text;
-
-                                    var mechanic = Mechanic(
-                                      dni: dni,
-                                      nombre: nombre,
-                                      telf: telf,
-                                      direccion: direccion,
-                                    );
-
-                                    await dt.updateMechanic(context, mechanic,dni); 
-
-                                    
-
-                                    Navigator.of(context).pop();
-                                  }
-                                }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
-                                child: Text('Guardar',
-                                    style: TextStyle(
-                                        fontSize: size.height / 35,
-                                        color: Colors.white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
+                          )
     );
   }
 
   
+  Future<DateTime?> pickDateEnd(BuildContext context, DateTime datestart) =>
+      showDatePicker(
+          context: context,
+          initialDate: datestart,
+          firstDate: datestart,
+          lastDate: DateTime(2200));
 
   
 }

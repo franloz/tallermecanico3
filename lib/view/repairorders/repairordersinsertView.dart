@@ -56,6 +56,7 @@ class _ScreenState extends State<RepairOrdersInsertView> {
 
 
     return Scaffold(
+      
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         
@@ -78,7 +79,8 @@ class _ScreenState extends State<RepairOrdersInsertView> {
                                       width: size.width / 1.1,
                                       child: DropdownButton<String>(
                                         isExpanded: true,
-                                        hint: Text('Elige vehículo'),
+                                        hint: Text('Elige vehículo',style: TextStyle(
+                                             color: Colors.white)),
                                         value: vehiculo,
                                         items: listavehiculos
                                             .map((item) =>
@@ -110,7 +112,8 @@ class _ScreenState extends State<RepairOrdersInsertView> {
                                       width: size.width / 1.1,
                                       child: DropdownButton<String>(
                                         isExpanded: true,
-                                        hint: Text('Elige mecánico'),
+                                        hint: Text('Elige mecánico',style: TextStyle(
+                                             color: Colors.white)),
                                         value: mecanico,
                                         items: listamecanicos
                                             .map((item) =>
