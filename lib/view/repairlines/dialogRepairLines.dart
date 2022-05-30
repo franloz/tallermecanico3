@@ -9,13 +9,13 @@ import 'package:tallermecanico/model/repairorder.dart';
 import 'package:uuid/uuid.dart';
 
 class DialogRepairLine {
-  TextEditingController cantidadtxt = TextEditingController();
+ // TextEditingController cantidadtxt = TextEditingController();
 
   DatabaseSqlite dt = DatabaseSqlite();
 
-  String? recambio; //values combobox
+ // String? recambio; //values combobox
 
-  Future dialogRepairLinesInsert(BuildContext context, Size size,
+  /*Future dialogRepairLinesInsert(BuildContext context, Size size,
           List<String> listarecambios, String idorden) =>
       showDialog(
           context: context,
@@ -166,7 +166,7 @@ class DialogRepairLine {
                             ],
                           ))
                     ],
-                  ))));
+                  ))));*/
 
   Future dialogLineUpdate(
           BuildContext context,
