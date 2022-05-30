@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/view/bills/dialogBills.dart';
+import 'package:tallermecanico/view/bills/dialogbillsdelete.dart';
 
 class BillsView extends StatefulWidget {
   const BillsView({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class BillsView extends StatefulWidget {
 
 class _ScreenState extends State<BillsView> {
 
-  DialogBills dialog = DialogBills();
+  DialogBillsDelete dialog = DialogBillsDelete();
 
 
 
@@ -52,7 +52,15 @@ class _ScreenState extends State<BillsView> {
             child: Icon(Icons.add),
             onPressed: () async{
               FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-              await dialog.dialogBillsInsert(context, size, listaordenes); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+              //await dialog.dialogBillsInsert(context, size, listaordenes); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+              
+              await Navigator.pushNamed(context, 'BillInsertView',arguments: {
+                                          "listaordenes": listaordenes,
+                                          
+                                          
+                                          
+                                          });
+              
               setState(() {});
             }),
         

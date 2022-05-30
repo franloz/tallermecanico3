@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/databasesqlite/firebasedatabase.dart';
-import 'package:tallermecanico/model/bill.dart';
-import 'package:tallermecanico/model/repairorder.dart';
 
-class DialogBills {
-  TextEditingController descuentotxt = TextEditingController();
-  TextEditingController ivatxt = TextEditingController();
+class DialogBillsDelete {
+ // TextEditingController descuentotxt = TextEditingController();
+  //TextEditingController ivatxt = TextEditingController();
 
   FirebaseDatabase base = FirebaseDatabase();
 
-  String? orden; //values combobox
+  //String? orden; //values combobox
 
-  Future dialogBillsInsert(
+  /*Future dialogBillsInsert(
           BuildContext context, Size size, List<String> listaordenes) =>
       showDialog(
           context: context,
@@ -222,7 +216,7 @@ class DialogBills {
                             ],
                           ))
                     ],
-                  ))));
+                  ))));*/
 
 
   Future dialogBillsDelete(BuildContext context, String id, String idorden) => showDialog(

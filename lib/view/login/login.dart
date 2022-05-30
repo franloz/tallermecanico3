@@ -22,6 +22,7 @@ class Login extends StatelessWidget {
         LoginController(); //me creo una variable de la clase LoginController para usar los métodos que hay en ella
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey[800],
         body: Column(
           mainAxisAlignment: MainAxisAlignment

@@ -10,6 +10,7 @@ class ForgotPassword extends StatelessWidget {
     LoginController cr =LoginController();
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey[800],
         body: Column(
             mainAxisAlignment: MainAxisAlignment
