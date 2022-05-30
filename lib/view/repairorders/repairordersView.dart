@@ -332,8 +332,17 @@ class _ScreenState extends State<RepairOrdersView> {
           onPressed: () async {
             FocusScope.of(context)
                 .unfocus(); //para que el textfield pierda el foco
-            await dialog.dialogRepairOrdersInsert(context, size, listamecanicos,
-                listavehiculos); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            //await dialog.dialogRepairOrdersInsert(context, size, listamecanicos,
+              //  listavehiculos); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+
+
+            await Navigator.pushNamed(context, 'RepairOrdersInsertView',arguments: {
+                                          "listamecanicos": listamecanicos,
+                                          "listavehiculos":listavehiculos,
+                                         
+                                          
+                                          
+                                          });
             setState(() {});
           }),
       body: FutureBuilder<List<RepairOrder>>(

@@ -678,24 +678,7 @@ class DialogRepairOrder {
                                             setState(() => vehiculo = item),
                                       )
 
-                                      /*DropdownButton<String>(
-                                      hint: Text('Elige mecánico'),
-                                      isExpanded: true,
-
-                                      items: listamecanicos
-                                          .map(getdropdown)
-                                          .toList(),
-                                      onChanged: (string) => setState(() {
-                                        dnimecanico =
-                                            string!; //esta variable cliente será la q se use para insertar los datos en sqlite,
-                                        //debido a que esta variable debe ser String para que se pueda insertar
-
-                                        dnimeca = string;
-                                      }), //esta variable se usa para que el DropdownButton detecte el valor pulsado ya que está variable debe ser
-                                      //String? la ? significa que esta variable puede ser nula, es decir que no requiere ser inicializada
-
-                                      value: dnimeca,
-                                    ),*/
+                                     
                                       )
                                   //se convierte la lista de String a DropdownMenuItem<String>
                                 ],

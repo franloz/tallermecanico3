@@ -3,29 +3,17 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/databasesqlite/database.dart';
 import 'package:tallermecanico/model/spare.dart';
-import 'package:tallermecanico/view/spare/dialogSpare.dart';
+import 'package:tallermecanico/view/spare/dialogSpareDelete.dart';
 
-class SpareView extends StatelessWidget {
+class SpareView extends StatefulWidget {
   const SpareView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Taller',
-      home: const MyHomePage(),
-    );
-  }
+  State<SpareView> createState() => _ScreenState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  DialogSpare cl = DialogSpare();
+class _ScreenState extends State<SpareView> {
+  DialogSpareDelete dialog = DialogSpareDelete();
   DatabaseSqlite dt = DatabaseSqlite();
 
   TextEditingController searchtxt = TextEditingController();
@@ -37,6 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           title: Container(
             width: double.infinity,
@@ -65,7 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Icon(Icons.add),
           onPressed: () async {
             FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-            await cl.dialogSpareInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            //await cl.dialogSpareInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            await  Navigator.pushNamed(context, 'SpareInsertView');
             setState(() {});
           }),
       body: FutureBuilder<List<Spare>>(
@@ -122,10 +112,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                     stockcontroll.text = stock.toString();
                                     telfproveedorcontroll.text = telfproveedor.toString();
 
+                                    await Navigator.pushNamed(context, 'SpareUpdateView',arguments: {
+                                          "marca": marca,
+                                          "pieza":pieza,
+                                          "preciocontroll":preciocontroll,
+                                          "stockcontroll":stockcontroll,
+                                          "telfproveedorcontroll":telfproveedorcontroll,
+                                          "id":id,
+                                          
+                                          
+                                          });
 
-
-
-                                    await cl.dialogSpareUpdate(context,size,marca,pieza,preciocontroll,stockcontroll,telfproveedorcontroll,id); //este ultimo dni q le paso es para identificar que registro actualizo
+                                    //await cl.dialogSpareUpdate(context,size,marca,pieza,preciocontroll,stockcontroll,telfproveedorcontroll,id); //este ultimo dni q le paso es para identificar que registro actualizo
                                     setState(() {});
                                   }),
                               IconButton(
@@ -133,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   onPressed: () async {
                                     FocusScope.of(context)
                                         .unfocus(); //para que el textfield pierda el foco
-                                    await cl.dialogSpareDelete(context, id);
+                                    await dialog.dialogSpareDelete(context, id);
                                     setState(() {});
                                   }),
                             ],

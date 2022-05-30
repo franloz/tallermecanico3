@@ -50,10 +50,10 @@ class _ScreenState extends State<MechanicsView> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
-          onPressed: ()  {
+          onPressed: () async {
             FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
             //await cl.dialogMechanicInsert(context,size); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
-            Navigator.pushNamed(context, 'MechanicInsertView');
+            await Navigator.pushNamed(context, 'MechanicInsertView');
             setState(() {});
           }),
       body: FutureBuilder<List<Mechanic>>(
@@ -89,7 +89,7 @@ class _ScreenState extends State<MechanicsView> {
                             children: [
                               IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: ()  {
+                                  onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escritos en los textFields del dialog
                                     
@@ -107,7 +107,7 @@ class _ScreenState extends State<MechanicsView> {
                                         tlfcontroll,
                                         direccioncontroll
                                         ); */
-                                    Navigator.pushNamed(context, 'MechanicUpdateView',arguments: {
+                                    await Navigator.pushNamed(context, 'MechanicUpdateView',arguments: {
                                           "dni": dni,
                                           "namecontroll":namecontroll,
                                           "tlfcontroll":tlfcontroll,

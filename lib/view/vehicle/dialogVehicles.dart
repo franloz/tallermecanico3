@@ -240,7 +240,7 @@ class DialogVehicles {
             ],
           )),));*/
 
-  Future dialogVehicleUpdate(
+/*  Future dialogVehicleUpdate(
           BuildContext context,
           Size size,
           String matricula,
@@ -425,7 +425,7 @@ class DialogVehicles {
                         ],
                       ))
                 ],
-              )),));
+              )),));*/
 
   Future dialogVehicleDelete(BuildContext context, String dni) => showDialog(
       context: context,

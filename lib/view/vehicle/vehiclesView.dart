@@ -70,7 +70,7 @@ class _ScreenState extends State<VehiclesView> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
-          onPressed: () {
+          onPressed: ()async {
             FocusScope.of(context)
                 .unfocus(); //para que el textfield pierda el foco
 
@@ -78,7 +78,7 @@ class _ScreenState extends State<VehiclesView> {
      print('holaaaaaaaa'+age);
   }*/
             //await cl.dialogVehicleInsert(context, size, lista); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
-            Navigator.pushNamed(context, 'VehicleInsertView', arguments: {
+           await Navigator.pushNamed(context, 'VehicleInsertView', arguments: {
               "lista": lista,
             });
 
@@ -138,10 +138,10 @@ class _ScreenState extends State<VehiclesView> {
                                         clientedni,
                                         lista);*/ //este ultimo dni q le paso es para identificar que registro actualizo
 
-                                    Navigator.pushNamed(context, 'VehicleUpdateView',arguments: {
+                                    await Navigator.pushNamed(context, 'VehicleUpdateView',arguments: {
                                           "matricula": matricula,
                                           "marcacontroll":marcacontroll,
-                                          "clientedni":clientedni,
+                                          "clientedni":clientedni.toString(),
                                           "modelocontroll":modelocontroll,
                                           "lista":lista,
                                           

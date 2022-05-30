@@ -16,8 +16,12 @@ import 'package:tallermecanico/view/mechanic/mechanicupdateView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosList.dart';
 import 'package:tallermecanico/view/repairlines/repairLinesView.dart';
 import 'package:tallermecanico/view/repairorders/repairordersView.dart';
+import 'package:tallermecanico/view/repairorders/repairordersinsertView.dart';
+import 'package:tallermecanico/view/repairorders/repairordersupdateView.dart';
 import 'package:tallermecanico/view/spare/spareView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosView.dart';
+import 'package:tallermecanico/view/spare/spareinsertView.dart';
+import 'package:tallermecanico/view/spare/spareupdateView.dart';
 import 'package:tallermecanico/view/vehicle/vehicleinsertView.dart';
 import 'package:tallermecanico/view/vehicle/vehiclesView.dart';
 import 'package:tallermecanico/view/vehicle/vehicleupdateView.dart';
@@ -56,6 +60,12 @@ class MyApp extends StatelessWidget {
         'MechanicInsertView': (context) => MechanicInsertView(),
         'VehicleUpdateView': (context) => VehicleUpdateView(),
         'VehicleInsertView': (context) => VehicleInsertView(),
+        'SpareUpdateView': (context) => SpareUpdateView(),
+        'SpareInsertView': (context) => SpareInsertView(),
+        'RepairOrdersUpdateView': (context) => RepairOrdersUpdateView(),
+        'RepairOrdersInsertView': (context) => RepairOrdersInsertView(),
+
+
 
       },
       navigatorKey: navigatorKey,
