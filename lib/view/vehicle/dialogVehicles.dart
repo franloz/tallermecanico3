@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/database.dart';
+
+import '../../controller/vehiclecontroller.dart';
 
 class DialogVehicles {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  VehicleController cr=VehicleController();
 
   Future dialogVehicleDelete(BuildContext context, String dni) => showDialog(
       context: context,
@@ -21,7 +23,7 @@ class DialogVehicles {
               ),
               TextButton(
                 onPressed: () async {
-                  await dt.deleteVehicle(context, dni);
+                  await cr.deleteVehicle(context, dni);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

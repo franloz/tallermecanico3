@@ -1,27 +1,19 @@
-import 'dart:core';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
-import 'package:tallermecanico/model/bill.dart';
 
-class FirebaseDatabase {
+import '../alertdialog/dialogError.dart';
+import '../databases/database.dart';
+import '../model/bill.dart';
 
-  /*final user= FirebaseAuth.instance.currentUser!;
+class BillController {
+  final user = FirebaseAuth.instance.currentUser!;
 
   Future insertBill(BuildContext context, String idorden, double descuento,
       double iva) async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
-
-
-  
-    
-
-
 
     var resultSet = await database.rawQuery(
         "SELECT preciohora FROM OrdenesReparacion WHERE id = ?",
@@ -51,7 +43,8 @@ class FirebaseDatabase {
         .rawQuery("SELECT fin FROM OrdenesReparacion WHERE id = ?", [idorden]);
     var dbfin = resultSet4.first;
 
-    String descripcionreparacionstring =dbdescripcionreparacion['descripcionreparacion'] as String;
+    String descripcionreparacionstring =
+        dbdescripcionreparacion['descripcionreparacion'] as String;
     String fintring = dbfin['fin'] as String;
     ///////////
 
@@ -108,14 +101,16 @@ class FirebaseDatabase {
       print('uuu' + baseimponible);
 
       try {
-                                   //cantidad descuento    //cantidad iva
-        double totalfactura=total-(total*(descuento/100))+(total*(iva/100));
+        //cantidad descuento    //cantidad iva
+        double totalfactura =
+            total - (total * (descuento / 100)) + (total * (iva / 100));
 
-        String totalfactstring = totalfactura.toStringAsFixed(2); //se redondea el total
+        String totalfactstring =
+            totalfactura.toStringAsFixed(2); //se redondea el total
         final docBill = FirebaseFirestore.instance.collection('facturas').doc();
         var bill = Bill(
-          id:docBill.id,
-          userid:user.uid,
+          id: docBill.id,
+          userid: user.uid,
           idorden: idorden,
           baseimponible: baseimponible,
           descuento: descuento.toString(),
@@ -123,18 +118,19 @@ class FirebaseDatabase {
           totalfactura: totalfactstring,
         );
 
-        
         // spare.id = docSpare.id; //le asigno el id que genere firebase
 
         final json = bill.toJson();
         await docBill.set(json);
         print('insertadoooooooooooo');
 
-
         //actualizar ordenes
 
-        await database.rawUpdate("UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?",[1,idorden]);//actualiza el campo facturada de la orden y lo pongo a 1 que indica que la orden ha sido facturada
-
+        await database.rawUpdate(
+            "UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?", [
+          1,
+          idorden
+        ]); //actualiza el campo facturada de la orden y lo pongo a 1 que indica que la orden ha sido facturada
 
       } on FirebaseException catch (e) {
         String error = 'Error al insertar';
@@ -152,9 +148,8 @@ class FirebaseDatabase {
     //actualizo la orden de la factura y la pongo en no facturada
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
-    await database.rawUpdate("UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?",[0,idorden]);
-
-
-  } */
+    await database.rawUpdate(
+        "UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?",
+        [0, idorden]);
+  }
 }
-

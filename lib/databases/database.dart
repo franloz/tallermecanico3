@@ -50,7 +50,7 @@ class DatabaseSqlite {
     );
   }
 
-  //cliente
+ /* //cliente
   Future<void> insertClient(BuildContext context, Client client) async {
     Database database = await openDB();
 
@@ -130,12 +130,45 @@ class DatabaseSqlite {
       );
     });
   }
+  
+  
+  
+  
+  
+  
+   */
+//////////////////
+   /*Future<List<Map<String, dynamic>>> getClientsdni() async {
+    Database database = await openDB();
+
+    final List<Map<String, dynamic>> maps =
+        await database.rawQuery('SELECT dni FROM Clientes');
+    return maps;
+    /*forEach(maps){
+      String dni=maps;
+    }*/
+  } */
+
+/////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   //cliente
 
   //mecanico
 
-  Future<void> insertMechanic(BuildContext context, Mechanic mechanic) async {
+  /*Future<void> insertMechanic(BuildContext context, Mechanic mechanic) async {
     Database database = await openDB();
 
     try {
@@ -213,13 +246,13 @@ class DatabaseSqlite {
         direccion: maps[i]['direccion'],
       );
     });
-  }
+  } */
 
   //mecanico
 
   //vehículos
 
-  Future<void> insertVehicle(BuildContext context, Vehicle vehicle) async {
+  /*Future<void> insertVehicle(BuildContext context, Vehicle vehicle) async {
     Database database = await openDB();
 
     try {
@@ -294,23 +327,14 @@ class DatabaseSqlite {
         clientedni: maps[i]['clientedni'],
       );
     });
-  }
+  } */
 
   //vehículos
 
 
   //combobox
 
-   Future<List<Map<String, dynamic>>> getClientsdni() async {
-    Database database = await openDB();
 
-    final List<Map<String, dynamic>> maps =
-        await database.rawQuery('SELECT dni FROM Clientes');
-    return maps;
-    /*forEach(maps){
-      String dni=maps;
-    }*/
-  }
 
 
   Future<List<Map<String, dynamic>>> getVehiclesmatricula() async {

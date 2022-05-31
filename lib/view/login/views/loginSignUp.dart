@@ -7,19 +7,13 @@ class LoginSignUp extends StatelessWidget {
   TextEditingController passwordController = TextEditingController();
 
   
- /* void dispose(){///////////////////////creo q es q para cuando se cierre la app pierda al usuario
-    emailController.dispose();
-    passwordController.dispose();
-
-    //super.dispose();
-  }*/
-
+   LoginController cr =LoginController(); //me creo una variable de la clase LoginController para usar los métodos que hay en ella
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context)
         .size; //saca el tamaño de la pantalla para poder hacer la app responsive
-    LoginController cr =LoginController(); //me creo una variable de la clase LoginController para usar los métodos que hay en ella
+   
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,

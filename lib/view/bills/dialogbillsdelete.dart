@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/firebasedatabase.dart';
+
+import '../../controller/billcontroller.dart';
 
 class DialogBillsDelete {
-  FirebaseDatabase base = FirebaseDatabase();
+  //FirebaseDatabase base = FirebaseDatabase();
+  BillController cr=BillController();
 
   Future dialogBillsDelete(BuildContext context, String id, String idorden) =>
       showDialog(
@@ -22,7 +24,7 @@ class DialogBillsDelete {
                   ),
                   TextButton(
                     onPressed: () {
-                      base.deleteBill(id, idorden);
+                      cr.deleteBill(id, idorden);
                       Navigator.of(context).pop();
                     },
                     child: const Text('Ok'),

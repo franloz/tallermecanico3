@@ -1,18 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/main.dart';
-import 'package:tallermecanico/utils/utils.dart';
+import 'package:tallermecanico/view/login/dialogslogin.dart';
+
 
 class LoginController {
-  Utils u =
-      Utils(); //se crea objeto de la clase Utils para poder usar sus metodos
+  DialogsLogin dialog =
+      DialogsLogin(); //se crea objeto de la clase Utils para poder usar sus metodos
 
   Future signIn(
       TextEditingController emailController,
       TextEditingController passwordController,
       BuildContext context) //función asincrona para iniciar sesión
   async {
-    u.dialogCircularProgress(context);
+    dialog.dialogCircularProgress(context);
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           //el await indica que esta parte del código es asincrona
@@ -41,7 +42,7 @@ class LoginController {
         error =
             "Introduzca un gmail y contraseña válidos o no deje los campos vacios";
       }
-      u.dialogSignIn(
+      dialog.dialogSignIn(
           context, error); //se muestra alertdialog cuando no se inicie sesión
 
     }
@@ -54,7 +55,7 @@ class LoginController {
       TextEditingController passwordController,
       BuildContext context) //función asincrona para registro de usuario
   async {
-    u.dialogCircularProgress(context);
+    dialog.dialogCircularProgress(context);
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           //el await indica que esta parte del código es asincrona
@@ -77,7 +78,7 @@ class LoginController {
         error =
             "Introduzca un gmail y contraseña válidos o no deje los campos vacios";
       }
-      u.dialogSignUp(
+      dialog.dialogSignUp(
           context, error); //se muestra alertdialog cuando no se inicie sesión
 
     }
@@ -88,7 +89,7 @@ class LoginController {
       BuildContext context) //función asincrona para registro de usuario
   async {
     String mensaje='';
-    u.dialogCircularProgress(context);
+    dialog.dialogCircularProgress(context);
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
           //el await indica que esta parte del código es asincrona
@@ -101,13 +102,13 @@ class LoginController {
           navigatorKey.currentState!.popUntil(((route) =>
           route.isFirst));
 
-          u.dialogForgotPasswordCorrect(context,mensaje);
+          dialog.dialogForgotPasswordCorrect(context,mensaje);
 
     } on FirebaseAuthException catch (e) {
       print(e);
       String error ='Ha ocurrido un error y no se ha cambiado la contraseña, revise su correo'; //está variable se usará para capturar el texto de la excepción y mostrarsela al usuario
 
-      u.dialogForgotPasswordIncorrect(context, error); //s
+      dialog.dialogForgotPasswordIncorrect(context, error); //s
 
     }
   }

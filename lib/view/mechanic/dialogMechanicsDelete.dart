@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/database.dart';
+
+import '../../controller/mechaniccontroller.dart';
 
 class DialogMechanicsDelete {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  MechanicController cr=MechanicController();
+
 
   TextEditingController dnitxt = TextEditingController();
   TextEditingController nombretxt = TextEditingController();
-  TextEditingController telftxt =
-      TextEditingController(); //variables para coger los textos de los TextField
+  TextEditingController telftxt =TextEditingController(); //variables para coger los textos de los TextField
   TextEditingController direcciontxt = TextEditingController();
 
   Future dialogMechanicDelete(BuildContext context, String dni) => showDialog(
@@ -27,7 +29,7 @@ class DialogMechanicsDelete {
               ),
               TextButton(
                 onPressed: () async {
-                  await dt.deleteMechanic(context, dni);//metodo para borrar en base de datos
+                  await cr.deleteMechanic(context, dni);//metodo para borrar en base de datos
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

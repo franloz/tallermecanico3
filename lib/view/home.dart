@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/alertdialog/dialogSignoff.dart';
-import 'package:tallermecanico/controller/homecontroller.dart';
 
 class Home extends StatelessWidget {
+  
 
   DialogSignOff dialog=DialogSignOff();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context)
         .size; //saca el tamaño de la pantalla para poder hacer la app responsive
-    HomeController cr =
-        HomeController(); //me creo una variable de la clase HomeController para usar los métodos que hay en ella y sus variables
+    
     return Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
@@ -282,6 +281,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
+                  
                   Navigator.pushNamed(context, 'BillsView');
                 }, //se lanza la actividad de Facturas
                 style: ElevatedButton.styleFrom(

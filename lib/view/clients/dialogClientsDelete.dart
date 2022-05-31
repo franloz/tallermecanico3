@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/database.dart';
+import 'package:tallermecanico/controller/clientController.dart';
 
 class DialogClientsDelete {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  ClientController cr=ClientController();
 
   Future dialogClientDelete(BuildContext context, String dni) => showDialog(
       context: context,
@@ -21,7 +22,7 @@ class DialogClientsDelete {
               ),
               TextButton(
                 onPressed: () async {
-                  await dt.deleteClient(context, dni); //metodo que borra en la base de datos
+                  await cr.deleteClient(context, dni); //metodo que borra en la base de datos
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

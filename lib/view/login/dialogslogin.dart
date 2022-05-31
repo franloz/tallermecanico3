@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/main.dart';
 
-//esta clase se usará para los alertdialog que se deban llamar desde las clases controladoras
-class Utils {
+
+class DialogsLogin {
   void dialogCircularProgress(BuildContext context) {
     showDialog(
         //se muestra un cuadro de dialogo con un símbolo de carga

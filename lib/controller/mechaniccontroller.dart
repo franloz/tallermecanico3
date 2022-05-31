@@ -3,15 +3,16 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databases/database.dart';
-import 'package:tallermecanico/model/client.dart';
 
-class ClientController {
-  Future<void> insertClient(BuildContext context, Client client) async {
+import '../model/mechanic.dart';
+
+class MechanicController {
+  Future<void> insertMechanic(BuildContext context, Mechanic mechanic) async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
     try {
-      await database.insert("Clientes", client.toMap());
+      await database.insert("Mecanicos", mechanic.toMap());
     } on DatabaseException catch (e) {
       String error = 'Este dni ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
@@ -19,35 +20,34 @@ class ClientController {
     }
   }
 
-  Future<void> deleteClient(BuildContext context, String dni) async {
+  Future<void> deleteMechanic(BuildContext context, String dni) async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    //esto es para saber si el cliente que se quiere borrar tiene vehiculos, si las tiene no le dejará borrar al cliente hasta que borre las vehiculos
+    //esto es para saber si el mecanico que se quiere borrar tiene ordenes de reparacion, si las tiene no le dejará borrar al mecanico hasta que borre las ordenes
     final List<Map<String, dynamic>> maps = await database
-        .rawQuery('SELECT * FROM Vehiculos WHERE clientedni = ?', [dni]);
-    int count = maps
-        .length; //si dejase borrar a los clientes y luego pulsase sobre modificar en un vehiculo que contenia a ese cliente daria error el combobox porque ese cliente ya no existe
+        .rawQuery('SELECT * FROM OrdenesReparacion WHERE mecanico = ?', [dni]);
+    int count = maps.length;
     print('jjjj' + count.toString());
 
     if (count == 0) {
-      await database.delete("Clientes", where: 'dni = ?', whereArgs: [dni]);
+      await database.delete("Mecanicos", where: 'dni = ?', whereArgs: [dni]);
       print('bbbbb' + 'borrado');
     } else {
       String error =
-          'Este cliente no se puede borrar debido a que existen vehículos con este cliente, deberá borrarlos antes de poder borrar al cliente';
+          'Este mecánico no se puede borrar debido a que existen órdenes de reparación con este mecánico, deberá borrarlas antes de poder borrar al mecánico';
       DialogError dialogError = DialogError();
       await dialogError.dialogError(context, error);
     }
   }
 
-  Future<void> updateClient(
-      BuildContext context, Client client, String dni) async {
+  Future<void> updateMechanic(
+      BuildContext context, Mechanic mechanic, String dni) async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
     try {
-      await database.update("Clientes", client.toMap(),
+      await database.update("Mecanicos", mechanic.toMap(),
           where: 'dni = ?', whereArgs: [dni]);
     } on DatabaseException catch (e) {
       String error = 'Este dni ya existe, no puede volverlo a introducir';
@@ -56,15 +56,15 @@ class ClientController {
     }
   }
 
-  Future<List<Client>> getClients() async {
+  Future<List<Mechanic>> getMechanics() async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps = await database.query('Clientes');
+    final List<Map<String, dynamic>> maps = await database.query('Mecanicos');
 
     return List.generate(maps.length, (i) {
-      //convierte la lista de mapas a una lista de clientes
-      return Client(
+      //convierte la lista de mapas a una lista de mecanicos
+      return Mechanic(
         dni: maps[i]['dni'],
         nombre: maps[i]['nombre'],
         telf: maps[i]['telf'],
@@ -73,16 +73,16 @@ class ClientController {
     });
   }
 
-  Future<List<Client>> getClientsWhere(String nombre) async {
+  Future<List<Mechanic>> getMechanicWhere(String nombre) async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps = await database
-        .rawQuery('SELECT * FROM Clientes WHERE nombre LIKE ?', [nombre + '%']);
+    final List<Map<String, dynamic>> maps = await database.rawQuery(
+        'SELECT * FROM Mecanicos WHERE nombre LIKE ?', [nombre + '%']);
 
     return List.generate(maps.length, (i) {
-      //convierte la lista de mapas a una lista de clientes
-      return Client(
+      //convierte la lista de mapas a una lista de Mecanicos
+      return Mechanic(
         dni: maps[i]['dni'],
         nombre: maps[i]['nombre'],
         telf: maps[i]['telf'],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/view/vehicle/dialogVehicles.dart';
 
-import '../../model/vehicle.dart';
+import '../../../controller/vehiclecontroller.dart';
+import '../../../model/vehicle.dart';
 
 class VehiclesView extends StatefulWidget {
   const VehiclesView({Key? key}) : super(key: key);
@@ -13,7 +13,8 @@ class VehiclesView extends StatefulWidget {
 
 class _ScreenState extends State<VehiclesView> {
   DialogVehicles cl = DialogVehicles();
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  VehicleController cr=VehicleController();
 
   TextEditingController searchtxt = TextEditingController();
 
@@ -24,7 +25,7 @@ class _ScreenState extends State<VehiclesView> {
   void initState() {
     //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
     //se convierte una lista de map en una lista de string
-    dt.getClientsdni().then((listMap) {
+    cr.getClientsdni().then((listMap) {
       listMap.map((map) {
         print('fggfg');
         print(map.toString());
@@ -161,9 +162,9 @@ class _ScreenState extends State<VehiclesView> {
 
   Future<List<Vehicle>> loadList() async {
     if (search != '') {
-      return dt.getVehicleWhere(search);
+      return cr.getVehicleWhere(search);
     } else {
-      return dt.getVehicles();
+      return cr.getVehicles();
     }
   }
 

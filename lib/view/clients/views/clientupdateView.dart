@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
+import 'package:tallermecanico/controller/clientController.dart';
 import 'package:tallermecanico/model/client.dart';
 
 
@@ -15,7 +15,8 @@ class ClientUpdateView extends StatefulWidget {
 
 class _ScreenState extends State<ClientUpdateView> {
 
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  ClientController cr=ClientController();
   
   
   
@@ -170,7 +171,7 @@ class _ScreenState extends State<ClientUpdateView> {
                                       direccion: direccion,
                                     );
 
-                                    await dt.updateClient(context, cliente, dni);//metodo que actualiza
+                                    await cr.updateClient(context, cliente, dni);//metodo que actualiza
                                     
 
                                     Navigator.of(context).pop();//se vuelve a pantalla anterior

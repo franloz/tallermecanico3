@@ -5,6 +5,8 @@ import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/databases/firebasedatabase.dart';
 
+import '../../../controller/billcontroller.dart';
+
 class BillInsertView extends StatefulWidget {
   const BillInsertView({Key? key}) : super(key: key);
 
@@ -16,7 +18,8 @@ class _ScreenState extends State<BillInsertView> {
   TextEditingController descuentotxt = TextEditingController();
   TextEditingController ivatxt = TextEditingController();
 
-  FirebaseDatabase base = FirebaseDatabase();
+  //FirebaseDatabase base = FirebaseDatabase();
+  BillController cr=BillController();
 
   String? orden; //values combobox
 
@@ -170,7 +173,7 @@ class _ScreenState extends State<BillInsertView> {
                           iva = double.parse(ivatxt.text);
                         }
 
-                        base.insertBill(context, idorden, descuento, iva);//metodo que inserta en la base de datos
+                        cr.insertBill(context, idorden, descuento, iva);//metodo que inserta en la base de datos
                       } else {
                         String error = 'Esta orden ya ha sido facturada';
                         DialogError dialogError = DialogError();

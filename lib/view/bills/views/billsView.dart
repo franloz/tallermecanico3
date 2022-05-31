@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/view/bills/dialogbillsdelete.dart';
@@ -17,6 +18,10 @@ class _ScreenState extends State<BillsView> {
   String search = '';//esta variable se usará para buscar en la lista de facturas//////tienen que escribir la matricula exactamente igual que aparece en ordenes
   List<String> listaordenes = [];
   DatabaseSqlite dt = DatabaseSqlite();
+
+  final user= FirebaseAuth.instance.currentUser!;//usuario actual, se usara para mostrar los datos del usuario actual
+
+  
   @override
   void initState() {
     //en este init obtengo los id de las ordenes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogBills
@@ -185,11 +190,11 @@ class _ScreenState extends State<BillsView> {
     if (search != '') {
       print(search.toUpperCase());
       return FirebaseFirestore.instance
-          .collection('facturas')
+          .collection('facturas').where("userid", isEqualTo: user.uid)
           .where('idorden', isEqualTo: search)
           .snapshots();
     } else {
-      return FirebaseFirestore.instance.collection('facturas').snapshots();
-    }
+      return FirebaseFirestore.instance.collection('facturas').where("userid", isEqualTo: user.uid).snapshots();
+    }                                                             //este where es para que muestre los datos del usuario loggeado
   }
 }

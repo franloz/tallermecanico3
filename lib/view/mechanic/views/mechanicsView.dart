@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/database.dart';
-import 'package:tallermecanico/view/clients/dialogClientsDelete.dart';
+import 'package:tallermecanico/view/mechanic/dialogMechanicsDelete.dart';
 
-import '../../model/client.dart';
+import '../../../controller/mechaniccontroller.dart';
+import '../../../model/mechanic.dart';
 
-class ClientsView extends StatefulWidget {
-  const ClientsView({Key? key}) : super(key: key);
+class MechanicsView extends StatefulWidget {
+  const MechanicsView({Key? key}) : super(key: key);
 
   @override
-  State<ClientsView> createState() => _ScreenState();
+  State<MechanicsView> createState() => _ScreenState();
 }
 
-class _ScreenState extends State<ClientsView> {
-  DialogClientsDelete dialog = DialogClientsDelete();//alertdialog para insertar, modificar y eliminar clientes
-  DatabaseSqlite dt = DatabaseSqlite();
+class _ScreenState extends State<MechanicsView> {
+  DialogMechanicsDelete dialog = DialogMechanicsDelete();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  MechanicController cr=MechanicController();
 
-  TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda del cliente
+
+  TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda del mecanico
 
   String search = '';//esta variable se usará para buscar en la lista de clientes
 
@@ -24,7 +26,7 @@ class _ScreenState extends State<ClientsView> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+         automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           title: Container(
             width: double.infinity,
@@ -34,7 +36,8 @@ class _ScreenState extends State<ClientsView> {
                 onChanged: (value) {
                  
                   search = searchtxt.text;
-                  setState(() {});//al cambiar el valor del textfield busca                  
+                  setState(() {});//al cambiar el valor del textfield busca
+                  
                 },
                 controller: searchtxt,
                 decoration: InputDecoration(
@@ -42,12 +45,11 @@ class _ScreenState extends State<ClientsView> {
                     icon: Icon(Icons.search),
                     onPressed: () {
                       FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-
                       search = searchtxt.text;
-                      setState(() {});//para actualizar la vista
+                      setState(() {});
                     },
                   ),
-                  hintText: 'Nombre del cliente a buscar',
+                  hintText: 'Nombre del mecánico a buscar',
                 ),
               ),
             ),
@@ -58,31 +60,32 @@ class _ScreenState extends State<ClientsView> {
           child: Icon(Icons.add),
           onPressed: () async {
             FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-            //await cl.dialogClientInsert(context,size); 
-            await Navigator.pushNamed(context, 'ClientInsertView');//con el await hacemos q espere a q se cierre ClientInsertView para seguir ejecutando el codigo en este caso el setstate
+             
+            await Navigator.pushNamed(context, 'MechanicInsertView');//con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
           }),
-      body: FutureBuilder<List<Client>>(
-          future:loadList(), //un metodo que controle si hay busqueda o no
+      body: FutureBuilder<List<Mechanic>>(
+          future: loadList(), ////un metodo que controle si hay busqueda o no
           builder:
-              (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
+              (BuildContext context, AsyncSnapshot<List<Mechanic>> snapshot) {
             if (snapshot.hasError) {
               return Text('Ha ocurrido un error');
             }
             if (snapshot.hasData) {
               return ListView(
-                  children: snapshot.data!.map((client) {
-                //variables donde se introducen los datos de los objetos de la lista
-                String dni = client.dni;
-                String name = client.nombre;
-                int tlf = client.telf;
-                String direccion = client.direccion;
+                  children: snapshot.data!.map((mechanic) {
+                    //variables donde se introducen los datos de los objetos de la lista
+                String dni = mechanic.dni;
+                String name = mechanic.nombre;
+                int tlf = mechanic.telf;
+                String direccion = mechanic.direccion;
 
                 return Card(
                     elevation: 5,
                     child: ListTile(
                         onTap: () {
                           FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+
                           bottomSheet(dni, name, tlf, direccion);//metodo para mostrar los datos de los clientes
                         },
                         leading: Icon(Icons.person),
@@ -96,7 +99,7 @@ class _ScreenState extends State<ClientsView> {
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    //le asigno a los controladores del alertdialog los valores del cliente a modificar para que aparezcan escrios en los textFields del dialog de modificar
+                                    //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escritos en los textFields de la pantalla actualizar
                                     
                                     TextEditingController namecontroll =TextEditingController();
                                     namecontroll.text = name;
@@ -104,14 +107,12 @@ class _ScreenState extends State<ClientsView> {
                                     tlfcontroll.text = tlf.toString();
                                     TextEditingController direccioncontroll =TextEditingController();
                                     direccioncontroll.text = direccion;
-                                
-                                        await Navigator.pushNamed(context, 'ClientUpdateView',arguments: {//con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+                                    
+                                    await Navigator.pushNamed(context, 'MechanicUpdateView',arguments: {//envio parametros a otra pantalla
                                           "dni": dni,
                                           "namecontroll":namecontroll,
                                           "tlfcontroll":tlfcontroll,
                                           "direccioncontroll":direccioncontroll,
-                                          
-                                          
                                           });
                                     setState(() {});
                                   }),
@@ -119,7 +120,7 @@ class _ScreenState extends State<ClientsView> {
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                                    await dialog.dialogClientDelete(context, dni);//dialog para borrar
+                                    await dialog.dialogMechanicDelete(context, dni);//dialog para borrar
                                     setState(() {});
                                   }),
                             ],
@@ -128,29 +129,31 @@ class _ScreenState extends State<ClientsView> {
               }).toList());
             } else {
               return Center(
-                child: CircularProgressIndicator(),//símbolo de carga
+                child: CircularProgressIndicator(),
               );
             }
           }),
     );
   }
 
-  Future<List<Client>> loadList() async {//metodo para mostrar la lista de clientes
-    if (search != '') {//si se introduce texto en el textfield de busqueda llama al metodo getClientsWhere que filtra la lista de clientes
-      return dt.getClientsWhere(search);
+  Future<List<Mechanic>> loadList() async {//metodo para mostrar la lista de clientes
+    if (search != '') {
+      return cr.getMechanicWhere(search);//si se introduce texto en el textfield de busqueda llama al metodo getClientsWhere que filtra la lista de clientes
     } else {
-      return dt.getClients();
+      return cr.getMechanics();
     }
   }
 
   void bottomSheet(String dni, String name, int tlf, String direccion) {
     showModalBottomSheet(
-      isScrollControlled: true,
+      isScrollControlled:
+          true, 
       context: context,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize
+            .min,
         children: [
           ListTile(
             title: Text('DNI'),
@@ -173,3 +176,5 @@ class _ScreenState extends State<ClientsView> {
     );
   }
 }
+
+

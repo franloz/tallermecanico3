@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
-import 'package:tallermecanico/model/mechanic.dart';
+import 'package:tallermecanico/model/vehicle.dart';
 
-class MechanicInsertView extends StatefulWidget {
-  const MechanicInsertView({Key? key}) : super(key: key);
+import '../../../controller/vehiclecontroller.dart';
+
+class VehicleInsertView extends StatefulWidget {
+  const VehicleInsertView({Key? key}) : super(key: key);
 
   @override
-  State<MechanicInsertView> createState() => _ScreenState();
+  State<VehicleInsertView> createState() => _ScreenState();
 }
 
-class _ScreenState extends State<MechanicInsertView> {
-  DatabaseSqlite dt = DatabaseSqlite();
+class _ScreenState extends State<VehicleInsertView> {
+  //DatabaseSqlite dt = DatabaseSqlite();
+  VehicleController cr=VehicleController();
 
-  TextEditingController dnitxt = TextEditingController();
-  TextEditingController nombretxt = TextEditingController();
-  TextEditingController telftxt = TextEditingController();
-  TextEditingController direcciontxt = TextEditingController();
+  TextEditingController matriculatxt = TextEditingController();
+  TextEditingController marcatxt = TextEditingController();
+  TextEditingController modelotxt = TextEditingController();
+
+  String? cli;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    Map? parametros = ModalRoute.of(context)?.settings.arguments
+        as Map?; //para coger el argumento q se pasa desde la otra pantalla
+    List<String> lista = parametros!["lista"];
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
-          title: Text('Añadir mecánico'),
+          title: Text('Añadir vehículo'),
         ),
         backgroundColor: Colors.grey[800],
         body: Column(
@@ -45,7 +50,8 @@ class _ScreenState extends State<MechanicInsertView> {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-                      controller:dnitxt, //se identifica el controlador del TextField
+                      controller:
+                          matriculatxt, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -55,7 +61,7 @@ class _ScreenState extends State<MechanicInsertView> {
                           ),
                           prefixIcon: Icon(Icons.circle_outlined),
                           border: InputBorder.none,
-                          hintText: "DNI",
+                          hintText: "Matrícula",
                           hintStyle: TextStyle(
                             color: Colors.white,
                           ))),
@@ -71,7 +77,7 @@ class _ScreenState extends State<MechanicInsertView> {
               mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -79,7 +85,7 @@ class _ScreenState extends State<MechanicInsertView> {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-                      controller: nombretxt, //se identifica el controlador del TextField
+                      controller: marcatxt, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -89,7 +95,7 @@ class _ScreenState extends State<MechanicInsertView> {
                           ),
                           prefixIcon: Icon(Icons.circle_outlined),
                           border: InputBorder.none,
-                          hintText: "Nombre",
+                          hintText: "Marca",
                           hintStyle: TextStyle(color: Colors.white))),
                 ),
               ],
@@ -100,10 +106,10 @@ class _ScreenState extends State<MechanicInsertView> {
             ), //para separar rows
 
             Row(
-              mainAxisAlignment:MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -111,9 +117,7 @@ class _ScreenState extends State<MechanicInsertView> {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-                      keyboardType: TextInputType.number,//para que el teclado sea numerico
-                      inputFormatters: <TextInputFormatter>[ FilteringTextInputFormatter.allow(RegExp(r'[0-9]{0,1}[0-9]*')),], //para que no se puedan poner puntos o comas
-                      controller: telftxt, //se identifica el controlador del TextField
+                      controller: modelotxt, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -123,7 +127,7 @@ class _ScreenState extends State<MechanicInsertView> {
                           ),
                           prefixIcon: Icon(Icons.circle_outlined),
                           border: InputBorder.none,
-                          hintText: "Teléfono",
+                          hintText: "Modelo",
                           hintStyle: TextStyle(
                             color: Colors.white,
                           ))),
@@ -136,81 +140,61 @@ class _ScreenState extends State<MechanicInsertView> {
             ), //para separar rows
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
-              children: [
-                Container(
-                  width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(20)), //bordes circulares
-                    color: Colors.grey[700],
-                  ),
-                  child: TextField(
-                      controller: direcciontxt, //se identifica el controlador del TextField
-                      decoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Color.fromARGB(255, 0, 229, 255)),
-                          ),
-                          prefixIcon: Icon(Icons.circle_outlined),
-                          border: InputBorder.none,
-                          hintText: "Dirección",
-                          hintStyle: TextStyle(color: Colors.white))),
-                ),
-              ],
-            ),
+                mainAxisAlignment: MainAxisAlignment .center, //Center Row contents horizontally,
+                children: [
+                  Container(
+                      width: size.width / 1.1,
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        hint: Text('Elige cliente',
+                            style: TextStyle(color: Colors.white)),
+                        value: cli,
+                        items: lista
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(item),
+                                ))
+                            .toList(),
+                        onChanged: (item) => setState(() => cli = item),
+                      ))
+                ]),
 
             const SizedBox(
               height: 8,
             ), //para separar rows
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 TextButton(
                   onPressed: () async {
-                    if (dnitxt.text.isEmpty || //comprueba que los campos estén vacios
-                        nombretxt.text.isEmpty ||
-                        telftxt.text.isEmpty ||
-                        direcciontxt.text.isEmpty) {
-                      //si están vacios lanza un dialog comunicando que debe rellenarlos
-                      String error ='Rellene todos los campos antes de guardar';
+                    if (matriculatxt.text.isEmpty ||
+                        marcatxt.text.isEmpty ||
+                        modelotxt.text.isEmpty ||
+                        cli == null) {
+                      String error = 'Rellene todos los campos antes de guardar';
                       DialogError dialogError = DialogError();
                       await dialogError.dialogError(context, error);
                     } else {
-                      String dni = dnitxt.text;
-                      String nombre = nombretxt.text;
-                      int telf = int.parse(telftxt.text);
-                      String direccion = direcciontxt.text;
+                      String matricula = matriculatxt.text;
+                      String marca = marcatxt.text;
+                      String modelo = modelotxt.text;
 
-                      var mechanic = Mechanic(
-                        //se crea un objeto mecanico
-                        dni: dni,
-                        nombre: nombre,
-                        telf: telf,
-                        direccion: direccion,
+                      var vehicle = Vehicle(
+                        matricula: matricula,
+                        marca: marca,
+                        modelo: modelo,
+                        clientedni: cli.toString(),
                       );
 
-                      await dt.insertMechanic(context, mechanic); //metodo para insertar
+                      await cr.insertVehicle(context, vehicle);
 
-                      dnitxt.clear(); //para vaciar campos del alertdialog
-                      nombretxt.clear();
-                      telftxt.clear();
-                      direcciontxt.clear();
-
-                      Navigator.of(context).pop(); //volver a pantalla anterior
+                      Navigator.of(context).pop();
                     }
                   },
                   child: Text('Guardar',
                       style: TextStyle(
-                          fontSize: size.height / 35,
-                          color: Colors
-                              .white)), 
+                          fontSize: size.height / 35, color: Colors.white)),
                 ),
               ],
             ),

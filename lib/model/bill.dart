@@ -3,6 +3,7 @@
 
 class Bill {
   String id;
+  final String userid;//para filtrar la información según usuario
   final String idorden;
   final String baseimponible;
   final String descuento;
@@ -13,6 +14,7 @@ class Bill {
   Bill(
       {
       this.id='',
+      required this.userid,
       required this.idorden,
       required this.baseimponible,
       required this.descuento,
@@ -24,6 +26,7 @@ class Bill {
     //coleccion de llaves y valores
     return {
       'id':id,
+      'userid': userid,
       'idorden': idorden,
       'baseimponible': baseimponible,
       'descuento': descuento,
