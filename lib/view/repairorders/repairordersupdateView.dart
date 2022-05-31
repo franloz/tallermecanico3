@@ -68,9 +68,7 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
               height: 8,
             ),
             Row(
-              //fila con un container y un TextField para contraseña
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
                     width: size.width / 1.1,
@@ -95,12 +93,10 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
             ), //para separar rows
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /
-                      1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -109,12 +105,8 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
                   ),
                   child: TextField(
                       keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                      ],
-                      controller:
-                          horasreparaciontxt, //se identifica el controlador del TextField
+                      inputFormatters: <TextInputFormatter>[ FilteringTextInputFormatter.allow( RegExp(r'[0-9]+[.]{0,1}[0-9]*')),],
+                      controller: horasreparaciontxt, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -134,13 +126,10 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
               height: 8,
             ),
             Row(
-              //fila con un container y un TextField para contraseña
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /
-                      1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -149,12 +138,8 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
                   ),
                   child: TextField(
                       keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                      ],
-                      controller:
-                          preciohoratxt, //se identifica el controlador del TextField
+                      inputFormatters: <TextInputFormatter>[ FilteringTextInputFormatter.allow( RegExp(r'[0-9]+[.]{0,1}[0-9]*')),],
+                      controller:preciohoratxt, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -175,12 +160,10 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
             ), //para separar rows
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment:MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /
-                      1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -188,8 +171,7 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-                      controller:
-                          descripcionreparaciontxt, //se identifica el controlador del TextField
+                      controller:descripcionreparaciontxt, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -215,9 +197,7 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
               mainAxisAlignment:
                   MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
-                Text('Mecánico actual: ' + fin,
-                    style: TextStyle(
-                        fontSize: size.height / 45, color: Colors.white))
+                Text('Mecánico actual: ' + fin, style: TextStyle(fontSize: size.height / 45, color: Colors.white))
               ],
             ),
 
@@ -226,15 +206,13 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
             ), //para separar rows
 
             Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .center, //Center Row contents horizontally,
+                mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                 children: [
                   Container(
                       width: size.width / 3,
                       child: ElevatedButton.icon(
                         onPressed: () async {
-                          DateTime date = DateTime.parse(
-                              fechainicio); //convierto la fecha de inicio a datetime para pasarla al metodo pickDateEnd
+                          DateTime date = DateTime.parse( fechainicio); //convierto la fecha de inicio a datetime para pasarla al metodo pickDateEnd
 
                           dateend = await pickDateEnd(context, date);
                           setState(() {
@@ -260,8 +238,7 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
             ), //para separar rows
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment:MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 TextButton(
                   onPressed: () async {

@@ -15,8 +15,7 @@ class _ScreenState extends State<VehicleInsertView> {
 
   TextEditingController matriculatxt = TextEditingController();
   TextEditingController marcatxt = TextEditingController();
-  TextEditingController modelotxt =
-      TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
+  TextEditingController modelotxt = TextEditingController();
 
   String? cli;
   @override
@@ -38,13 +37,10 @@ class _ScreenState extends State<VehicleInsertView> {
               height: 20,
             ),
             Row(
-              //fila con un container y un TextField para email
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /
-                      1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -76,13 +72,10 @@ class _ScreenState extends State<VehicleInsertView> {
             ), //para separar rows
 
             Row(
-              //fila con un container y un TextField para contraseña
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /
-                                1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -90,8 +83,7 @@ class _ScreenState extends State<VehicleInsertView> {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-                      controller:
-                          marcatxt, //se identifica el controlador del TextField
+                      controller: marcatxt, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -112,13 +104,10 @@ class _ScreenState extends State<VehicleInsertView> {
             ), //para separar rows
 
             Row(
-              //fila con un container y un TextField para email
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /
-                                1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -126,8 +115,7 @@ class _ScreenState extends State<VehicleInsertView> {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-                      controller:
-                          modelotxt, //se identifica el controlador del TextField
+                      controller: modelotxt, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -150,17 +138,14 @@ class _ScreenState extends State<VehicleInsertView> {
             ), //para separar rows
 
             Row(
-                //fila con un container y un TextField para contraseña
-                mainAxisAlignment: MainAxisAlignment
-                    .center, //Center Row contents horizontally,
+                mainAxisAlignment: MainAxisAlignment .center, //Center Row contents horizontally,
                 children: [
                   Container(
-                      width: size.width /
-                                1.1,
+                      width: size.width / 1.1,
                       child: DropdownButton<String>(
                         isExpanded: true,
-                        hint: Text('Elige cliente',style: TextStyle(
-                                             color: Colors.white)),
+                        hint: Text('Elige cliente',
+                            style: TextStyle(color: Colors.white)),
                         value: cli,
                         items: lista
                             .map((item) => DropdownMenuItem<String>(
@@ -177,8 +162,7 @@ class _ScreenState extends State<VehicleInsertView> {
             ), //para separar rows
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 TextButton(
                   onPressed: () async {
@@ -186,8 +170,7 @@ class _ScreenState extends State<VehicleInsertView> {
                         marcatxt.text.isEmpty ||
                         modelotxt.text.isEmpty ||
                         cli == null) {
-                      String error =
-                          'Rellene todos los campos antes de guardar';
+                      String error = 'Rellene todos los campos antes de guardar';
                       DialogError dialogError = DialogError();
                       await dialogError.dialogError(context, error);
                     } else {
@@ -203,18 +186,13 @@ class _ScreenState extends State<VehicleInsertView> {
                       );
 
                       await dt.insertVehicle(context, vehicle);
-                      
-
-                      //cli='Elige cliente';
 
                       Navigator.of(context).pop();
                     }
                   },
                   child: Text('Guardar',
                       style: TextStyle(
-                          fontSize: size.height / 35,
-                          color: Colors
-                              .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                          fontSize: size.height / 35, color: Colors.white)),
                 ),
               ],
             ),

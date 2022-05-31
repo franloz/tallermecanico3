@@ -44,13 +44,11 @@ class _ScreenState extends State<VehicleUpdateView> {
             ), //para separar rows
 
             Row(
-              //fila con un container y un TextField para contraseña
               mainAxisAlignment:
                   MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /
-                      1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -58,8 +56,7 @@ class _ScreenState extends State<VehicleUpdateView> {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-                      controller:
-                          marca, //se identifica el controlador del TextField
+                      controller: marca, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -80,13 +77,11 @@ class _ScreenState extends State<VehicleUpdateView> {
             ), //para separar rows
 
             Row(
-              //fila con un container y un TextField para email
               mainAxisAlignment:
                   MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
-                  width: size.width /
-                      1.1, //ancho del TextField en relación al ancho de la pantalla
+                  width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
                   height: size.height / 17,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -94,11 +89,7 @@ class _ScreenState extends State<VehicleUpdateView> {
                     color: Colors.grey[700],
                   ),
                   child: TextField(
-
-                      ///para que el teclado sea numerico
-
-                      controller:
-                          modelo, //se identifica el controlador del TextField
+                      controller: modelo, //se identifica el controlador del TextField
                       decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -121,9 +112,7 @@ class _ScreenState extends State<VehicleUpdateView> {
             ), //para separar rows
 
             Row(
-              //fila con un container y un TextField para email
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Text('Cliente actual: ' + clienteactual,
                     style: TextStyle(
@@ -136,16 +125,13 @@ class _ScreenState extends State<VehicleUpdateView> {
             ), //para separar rows
 
             Row(
-              //fila con un container y un TextField para contraseña
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
                     width: size.width / 1.1,
                     child: DropdownButton<String>(
                       isExpanded: true,
-                      hint: Text('Elige cliente',style: TextStyle(
-                                             color: Colors.white)),
+                      hint: Text('Elige cliente',style: TextStyle(  color: Colors.white)),
                       value: dnicliente,
                       items: lista
                           .map((item) => DropdownMenuItem<String>(
@@ -163,19 +149,16 @@ class _ScreenState extends State<VehicleUpdateView> {
             ), //para separar rows
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //Center Row contents horizontally,
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 TextButton(
                   onPressed: () async {
-                    if (/*matricula.text.isEmpty ||*/
-                        marca.text.isEmpty ||
+                    if ( marca.text.isEmpty ||
                             modelo.text.isEmpty ||
                             dnicliente == null
-                        //cliente==''
+                       
                         ) {
-                      String error =
-                          'Rellene todos los campos antes de guardar';
+                      String error = 'Rellene todos los campos antes de guardar';
                       DialogError dialogError = DialogError();
                       await dialogError.dialogError(context, error);
                     } else {
@@ -189,21 +172,19 @@ class _ScreenState extends State<VehicleUpdateView> {
                         clientedni: dnicliente.toString(),
                       );
 
-                      await dt.updateVehicle(context, vehicle,
-                          matricula); //olddni para identificar que registro actualizo
+                      await dt.updateVehicle(context, vehicle, matricula); 
 
                       marca.clear();
                       modelo.clear();
-                      //dnicliente.clear();
 
                       Navigator.of(context).pop();
                     }
-                  }, //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                  }, 
                   child: Text('Guardar',
                       style: TextStyle(
                           fontSize: size.height / 35,
                           color: Colors
-                              .white)), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                              .white)),
                 ),
               ],
             ),

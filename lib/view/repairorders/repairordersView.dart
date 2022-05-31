@@ -92,8 +92,7 @@ class _ScreenState extends State<RepairOrdersView> {
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
           child: Icon(Icons.add),
           onPressed: () async {
-            FocusScope.of(context)
-                .unfocus(); //para que el textfield pierda el foco
+            FocusScope.of(context) .unfocus(); //para que el textfield pierda el foco
             
 
             await Navigator.pushNamed(context, 'RepairOrdersInsertView',
@@ -126,8 +125,7 @@ class _ScreenState extends State<RepairOrdersView> {
                     elevation: 5,
                     child: ListTile(
                         onTap: () {
-                          FocusScope.of(context)
-                              .unfocus(); //para que el textfield pierda el foco
+                          FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
                           bottomSheet(
                               id,
@@ -142,8 +140,7 @@ class _ScreenState extends State<RepairOrdersView> {
                         },
                         onLongPress: () {
                           
-                          Navigator.pushNamed(context, 'RepairLinesView',
-                              arguments: {"idorden": id});
+                          Navigator.pushNamed(context, 'RepairLinesView', arguments: {"idorden": id});
                         },
                         leading: Icon(Icons.car_repair),
                         title: Text(id),
@@ -166,18 +163,16 @@ class _ScreenState extends State<RepairOrdersView> {
                                     if (facturada == 0) {
                                       //si facturada es igual a 0 significa q no esta facturada y se puede editar
 
-                                      FocusScope.of(context)
-                                          .unfocus(); //para que el textfield pierda el foco
-                                      //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escriyos en los textFields del dialog
+                                      FocusScope.of(context) .unfocus(); //para que el textfield pierda el foco
+
+                                      //le asigno a los controladores de la siguiente pantalla los valores a modificar para que aparezcan escriyos en los textFields del dialog
                                       TextEditingController horasreparaciontxt = TextEditingController();
                                       TextEditingController descripcionreparaciontxt = TextEditingController();
                                       TextEditingController preciohoratxt = TextEditingController();
 
                                       horasreparaciontxt.text = horasreparacion;
-                                      descripcionreparaciontxt.text =
-                                          descripcionreparacion;
+                                      descripcionreparaciontxt.text = descripcionreparacion;
                                       preciohoratxt.text = preciohora;
-                                      //modelocontroll.text = modelo;
 
                                       await Navigator.pushNamed(
                                           context, 'RepairOrdersUpdateView',
@@ -194,25 +189,20 @@ class _ScreenState extends State<RepairOrdersView> {
                                           });
                                       setState(() {});
                                     } else {
-                                      String error =
-                                          'Las órdenes que han sido facturadas no se pueden borrar';
+                                      String error = 'Las órdenes que han sido facturadas no se pueden borrar';
                                       DialogError dialogError = DialogError();
-                                      await dialogError.dialogError(
-                                          context, error);
+                                      await dialogError.dialogError( context, error);
                                     }
                                   }),
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
                                     Database database = await dt.openDB();
-                                    var resultSet = await database.rawQuery(
-                                        "SELECT facturada FROM OrdenesReparacion WHERE id = ?",
-                                        [id]);
+                                    var resultSet = await database.rawQuery( "SELECT facturada FROM OrdenesReparacion WHERE id = ?",[id]);
                                     // Get first result
                                     var dbItem = resultSet.first;
                                     // Access its id
                                     var facturada = dbItem['facturada'] as int;
-                                    print('fac' + facturada.toString());
 
                                     if (facturada == 0) {
                                       //si facturada es igual a 0 significa q no esta facturada y se puede borrar, si no es igual a 0 no se puede borrar
