@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/repairorder.dart';
 import 'package:tallermecanico/view/repairorders/dialogRepairOrderDelete.dart';
+
+import '../../../controller/repairordercontroller.dart';
+import '../../../databases/database.dart';
 
 class RepairOrdersView extends StatefulWidget {
   const RepairOrdersView({Key? key}) : super(key: key);
@@ -13,6 +15,9 @@ class RepairOrdersView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairOrdersView> {
+
+  RepairOrderController cr=RepairOrderController();
+
   DialogRepairOrderDelete dialog = DialogRepairOrderDelete();
 
   TextEditingController searchtxt = TextEditingController();
@@ -26,7 +31,7 @@ class _ScreenState extends State<RepairOrdersView> {
   void initState() {
     //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
     //se convierte una lista de map en una lista de string
-    dt.getMechanicdni().then((listMap) {
+    cr.getMechanicdni().then((listMap) {
       listMap.map((map) {
         print('fggfg');
         print(map.toString());
@@ -39,7 +44,7 @@ class _ScreenState extends State<RepairOrdersView> {
       setState(() {});
     });
 
-    dt.getVehiclesmatricula().then((listMap) {
+    cr.getVehiclesmatricula().then((listMap) {
       listMap.map((map) {
         print('fggfg');
         print(map.toString());
@@ -158,7 +163,6 @@ class _ScreenState extends State<RepairOrdersView> {
                                     var dbItem = resultSet.first;
                                     // Access its id
                                     var facturada = dbItem['facturada'] as int;
-                                    print('fac' + facturada.toString());
 
                                     if (facturada == 0) {
                                       //si facturada es igual a 0 significa q no esta facturada y se puede editar
@@ -300,9 +304,9 @@ class _ScreenState extends State<RepairOrdersView> {
 
   Future<List<RepairOrder>> loadList() async {
     if (search != '') {
-      return dt.getOrderWhere(search);
+      return cr.getOrderWhere(search);
     } else {
-      return dt.getOrders();
+      return cr.getOrders();
     }
   }
   

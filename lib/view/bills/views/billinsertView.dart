@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/databases/database.dart';
-import 'package:tallermecanico/databases/firebasedatabase.dart';
 
 import '../../../controller/billcontroller.dart';
 

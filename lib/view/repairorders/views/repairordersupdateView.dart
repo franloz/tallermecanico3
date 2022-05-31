@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/repairorder.dart';
+
+import '../../../controller/repairordercontroller.dart';
 
 class RepairOrdersUpdateView extends StatefulWidget {
   const RepairOrdersUpdateView({Key? key}) : super(key: key);
@@ -13,7 +14,8 @@ class RepairOrdersUpdateView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairOrdersUpdateView> {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  RepairOrderController cr=RepairOrderController();
 
   String? idmecanico;
   String fechafin = 'Fin';
@@ -259,7 +261,7 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
                         facturada: 0,
                       );
 
-                      await dt.updateOrder(context, order, idord);
+                      await cr.updateOrder(context, order, idord);
 
                       descripcionreparaciontxt.clear();
                       horasreparaciontxt.clear();

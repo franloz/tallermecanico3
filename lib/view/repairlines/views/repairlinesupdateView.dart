@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tallermecanico/databases/database.dart';
+
+import '../../../controller/repairlinecontroller.dart';
 
 class RepairLinesUpdateView extends StatefulWidget {
   const RepairLinesUpdateView({Key? key}) : super(key: key);
@@ -10,7 +11,8 @@ class RepairLinesUpdateView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairLinesUpdateView> {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  RepairLineController cr=RepairLineController();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,7 @@ class _ScreenState extends State<RepairLinesUpdateView> {
                   onPressed: () async {
                     int cantidadnew = int.parse(cantidadtxt.text);
 
-                    await dt.updateLine(context, idorden, idlinea, idrecambio,
+                    await cr.updateLine(context, idorden, idlinea, idrecambio,
                         cantidadold, cantidadnew);
 
                     cantidadtxt.clear();

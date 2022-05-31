@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/database.dart';
+
+import '../../controller/repairordercontroller.dart';
 
 class DialogRepairOrderDelete {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  RepairOrderController cr=RepairOrderController();
 
   Future dialogOrderDelete(BuildContext context, String id) => showDialog(
       context: context,
@@ -20,7 +22,7 @@ class DialogRepairOrderDelete {
               ),
               TextButton(
                 onPressed: () async {
-                  await dt.deleteOrder(context, id);
+                  await cr.deleteOrder(context, id);
 
                   Navigator.of(context).pop();
                 },

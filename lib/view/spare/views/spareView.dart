@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/spare.dart';
 import 'package:tallermecanico/view/spare/dialogSpareDelete.dart';
+
+import '../../../controller/sparecontroller.dart';
 
 class SpareView extends StatefulWidget {
   const SpareView({Key? key}) : super(key: key);
@@ -13,7 +14,8 @@ class SpareView extends StatefulWidget {
 
 class _ScreenState extends State<SpareView> {
   DialogSpareDelete dialog = DialogSpareDelete();
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  SpareController cr=SpareController();
 
   TextEditingController searchtxt = TextEditingController();
 
@@ -141,9 +143,9 @@ class _ScreenState extends State<SpareView> {
 
   Future<List<Spare>> loadList() async {
     if (search != '') {
-      return dt.getSpareWhere(search);
+      return cr.getSpareWhere(search);
     } else {
-      return dt.getSpares();
+      return cr.getSpares();
     }
   }
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/spare.dart';
+
+import '../../../controller/sparecontroller.dart';
 
 class SpareUpdateView extends StatefulWidget {
   const SpareUpdateView({Key? key}) : super(key: key);
@@ -12,7 +13,9 @@ class SpareUpdateView extends StatefulWidget {
 }
 
 class _ScreenState extends State<SpareUpdateView> {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  SpareController cr=SpareController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +181,7 @@ class _ScreenState extends State<SpareUpdateView> {
                       );
 
 
-                      await dt.updateSpare(context, spare, id);
+                      await cr.updateSpare(context, spare, id);
 
                       preciocontroll.clear();
                       stockcontroll.clear();

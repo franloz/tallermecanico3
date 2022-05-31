@@ -337,7 +337,7 @@ class DatabaseSqlite {
 
 
 
-  Future<List<Map<String, dynamic>>> getVehiclesmatricula() async {
+  /*Future<List<Map<String, dynamic>>> getVehiclesmatricula() async {
     Database database = await openDB();
 
     final List<Map<String, dynamic>> maps =
@@ -346,9 +346,9 @@ class DatabaseSqlite {
     /*forEach(maps){
       String dni=maps;
     }*/
-  }
+  } */
 
-  Future<List<Map<String, dynamic>>> getMechanicdni() async {
+  /*Future<List<Map<String, dynamic>>> getMechanicdni() async {
     Database database = await openDB();
 
     final List<Map<String, dynamic>> maps =
@@ -357,9 +357,9 @@ class DatabaseSqlite {
     /*forEach(maps){
       String dni=maps;
     }*/
-  }
+  } */
 
-  Future<List<Map<String, dynamic>>> getRecambiosId() async {
+  /*Future<List<Map<String, dynamic>>> getRecambiosId() async {
     Database database = await openDB();
 
     final List<Map<String, dynamic>> maps =
@@ -379,7 +379,7 @@ class DatabaseSqlite {
     /*forEach(maps){
       String dni=maps;
     }*/
-  }
+  } */
 
 
 
@@ -389,7 +389,7 @@ class DatabaseSqlite {
 
   //spare
 
-  Future<void> insertSpare(BuildContext context, Spare spare) async {
+  /*Future<void> insertSpare(BuildContext context, Spare spare) async {
     Database database = await openDB();
 
     try {
@@ -469,14 +469,14 @@ class DatabaseSqlite {
         telfproveedor: maps[i]['telfproveedor'],
       );
     });
-  }
+  } */
 
 
   //spare
 
   //repairorder
 
-  Future<void> insertOrder(BuildContext context, RepairOrder order) async {
+  /*Future<void> insertOrder(BuildContext context, RepairOrder order) async {
     Database database = await openDB();
 
     try {
@@ -571,7 +571,7 @@ class DatabaseSqlite {
       );
     });
   }
-
+ */
 
   //repairorder
 
@@ -579,7 +579,7 @@ class DatabaseSqlite {
   //repairlines
 
 
-  Future<void> insertLines(BuildContext context, RepairLines lines, String idrecambio, int cantidad) async {
+ /* Future<void> insertLines(BuildContext context, RepairLines lines, String idrecambio, int cantidad) async {
     Database database = await openDB();
 
     try {
@@ -713,7 +713,7 @@ class DatabaseSqlite {
         cantidad: maps[i]['cantidad'],
       );
     });
-  }
+  } */
 
 
 

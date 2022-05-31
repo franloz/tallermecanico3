@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/view/bills/dialogbillsdelete.dart';
 
+import '../../../controller/billcontroller.dart';
+
 class BillsView extends StatefulWidget {
   const BillsView({Key? key}) : super(key: key);
 
@@ -21,12 +23,14 @@ class _ScreenState extends State<BillsView> {
 
   final user= FirebaseAuth.instance.currentUser!;//usuario actual, se usara para mostrar los datos del usuario actual
 
+  BillController cr=BillController();
+
   
   @override
   void initState() {
     //en este init obtengo los id de las ordenes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogBills
     //se convierte una lista de map en una lista de string
-    dt.getOrdenesId().then((listMap) {
+    cr.getOrdenesId().then((listMap) {
       listMap.map((map) {
         print('fggfg');
         print(map.toString());

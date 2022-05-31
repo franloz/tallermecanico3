@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:tallermecanico/databases/database.dart';
+
+import '../../controller/repairlinecontroller.dart';
 
 class DialogRepairLinesDelete {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  RepairLineController cr=RepairLineController();
 
   Future dialogOrderDelete(BuildContext context, String idorden, String idlinea,
           String idrecambio, int cantidad) =>
@@ -24,7 +26,7 @@ class DialogRepairLinesDelete {
                   ),
                   TextButton(
                     onPressed: () async {
-                      await dt.deleteLines(idorden, idlinea, idrecambio, cantidad);
+                      await cr.deleteLines(idorden, idlinea, idrecambio, cantidad);
 
                       Navigator.of(context).pop();
                     },

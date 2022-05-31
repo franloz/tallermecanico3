@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/spare.dart';
+
+import '../../../controller/sparecontroller.dart';
 
 class SpareInsertView extends StatefulWidget {
   const SpareInsertView({Key? key}) : super(key: key);
@@ -18,7 +19,8 @@ class _ScreenState extends State<SpareInsertView> {
   TextEditingController stocktxt = TextEditingController();
   TextEditingController telfproveedortxt = TextEditingController();
 
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  SpareController cr=SpareController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -237,7 +239,7 @@ class _ScreenState extends State<SpareInsertView> {
                         telfproveedor: telfproveedor,
                       );
 
-                      await dt.insertSpare(context, spare);
+                      await cr.insertSpare(context, spare);
 
                       marcatxt.clear();
                       piezatxt.clear();

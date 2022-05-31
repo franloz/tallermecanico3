@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databases/database.dart';
+
+import '../../controller/sparecontroller.dart';
 
 class DialogSpareDelete {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  SpareController cr=SpareController();
 
   Future dialogSpareDelete(BuildContext context, String id) => showDialog(
       context: context,
@@ -21,7 +23,7 @@ class DialogSpareDelete {
               ),
               TextButton(
                 onPressed: () async {
-                  await dt.deleteSpare(context, id);
+                  await cr.deleteSpare(context, id);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

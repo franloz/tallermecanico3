@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/repairLines.dart';
+
+import '../../../controller/repairlinecontroller.dart';
 
 class RepairLinesInsertView extends StatefulWidget {
   const RepairLinesInsertView({Key? key}) : super(key: key);
@@ -14,7 +15,9 @@ class RepairLinesInsertView extends StatefulWidget {
 class _ScreenState extends State<RepairLinesInsertView> {
   TextEditingController cantidadtxt = TextEditingController();
 
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+
+  RepairLineController cr=RepairLineController();
 
   String? recambio; //values combobox
   @override
@@ -120,7 +123,7 @@ class _ScreenState extends State<RepairLinesInsertView> {
                         idrecambio: recambiotx,
                         cantidad: cantidadtx,
                       );
-                      await dt.insertLines(
+                      await cr.insertLines(
                           context, line, recambiotx, cantidadtx);
 
                       cantidadtxt.clear();

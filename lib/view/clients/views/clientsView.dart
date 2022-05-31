@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/controller/clientController.dart';
+import 'package:tallermecanico/controller/clientcontroller.dart';
 import 'package:tallermecanico/view/clients/dialogClientsDelete.dart';
 
 import '../../../model/client.dart';

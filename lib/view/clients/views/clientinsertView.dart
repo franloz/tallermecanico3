@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/controller/clientController.dart';
+import 'package:tallermecanico/controller/clientcontroller.dart';
 import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/client.dart';
 

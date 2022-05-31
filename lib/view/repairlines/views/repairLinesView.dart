@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/repairLines.dart';
 import 'package:tallermecanico/view/repairlines/dialogRepairLinesDelete.dart';
+
+import '../../../controller/repairlinecontroller.dart';
+import '../../../databases/database.dart';
 
 class RepairLinesView extends StatefulWidget {
   const RepairLinesView({Key? key}) : super(key: key);
@@ -13,6 +15,7 @@ class RepairLinesView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairLinesView> {
+  RepairLineController cr=RepairLineController();
   DialogRepairLinesDelete dialog = DialogRepairLinesDelete();
 
   TextEditingController searchtxt = TextEditingController();
@@ -25,7 +28,7 @@ class _ScreenState extends State<RepairLinesView> {
   void initState() {
     //en este init obtengo los dni de los clientes y los introduzco en una lista para poder mostrarlos en el dropdownmenuitem (combobox) de la pantalla DialogVehicle
     //se convierte una lista de map en una lista de string
-    dt.getRecambiosId().then((listMap) {
+    cr.getRecambiosId().then((listMap) {
       listMap.map((map) {
         print('fggfg');
         print(map.toString());
@@ -256,9 +259,9 @@ class _ScreenState extends State<RepairLinesView> {
 
   Future<List<RepairLines>> loadList(String idorden) async {
     if (search != '') {
-      return dt.getLinesWhere(search, idorden);
+      return cr.getLinesWhere(search, idorden);
     } else {
-      return dt.getLines(idorden);
+      return cr.getLines(idorden);
     }
   }
 }

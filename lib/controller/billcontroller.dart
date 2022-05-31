@@ -152,4 +152,20 @@ class BillController {
         "UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?",
         [0, idorden]);
   }
+
+
+
+
+
+  Future<List<Map<String, dynamic>>> getOrdenesId() async {
+    DatabaseSqlite db = DatabaseSqlite();
+    Database database = await db.openDB();
+
+    final List<Map<String, dynamic>> maps =
+        await database.rawQuery('SELECT id FROM OrdenesReparacion');
+    return maps;
+    /*forEach(maps){
+      String dni=maps;
+    }*/
+  }
 }

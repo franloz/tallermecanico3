@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databases/database.dart';
+import 'package:tallermecanico/controller/repairordercontroller.dart';
 import 'package:tallermecanico/model/repairorder.dart';
+
 
 class RepairOrdersInsertView extends StatefulWidget {
   const RepairOrdersInsertView({Key? key}) : super(key: key);
@@ -13,7 +14,8 @@ class RepairOrdersInsertView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairOrdersInsertView> {
-  DatabaseSqlite dt = DatabaseSqlite();
+  //DatabaseSqlite dt = DatabaseSqlite();
+  RepairOrderController cr=RepairOrderController();
 
   TextEditingController horasreparaciontxt = TextEditingController();
   TextEditingController preciohoratxt = TextEditingController();
@@ -269,8 +271,7 @@ class _ScreenState extends State<RepairOrdersInsertView> {
                     if (mecanico == null ||
                         vehiculo == null ||
                         datestart == null) {
-                      String error =
-                          'Debe elegir al mecánico, el vehículo y la fecha de inicio';
+                      String error ='Debe elegir al mecánico, el vehículo y la fecha de inicio';
                       DialogError dialogError = DialogError();
                       await dialogError.dialogError(context, error);
                     } else {
@@ -290,7 +291,7 @@ class _ScreenState extends State<RepairOrdersInsertView> {
                           facturada: 0 //facturada 0 significa que no ha sido facturada
                           );
 
-                      await dt.insertOrder(context, order);
+                      await cr.insertOrder(context, order);
 
                       horasreparaciontxt.clear();
                       descripcionreparaciontxt.clear();
