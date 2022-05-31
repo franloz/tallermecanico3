@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
-import 'package:tallermecanico/databasesqlite/firebasedatabase.dart';
+import 'package:tallermecanico/databases/database.dart';
+import 'package:tallermecanico/databases/firebasedatabase.dart';
 
 class BillInsertView extends StatefulWidget {
   const BillInsertView({Key? key}) : super(key: key);

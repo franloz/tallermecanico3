@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databasesqlite/firebasedatabase.dart';
+import 'package:tallermecanico/databases/firebasedatabase.dart';
 
 class DialogBillsDelete {
   FirebaseDatabase base = FirebaseDatabase();
