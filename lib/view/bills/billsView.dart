@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
+import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/view/bills/dialogbillsdelete.dart';
 
 class BillsView extends StatefulWidget {

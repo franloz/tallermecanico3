@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
+import 'package:tallermecanico/databases/database.dart';
 
 class RepairLinesUpdateView extends StatefulWidget {
   const RepairLinesUpdateView({Key? key}) : super(key: key);

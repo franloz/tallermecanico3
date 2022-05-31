@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
+import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/view/mechanic/dialogMechanicsDelete.dart';
 
 import '../../model/mechanic.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
+import 'package:tallermecanico/databases/database.dart';
 
 class DialogRepairOrderDelete {
   DatabaseSqlite dt = DatabaseSqlite();

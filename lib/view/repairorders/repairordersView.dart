@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
-import 'package:tallermecanico/databasesqlite/database.dart';
+import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/repairorder.dart';
 import 'package:tallermecanico/view/repairorders/dialogRepairOrderDelete.dart';
 
