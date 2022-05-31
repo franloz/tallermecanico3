@@ -31,6 +31,12 @@ class _ScreenState extends State<MechanicsView> {
             height: 40,
             child: Center(
               child: TextField(
+                onChanged: (value) {
+                 
+                  search = searchtxt.text;
+                  setState(() {});//al cambiar el valor del textfield busca
+                  
+                },
                 controller: searchtxt,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(

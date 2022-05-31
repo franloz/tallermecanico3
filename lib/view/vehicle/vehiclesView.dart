@@ -50,6 +50,12 @@ class _ScreenState extends State<VehiclesView> {
             height: 40,
             child: Center(
               child: TextField(
+                onChanged: (value) {
+                 
+                  search = searchtxt.text;//al cambiar el valor del textfield busca
+                  setState(() {});
+
+                },
                 controller: searchtxt,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(

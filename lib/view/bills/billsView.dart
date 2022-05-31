@@ -12,7 +12,9 @@ class BillsView extends StatefulWidget {
 
 class _ScreenState extends State<BillsView> {
   DialogBillsDelete dialog = DialogBillsDelete();
+  TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda de la orden
 
+  String search = '';//esta variable se usará para buscar en la lista de facturas//////tienen que escribir la matricula exactamente igual que aparece en ordenes
   List<String> listaordenes = [];
   DatabaseSqlite dt = DatabaseSqlite();
   @override
@@ -38,10 +40,34 @@ class _ScreenState extends State<BillsView> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-            automaticallyImplyLeading: false,//para que no salga error renderflex overflowed keyboard
-            backgroundColor: Color.fromARGB(255, 0, 229, 255),
-            title: Text('Facturas')),
+        automaticallyImplyLeading: false,
+          backgroundColor: Color.fromARGB(255, 0, 229, 255),
+          title: Container(
+            width: double.infinity,
+            height: 40,
+            child: Center(
+              child: TextField(
+                
+                controller: searchtxt,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+
+                      search = searchtxt.text;
+                      setState(() {});//para actualizar la vista
+                    },
+                  ),
+                  hintText: 'Id de orden a buscar',
+                ),
+              ),
+            ),
+          )),
         backgroundColor: Colors.grey[800],
+
+
+        
         floatingActionButton: FloatingActionButton(
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             child: Icon(Icons.add),
@@ -55,7 +81,7 @@ class _ScreenState extends State<BillsView> {
               setState(() {});
             }),
         body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('facturas').snapshots(),
+          stream: loadList(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
@@ -152,5 +178,18 @@ class _ScreenState extends State<BillsView> {
         ],
       ),
     );
+  }
+
+
+  Stream<QuerySnapshot> loadList() {
+    if (search != '') {
+      print(search.toUpperCase());
+      return FirebaseFirestore.instance
+          .collection('facturas')
+          .where('idorden', isEqualTo: search)
+          .snapshots();
+    } else {
+      return FirebaseFirestore.instance.collection('facturas').snapshots();
+    }
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tallermecanico/alertdialog/dialogSignoff.dart';
 import 'package:tallermecanico/controller/homecontroller.dart';
 
 class Home extends StatelessWidget {
+
+  DialogSignOff dialog=DialogSignOff();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context)
@@ -11,8 +14,24 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
-        title: Text("Utilidades"),
         backgroundColor: Color.fromARGB(255, 0, 229, 255),
+        title: Text("Utilidades"),
+        
+        actions: <Widget>[
+         
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () async{
+
+                  await dialog.dialogSignOff(
+                                        context);
+
+
+                },
+                child: Icon(Icons.arrow_downward_outlined),
+              )),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment
@@ -46,7 +65,6 @@ class Home extends StatelessWidget {
                 ),
 
                 onPressed: () {
-                  //cr.cerrar();
                   Navigator.pushNamed(context, 'ClientsView');
                 }, //se lanza la actividad de clientes
                 style: ElevatedButton.styleFrom(
@@ -87,7 +105,7 @@ class Home extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, 'MechanicsView');
-                }, //se lanza el metodo de iniciar sesión al pulsar el botón
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
@@ -132,7 +150,6 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  //Navigator.pushNamed(context, 'f');
                   Navigator.pushNamed(context, 'VehiclesView');
                 }, //se lanza la actividad de vehículos
                 style: ElevatedButton.styleFrom(
@@ -318,10 +335,9 @@ class Home extends StatelessWidget {
                     )
                   ],
                 ),
-
                 onPressed: () {
                   Navigator.pushNamed(context, 'VehiclePhotosView');
-                }, //se lanza la actividad de Ördenes de reparación
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(
                       size.width / 2.3,
