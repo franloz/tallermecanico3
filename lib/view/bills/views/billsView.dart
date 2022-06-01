@@ -197,9 +197,9 @@ class _ScreenState extends State<BillsView> {
                         fontSize: size.height / 33, color: Colors.white),
                   ),
                   onPressed: () async{
-                    final pdffile= await PdfApi.generate(idorden,'sample');
+                    final pdffile= await PdfApi.generate(idorden,baseimponible,descuento,iva,totalfactura);//se genera el pdf
 
-                    PdfApi.openFile(pdffile);
+                    PdfApi.openFile(pdffile);//se abre pdf
                     
                   },
                   style: ElevatedButton.styleFrom(
