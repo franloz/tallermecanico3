@@ -45,6 +45,8 @@ dependencies:
   sqflite: ^2.0.2+1
   intl: ^0.17.0 #para dar formato a fechas
   flutter_phone_direct_caller: ^2.1.1
+  pdf: ^3.8.1
+  open_file: ^3.2.1
 
 dev_dependencies:
   flutter_test:

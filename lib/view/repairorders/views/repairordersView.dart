@@ -217,8 +217,7 @@ class _ScreenState extends State<RepairOrdersView> {
                                           context, id);
                                       setState(() {});
                                     } else {
-                                      String error =
-                                          'Las órdenes que han sido facturadas no se pueden borrar';
+                                      String error ='Las órdenes que han sido facturadas no se pueden borrar';
                                       DialogError dialogError = DialogError();
                                       await dialogError.dialogError(
                                           context, error);

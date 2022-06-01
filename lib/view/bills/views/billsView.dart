@@ -5,6 +5,7 @@ import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/view/bills/dialogbillsdelete.dart';
 
 import '../../../controller/billcontroller.dart';
+import '../../../pdf/pdf_api.dart';
 
 class BillsView extends StatefulWidget {
   const BillsView({Key? key}) : super(key: key);
@@ -124,6 +125,7 @@ class _ScreenState extends State<BillsView> {
                             descuento,
                             iva,
                             totalfactura,
+                            size
                           );
                         },
                         leading: Icon(Icons.euro),
@@ -154,7 +156,7 @@ class _ScreenState extends State<BillsView> {
     String baseimponible,
     String descuento,
     String iva,
-    String totalfactura,
+    String totalfactura, Size size,
   ) {
     showModalBottomSheet(//combobox
       context: context,
@@ -183,6 +185,37 @@ class _ScreenState extends State<BillsView> {
           ListTile(
             title: Text('Total factura'),
             subtitle: Text(totalfactura),
+          ),
+          Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+                  icon: Icon(Icons.picture_as_pdf), //icono del candado
+                  label: Text(
+                    "Generar pdf",
+                    style: TextStyle(
+                        fontSize: size.height / 33, color: Colors.white),
+                  ),
+                  onPressed: () async{
+                    final pdffile= await PdfApi.generate(idorden,'sample');
+
+                    PdfApi.openFile(pdffile);
+                    
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(size.width / 2,size.height /18), //ancho y alto del boton en relación a la pantalla
+                    primary: Color.fromARGB(255, 0, 229, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+
+
+
+          ],),
+          SizedBox(
+              height: 8,
           ),
         ],
       ),

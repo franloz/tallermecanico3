@@ -277,7 +277,7 @@ class _ScreenState extends State<RepairOrdersInsertView> {
                     } else {
                       
 
-                      String id = vehiculo.toString() + '//' + inicio;//se crea id a partir de matricula y fecha de incio
+                      String id = vehiculo.toString() + '-' + inicio;//se crea id a partir de matricula y fecha de incio
 
                       var order = RepairOrder(
                           id: id.toUpperCase(),
