@@ -26,13 +26,11 @@ class SpareController {
     Database database = await db.openDB();
 
 
-    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM LineasReparacion WHERE idrecambio = ?', [id]);
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM LineasReparacion WHERE idrecambio = ?', [id]);//compruebo si el recambio que voy a borrar esta en lineasreparacion
     int count=   maps.length;
-    print('jjjj'+count.toString());
 
-    if(count==0){
+    if(count==0){//si el recambio no esta en lineas te deja borrarlo sino no
       await database.delete("Recambios", where: 'id = ?', whereArgs: [id]);
-      print('bbbbb'+'borrado');
     }else{
       String error = 'Este recambio no se puede borrar debido a que existen lineas de órdenes con este recambio, deberá borrarlas antes de poder borrar el recambio';
       DialogError dialogError = DialogError();
@@ -46,14 +44,14 @@ class SpareController {
     Database database = await db.openDB();
 
     try {
-      await database.update("Recambios", spare.toMap(),
-          where: 'id = ?', whereArgs: [id]);
+      await database.update("Recambios", spare.toMap(),where: 'id = ?', whereArgs: [id]);
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
       await dialogError.dialogError(context, error);
     }
   }
+
   Future<List<Spare>> getSpares() async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
@@ -79,8 +77,7 @@ class SpareController {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps = await database
-        .rawQuery('SELECT * FROM Recambios WHERE pieza LIKE ?', [pieza + '%']);
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM Recambios WHERE pieza LIKE ?', [pieza + '%']);//se busca en recambios por piezas
 
     return List.generate(maps.length, (i) {
       //convierte la lista de mapas a una lista de clientes

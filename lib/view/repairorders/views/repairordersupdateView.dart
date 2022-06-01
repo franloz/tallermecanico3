@@ -199,7 +199,7 @@ class _ScreenState extends State<RepairOrdersUpdateView> {
               mainAxisAlignment:
                   MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
-                Text('Mecánico actual: ' + fin, style: TextStyle(fontSize: size.height / 45, color: Colors.white))
+                Text('Fecha de fin actual: ' + fin, style: TextStyle(fontSize: size.height / 45, color: Colors.white))
               ],
             ),
 

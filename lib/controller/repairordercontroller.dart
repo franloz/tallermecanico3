@@ -12,7 +12,7 @@ class RepairOrderController {
     Database database = await db.openDB();
 
     try {
-      await database.insert("OrdenesReparacion", order.toMap());
+      await database.insert("OrdenesReparacion", order.toMap());//inserta orden
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
@@ -24,31 +24,24 @@ class RepairOrderController {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps = await database
-        .rawQuery('SELECT * FROM LineasReparacion WHERE idorden = ?', [id]);
-    int count = maps.length;
-    print('jjjj' + count.toString());
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT * FROM LineasReparacion WHERE idorden = ?', [id]);//obtiene las lineas que pertenecen a esta orden
+    int count = maps.length;//saca el numero de lineas
 
-    if (count == 0) {
-      await database
-          .delete("OrdenesReparacion", where: 'id = ?', whereArgs: [id]);
-      print('bbbbb' + 'borrado');
+    if (count == 0) {//si la cantidad de lineas es 0 se puede borrar la orden sino no deja borrarla
+      await database.delete("OrdenesReparacion", where: 'id = ?', whereArgs: [id]);
     } else {
-      String error =
-          'Esta orden no se puede borrar debido a que existen líneas de órdenes con esta orden, deberá borrarlas antes de poder borrar el esta orden';
+      String error ='Esta orden no se puede borrar debido a que existen líneas de órdenes con esta orden, deberá borrarlas antes de poder borrar el esta orden';
       DialogError dialogError = DialogError();
       await dialogError.dialogError(context, error);
     }
   }
 
-  Future<void> updateOrder(
-      BuildContext context, RepairOrder order, String id) async {
+  Future<void> updateOrder( BuildContext context, RepairOrder order, String id) async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
     try {
-      await database.update("OrdenesReparacion", order.toMap(),
-          where: 'id = ?', whereArgs: [id]);
+      await database.update("OrdenesReparacion", order.toMap(), where: 'id = ?', whereArgs: [id]);//actualiza orden
     } on DatabaseException catch (e) {
       String error = 'Este id ya existe, no puede volverlo a introducir';
       DialogError dialogError = DialogError();
@@ -60,8 +53,7 @@ class RepairOrderController {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps =
-        await database.query('OrdenesReparacion');
+    final List<Map<String, dynamic>> maps = await database.query('OrdenesReparacion');
 
     return List.generate(maps.length, (i) {
       //convierte la lista de mapas a una lista de clientes
@@ -79,13 +71,11 @@ class RepairOrderController {
     });
   }
 
-  Future<List<RepairOrder>> getOrderWhere(String vehiculo) async {
+  Future<List<RepairOrder>> getOrderWhere(String vehiculo) async {//select sobre ordenes buscando por vehiculos
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps = await database.rawQuery(
-        'SELECT * FROM OrdenesReparacion WHERE vehiculo LIKE ?',
-        [vehiculo + '%']);
+    final List<Map<String, dynamic>> maps = await database.rawQuery( 'SELECT * FROM OrdenesReparacion WHERE vehiculo LIKE ?', [vehiculo + '%']);
 
     return List.generate(maps.length, (i) {
       //convierte la lista de mapas a una lista de clientes
@@ -103,27 +93,21 @@ class RepairOrderController {
     });
   }
 
-  Future<List<Map<String, dynamic>>> getVehiclesmatricula() async {
+  Future<List<Map<String, dynamic>>> getVehiclesmatricula() async {//se sacan los datos para el combobox
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps =
-        await database.rawQuery('SELECT matricula FROM Vehiculos');
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT matricula FROM Vehiculos');
     return maps;
-    /*forEach(maps){
-      String dni=maps;
-    }*/
+   
   }
 
-  Future<List<Map<String, dynamic>>> getMechanicdni() async {
+  Future<List<Map<String, dynamic>>> getMechanicdni() async {//se sacan los datos para el combobox
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps =
-        await database.rawQuery('SELECT dni FROM Mecanicos');
+    final List<Map<String, dynamic>> maps = await database.rawQuery('SELECT dni FROM Mecanicos');
     return maps;
-    /*forEach(maps){
-      String dni=maps;
-    }*/
+    
   }
 }

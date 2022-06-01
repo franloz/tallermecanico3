@@ -28,25 +28,20 @@ class VehicleController {
     int count = maps.length;
 
     if (count == 0) {
-      await database
-          .delete("Vehiculos", where: 'matricula = ?', whereArgs: [matricula]);
-      print('bbbbb' + 'borrado');
+      await database.delete("Vehiculos", where: 'matricula = ?', whereArgs: [matricula]);
     } else {
-      String error =
-          'Este vehículo no se puede borrar debido a que existen órdenes de reparación con este vehículo, deberá borrarlas antes de poder borrar el vehículo';
+      String error ='Este vehículo no se puede borrar debido a que existen órdenes de reparación con este vehículo, deberá borrarlas antes de poder borrar el vehículo';
       DialogError dialogError = DialogError();
       await dialogError.dialogError(context, error);
     }
   }
 
-  Future<void> updateVehicle(
-      BuildContext context, Vehicle vehicle, String matricula) async {
+  Future<void> updateVehicle( BuildContext context, Vehicle vehicle, String matricula) async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
     try {
-      await database.update("Vehiculos", vehicle.toMap(),
-          where: 'matricula = ?', whereArgs: [matricula]);
+      await database.update("Vehiculos", vehicle.toMap(), where: 'matricula = ?', whereArgs: [matricula]);
     } on DatabaseException catch (e) {
       String error = 'Esta matricula ya existe, no puede volverla a introducir';
       DialogError dialogError = DialogError();
@@ -71,12 +66,11 @@ class VehicleController {
     });
   }
 
-  Future<List<Vehicle>> getVehicleWhere(String matricula) async {
+  Future<List<Vehicle>> getVehicleWhere(String matricula) async {//metodo para buscar vehiculos
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps = await database.rawQuery(
-        'SELECT * FROM Vehiculos WHERE matricula LIKE ?', [matricula + '%']);
+    final List<Map<String, dynamic>> maps = await database.rawQuery( 'SELECT * FROM Vehiculos WHERE matricula LIKE ?', [matricula + '%']);//se busca por matricula
 
     return List.generate(maps.length, (i) {
       //convierte la lista de mapas a una lista de Mecanicos
@@ -89,15 +83,12 @@ class VehicleController {
     });
   }
 
-  Future<List<Map<String, dynamic>>> getClientsdni() async {
+  Future<List<Map<String, dynamic>>> getClientsdni() async {//se obtienen los clientes para el combobox
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps =
-        await database.rawQuery('SELECT dni FROM Clientes');
+    final List<Map<String, dynamic>> maps =await database.rawQuery('SELECT dni FROM Clientes');
     return maps;
-    /*forEach(maps){
-      String dni=maps;
-    }*/
+    
   }
 }
