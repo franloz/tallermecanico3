@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:tallermecanico/view/mechanic/dialogMechanicsDelete.dart';
 
 import '../../../controller/mechaniccontroller.dart';
@@ -76,7 +77,7 @@ class _ScreenState extends State<MechanicsView> {
                   children: snapshot.data!.map((mechanic) {
                     //variables donde se introducen los datos de los objetos de la lista
                 String dni = mechanic.dni;
-                String name = mechanic.nombre;
+                String nombre = mechanic.nombre;
                 int tlf = mechanic.telf;
                 String direccion = mechanic.direccion;
 
@@ -86,11 +87,11 @@ class _ScreenState extends State<MechanicsView> {
                         onTap: () {
                           FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
-                          bottomSheet(dni, name, tlf, direccion);//metodo para mostrar los datos de los clientes
+                          bottomSheet(dni, nombre, tlf, direccion,size);//metodo para mostrar los datos de los clientes
                         },
                         leading: Icon(Icons.person),
                         title: Text(dni),
-                        subtitle: Text(name),
+                        subtitle: Text(nombre),
                         trailing: SizedBox(
                           width: size.width / 4,
                           child: Row(
@@ -102,7 +103,7 @@ class _ScreenState extends State<MechanicsView> {
                                     //le asigno a los controladores del alertdialog los valores del usuario a modificar para que aparezcan escritos en los textFields de la pantalla actualizar
                                     
                                     TextEditingController namecontroll =TextEditingController();
-                                    namecontroll.text = name;
+                                    namecontroll.text = nombre;
                                     TextEditingController tlfcontroll =TextEditingController();
                                     tlfcontroll.text = tlf.toString();
                                     TextEditingController direccioncontroll =TextEditingController();
@@ -144,7 +145,7 @@ class _ScreenState extends State<MechanicsView> {
     }
   }
 
-  void bottomSheet(String dni, String name, int tlf, String direccion) {
+  void bottomSheet(String dni, String nombre, int tlf, String direccion, Size size) {
     showModalBottomSheet(
       isScrollControlled:
           true, 
@@ -161,7 +162,7 @@ class _ScreenState extends State<MechanicsView> {
           ),
           ListTile(
             title: Text('Nombre'),
-            subtitle: Text(name),
+            subtitle: Text(nombre),
           ),
           ListTile(
             title: Text('Teléfono'),
@@ -170,6 +171,35 @@ class _ScreenState extends State<MechanicsView> {
           ListTile(
             title: Text('Dirección'),
             subtitle: Text(direccion),
+          ),
+          Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+                  icon: Icon(Icons.call), //icono del candado
+                  label: Text(
+                    "Llamar",
+                    style: TextStyle(
+                        fontSize: size.height / 33, color: Colors.white),
+                  ),
+                  onPressed: () async{
+                    await FlutterPhoneDirectCaller.callNumber(tlf.toString());
+                    
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(size.width / 2,size.height /18), //ancho y alto del boton en relación a la pantalla
+                    primary: Color.fromARGB(255, 0, 229, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+
+
+
+          ],),
+          SizedBox(
+              height: 8,
           ),
         ],
       ),

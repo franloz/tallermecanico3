@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:tallermecanico/model/spare.dart';
 import 'package:tallermecanico/view/spare/dialogSpareDelete.dart';
 
@@ -87,7 +88,7 @@ class _ScreenState extends State<SpareView> {
                         onTap: () {
                           FocusScope.of(context) .unfocus(); //para que el textfield pierda el foco
 
-                          bottomSheet(id, marca, pieza, precio,stock,telfproveedor);
+                          bottomSheet(id, marca, pieza, precio,stock,telfproveedor,size);
 
                         },
                         leading: Icon(Icons.miscellaneous_services_sharp),
@@ -149,7 +150,7 @@ class _ScreenState extends State<SpareView> {
     }
   }
 
-  void bottomSheet(String id,String marca,String pieza,String precio,int stock,int telfproveedor) {
+  void bottomSheet(String id,String marca,String pieza,String precio,int stock,int telfproveedor, Size size) {
     showModalBottomSheet(
       isScrollControlled:
           true, 
@@ -183,6 +184,35 @@ class _ScreenState extends State<SpareView> {
           ListTile(
             title: Text('Telfproveedor'),
             subtitle: Text(telfproveedor.toString()),
+          ),
+          Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+                  icon: Icon(Icons.call), //icono del candado
+                  label: Text(
+                    "Llamar",
+                    style: TextStyle(
+                        fontSize: size.height / 33, color: Colors.white),
+                  ),
+                  onPressed: () async{
+                    await FlutterPhoneDirectCaller.callNumber(telfproveedor.toString());
+                    
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(size.width / 2,size.height /18), //ancho y alto del boton en relación a la pantalla
+                    primary: Color.fromARGB(255, 0, 229, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+
+
+
+          ],),
+          SizedBox(
+              height: 8,
           ),
         ],
       ),

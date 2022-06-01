@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:tallermecanico/controller/clientcontroller.dart';
 import 'package:tallermecanico/view/clients/dialogClientsDelete.dart';
 
@@ -75,7 +76,7 @@ class _ScreenState extends State<ClientsView> {
                   children: snapshot.data!.map((client) {
                 //variables donde se introducen los datos de los objetos de la lista
                 String dni = client.dni;
-                String name = client.nombre;
+                String nombre = client.nombre;
                 int tlf = client.telf;
                 String direccion = client.direccion;
 
@@ -84,11 +85,11 @@ class _ScreenState extends State<ClientsView> {
                     child: ListTile(
                         onTap: () {
                           FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                          bottomSheet(dni, name, tlf, direccion);//metodo para mostrar los datos de los clientes
+                          bottomSheet(dni, nombre, tlf, direccion,size);//metodo para mostrar los datos de los clientes
                         },
                         leading: Icon(Icons.person),
                         title: Text(dni),
-                        subtitle: Text(name),
+                        subtitle: Text(nombre),
                         trailing: SizedBox(
                           width: size.width / 4,
                           child: Row(
@@ -99,8 +100,8 @@ class _ScreenState extends State<ClientsView> {
                                     FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                     //le asigno a los controladores del alertdialog los valores del cliente a modificar para que aparezcan escrios en los textFields del dialog de modificar
                                     
-                                    TextEditingController namecontroll =TextEditingController();
-                                    namecontroll.text = name;
+                                    TextEditingController nombrecontroll =TextEditingController();
+                                    nombrecontroll.text = nombre;
                                     TextEditingController tlfcontroll =TextEditingController();
                                     tlfcontroll.text = tlf.toString();
                                     TextEditingController direccioncontroll =TextEditingController();
@@ -108,7 +109,7 @@ class _ScreenState extends State<ClientsView> {
                                 
                                         await Navigator.pushNamed(context, 'ClientUpdateView',arguments: {//con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
                                           "dni": dni,
-                                          "namecontroll":namecontroll,
+                                          "namecontroll":nombrecontroll,
                                           "tlfcontroll":tlfcontroll,
                                           "direccioncontroll":direccioncontroll,
                                           
@@ -144,7 +145,7 @@ class _ScreenState extends State<ClientsView> {
     }
   }
 
-  void bottomSheet(String dni, String name, int tlf, String direccion) {
+  void bottomSheet(String dni, String nombre, int tlf, String direccion, Size size) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -159,7 +160,7 @@ class _ScreenState extends State<ClientsView> {
           ),
           ListTile(
             title: Text('Nombre'),
-            subtitle: Text(name),
+            subtitle: Text(nombre),
           ),
           ListTile(
             title: Text('Teléfono'),
@@ -168,6 +169,35 @@ class _ScreenState extends State<ClientsView> {
           ListTile(
             title: Text('Dirección'),
             subtitle: Text(direccion),
+          ),
+          Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+                  icon: Icon(Icons.call), //icono del candado
+                  label: Text(
+                    "Llamar",
+                    style: TextStyle(
+                        fontSize: size.height / 33, color: Colors.white),
+                  ),
+                  onPressed: () async{
+                    await FlutterPhoneDirectCaller.callNumber(tlf.toString());
+                    
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(size.width / 2,size.height /18), //ancho y alto del boton en relación a la pantalla
+                    primary: Color.fromARGB(255, 0, 229, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+
+
+
+          ],),
+          SizedBox(
+              height: 8,
           ),
         ],
       ),
