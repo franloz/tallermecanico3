@@ -318,6 +318,27 @@ class PdfApi {
                     ]),
                   ),
                 ])
+              ]),
+
+              SizedBox(
+                height: 60,
+              ),
+
+              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Column(children: [
+                  Container(
+                    width: 270,
+                    child: Row(children: [
+                      Text('Firmas: ',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: PdfColors.black)),
+                    ]),
+                  ),
+                 
+                  
+                ])
               ])
             ]));
 
