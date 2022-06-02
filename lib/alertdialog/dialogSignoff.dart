@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+//alertdialog para cerrar sesión
 class DialogSignOff {
 
   Future dialogSignOff(BuildContext context) => showDialog(
