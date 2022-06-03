@@ -125,7 +125,7 @@ Widget miCardImageCarga(String url, Size size, i) {
                 ),
                 Center(
                     child: FittedBox(
-                  child:i==null//si es nulo salta el icono, meter aqui si hay internet
+                  child:i==null//si es nulo salta el icono, meter aqui si hay internet,, metodod q este todo el rato pendiente de si hay internet, cuando no haya q haga setstate parar refrescar pagina
                   ?Icon(Icons.abc)
                   
                   
