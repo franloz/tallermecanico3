@@ -74,10 +74,7 @@ class _ScreenState extends State<BillsView> {
               ),
             ),
           )),
-        backgroundColor: Colors.grey[800],
-
-
-        
+        backgroundColor: Colors.grey[800],  
         floatingActionButton: FloatingActionButton(
             backgroundColor: Color.fromARGB(255, 0, 229, 255),
             child: Icon(Icons.add),

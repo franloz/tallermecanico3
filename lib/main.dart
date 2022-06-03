@@ -15,6 +15,7 @@ import 'package:tallermecanico/view/mechanic/views/mechanicinsertView.dart';
 import 'package:tallermecanico/view/mechanic/views/mechanicsView.dart';
 import 'package:tallermecanico/view/mechanic/views/mechanicupdateView.dart';
 import 'package:tallermecanico/view/photos/vehiclephotosList.dart';
+import 'package:tallermecanico/view/photos/vehicleuploadphotos.dart';
 import 'package:tallermecanico/view/repairlines/views/repairLinesView.dart';
 import 'package:tallermecanico/view/repairlines/views/repairlinessinsertView.dart';
 import 'package:tallermecanico/view/repairlines/views/repairlinesupdateView.dart';
@@ -70,6 +71,8 @@ class MyApp extends StatelessWidget {
         'RepairLinesUpdateView': (context) => RepairLinesUpdateView(),
         'RepairLinesInsertView': (context) => RepairLinesInsertView(),
         'BillInsertView': (context) => BillInsertView(),
+        'VehicleUploadPhotos': (context) => VehicleUploadPhotos(),
+
 
 
 

@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
-class VehiclePhotosView extends StatelessWidget {
+class VehiclePhotosView extends StatefulWidget {
+  const VehiclePhotosView({Key? key}) : super(key: key);
+
+  @override
+  State<VehiclePhotosView> createState() => _ScreenState();
+}
+
+class _ScreenState extends State<VehiclePhotosView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context)
@@ -53,7 +60,7 @@ class VehiclePhotosView extends StatelessWidget {
                       ),
 
                       onPressed: () {
-                        Navigator.pushNamed(context, 'Repair_ordersView');
+                       // Navigator.pushNamed(context, 'Repair_ordersView');
                       }, //se lanza la actividad de Ördenes de reparación
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(
