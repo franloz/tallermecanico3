@@ -336,7 +336,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'VehiclePhotosView');
+                  Navigator.pushNamed(context, 'VehiclePhotosList');
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(

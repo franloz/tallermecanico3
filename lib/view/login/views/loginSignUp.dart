@@ -175,6 +175,9 @@ class LoginSignUp extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 100,
+            ), //para separar rows
             
           ],
         ),

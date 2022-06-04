@@ -41,12 +41,14 @@ dependencies:
   firebase_storage: ^10.2.15
   firebase_core: ^1.16.0
   path_provider: ^2.0.1
-  cached_network_image: ^3.2.0
+  cached_network_image: ^3.2.1
   sqflite: ^2.0.2+1
   intl: ^0.17.0 #para dar formato a fechas
-  flutter_phone_direct_caller: ^2.1.1
-  pdf: ^3.8.1
-  open_file: ^3.2.1
+  flutter_phone_direct_caller: ^2.1.1 #para hacer llamadas
+  pdf: ^3.8.1 #crear pdf
+  open_file: ^3.2.1 #abrir pdf
+  internet_connection_checker: ^0.0.1+4 #comprobar conexion a internet
+  file_picker: ^4.6.1
 
 dev_dependencies:
   flutter_test:

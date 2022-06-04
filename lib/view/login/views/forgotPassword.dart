@@ -92,6 +92,9 @@ class ForgotPassword extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(
+              height: 110,
+            ), 
             ]),
       ),
     );
