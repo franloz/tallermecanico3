@@ -14,7 +14,7 @@ class _ScreenState extends State<VehiclePhotosList> {
   String search = '';
   TextEditingController searchtxt = TextEditingController();
 
-  bool hasInternet=false;
+  //bool hasInternet=false;
 
  /* @override
   void initState(){
@@ -103,7 +103,7 @@ class _ScreenState extends State<VehiclePhotosList> {
                       String url = data['url'];
                       String matricula=data['matricula'];
 
-                      return miCardImageCarga(url, size,hasInternet,matricula,context);
+                      return miCardImageCarga(url, size,matricula,context);
                     }).toList(),
                   );
                 })),
@@ -126,7 +126,7 @@ class _ScreenState extends State<VehiclePhotosList> {
   }
 }
 
-Widget miCardImageCarga(String url, Size size, bool hasInternet, String matricula, BuildContext context) {
+Widget miCardImageCarga(String url, Size size, String matricula, BuildContext context) {
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       margin: EdgeInsets.all(15),
