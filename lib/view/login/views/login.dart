@@ -161,8 +161,7 @@ class Login extends StatelessWidget {
                         fontSize: size.height / 30, color: Colors.white),
                   ),
                   onPressed: () {
-                    cr.signIn(emailController, passwordController,
-                        context); //se lanza el metodo de iniciar sesión al pulsar el botón
+                    cr.signIn(emailController, passwordController,context); //se lanza el metodo de iniciar sesión al pulsar el botón
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(
@@ -230,6 +229,9 @@ class Login extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 60,
+            ), //para separar rows
           ],
         ),
       ),

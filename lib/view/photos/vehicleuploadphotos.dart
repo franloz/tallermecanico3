@@ -1,4 +1,8 @@
+import 'package:file_picker/_internal/file_picker_web.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+
+import '../../controller/photocontroller.dart';
 
 class VehicleUploadPhotos extends StatefulWidget {
   const VehicleUploadPhotos({Key? key}) : super(key: key);
@@ -8,6 +12,8 @@ class VehicleUploadPhotos extends StatefulWidget {
 }
 
 class _ScreenState extends State<VehicleUploadPhotos> {
+  PlatformFile? pickedFile;
+  PhotoController photo = PhotoController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context)
@@ -19,10 +25,70 @@ class _ScreenState extends State<VehicleUploadPhotos> {
               backgroundColor: Color.fromARGB(255, 0, 229, 255),
             ),
             backgroundColor: Colors.grey[800],
-            body: Column(
+            body: Center(
+                child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
+                ElevatedButton(
+                  onPressed: () {
+                    photo.selectFile();
+                  },
+                  child: Text(
+                    'Seleccionar foto',
+                    style: TextStyle(
+                        color: Colors.white, fontSize: size.height / 63),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(
+                        size.width / 3,
+                        size.height /
+                            8), //ancho y alto del boton en relación a la pantalla
+                    primary: Color.fromARGB(255, 0, 145, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Subir foto',
+                    style: TextStyle(
+                        color: Colors.white, fontSize: size.height / 50),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(
+                        size.width / 3,
+                        size.height /
+                            8), //ancho y alto del boton en relación a la pantalla
+                    primary: Color.fromARGB(255, 0, 145, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                )
+              ],
+            ))));
+  }
+
+  Future selectFile() async {
+    final result = await FilePickerWeb.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.image,
+    );
+    if (result == null) return;
+
+    setState(() {
+      pickedFile = result.files.first;
+    });
+  }
+}
+
+
+/* Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
@@ -78,9 +144,4 @@ class _ScreenState extends State<VehicleUploadPhotos> {
 
                 const SizedBox(
                   height: 20,
-                ), //para separar rows
-               
-              ],
-            )));
-  }
-}
+                ), //para separar rows*/
