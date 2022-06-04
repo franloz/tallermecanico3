@@ -19,35 +19,32 @@ class _ScreenState extends State<VehicleUploadPhotos> {
   UploadTask? uploadTask;
   DialogError dialog = DialogError();
   //PhotoController photo = PhotoController();
-  bool hasInternet=false;
+  bool hasInternet = false;
 
   @override
-  void dispose() {
+  void dispose() {//para que no de problemas si pierde la conexion a internet y se sale de esta pantalla
     super.dispose();
-    pickedFile =
-        null; //le doy valor null para que desaparezca la imagen en la vista
+    pickedFile =null; 
     uploadTask = null;
   }
 
-  @override
-  void initState(){
+  /*@override
+  void initState() {
     super.initState();
 
-    InternetConnectionChecker().onStatusChange.listen((status) { 
-      final hasInternet=status==InternetConnectionStatus.connected;
-      print('internet'+hasInternet.toString());
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      final hasInternet = status == InternetConnectionStatus.connected;
+      print('internet' + hasInternet.toString());
 
       setState(() {
-        this.hasInternet=hasInternet;
+        this.hasInternet = hasInternet;
       });
-
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context)
-        .size; //saca el tamaño de la pantalla para poder hacer la app responsive
+    final size = MediaQuery.of(context).size; //saca el tamaño de la pantalla para poder hacer la app responsive
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
@@ -132,14 +129,13 @@ class _ScreenState extends State<VehicleUploadPhotos> {
     if (result == null) return;
 
     setState(() {
-      pickedFile = result
-          .files.first; //se introduce dentro de pickedFile la imagen elegida
+      pickedFile = result.files.first; //se introduce dentro de pickedFile la imagen elegida
     });
   }
 
   Future uploadPhoto() async {
     try {
-      if (pickedFile != null /*&& hasInternet==true*/ ) {
+      if (pickedFile != null /*&& hasInternet==true*/) {
         final path =
             'fotos/${pickedFile!.name}'; //carpeta donde se subiran la imagen de firebase storage
         final file = File(pickedFile!.path!); //archivo
@@ -148,50 +144,45 @@ class _ScreenState extends State<VehicleUploadPhotos> {
             .ref()
             .child(path); //instancia de firebase storage para acceder a él
         setState(() {
-          uploadTask = ref.putFile(file);
+          uploadTask = ref.putFile(file); //se sube el archivo
         });
-        //uploadTask = ref.putFile(file); //se sube el archivo
 
         final snapshot = await uploadTask!.whenComplete(() {
           //String mensaje='Imagen subida';dialog.dialogError(context, mensaje);
-        }); //cuando termine de subir la imagen avisa al usuario
+        }); //cuando termine de subir la imagen 
 
-        final urlDownload = await snapshot.ref
-            .getDownloadURL(); //se obtiene la url de la imagen en firebase
-        print('uuu ' + urlDownload);
-        if (mounted) {
+        final urlDownload = await snapshot.ref.getDownloadURL(); //se obtiene la url de la imagen en firebase
+       // print('uuu ' + urlDownload);
+        if (mounted) {//si esta pantalla aun se encuentra mostrandose, esto se usa para que la apicacion no falle si se pierde la conexion a internet y el usuario se sale de esta actividad
           setState(() {
-            pickedFile =
-                null; //le doy valor null para que desaparezca la imagen en la vista
+            pickedFile =null; //le doy valor null para que desaparezca la imagen en la vista
             uploadTask = null;
           });
         }
       } else {
         String error = 'Seleccione una imagen antes de subirla';
         dialog.dialogError(context, error);
-        print('ooooooooooooooo');
+        //print('ooooooooooooooo');
         //await uploadTask!.cancel();
       }
     } on FirebaseException catch (e) {
-      String error ='Se ha perdido la conexión a internet, y no se ha podido subir la imagen, intentelo de nuevo';//si se empieza a subir la foto y se pierde el internet, si se mtiene el usuario en esta pantalla y vuelve el internet saltará este error
-      
-          print('iiiii');
+      String error ='Se ha perdido la conexión a internet, y no se ha podido subir la imagen, intentelo de nuevo'; //si se empieza a subir la foto y se pierde el internet, si se mtiene el usuario en esta pantalla y vuelve el internet saltará este error
+
+      //print('iiiii');
       if (mounted) {//es para comprobar si esta pantalla aun se está mostrando, si el usuario no ha dado para atrás
-      dialog.dialogError(context, error);
+        dialog.dialogError(context, error);
       }
     }
   }
 
   Widget buildProgress() => StreamBuilder<TaskSnapshot>(
       //metodo para ver el avance de la subida de la imagen
-      stream: uploadTask
-          ?.snapshotEvents, //recibe un flujo de datos respecto a la subida del archivo
+      stream: uploadTask?.snapshotEvents, //recibe un flujo de datos respecto a la subida del archivo
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           //si se reciben datos
           final data = snapshot.data!;
-          double progress = data.bytesTransferred /
-              data.totalBytes; //se obtiene el progreso dividiendo el numero de bytes subidos entre los totales
+          double progress = data.bytesTransferred /data.totalBytes; //se obtiene el progreso dividiendo el numero de bytes subidos entre los totales
 
           return SizedBox(
               height: 50,
@@ -216,60 +207,3 @@ class _ScreenState extends State<VehicleUploadPhotos> {
 }
 
 
-/* Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.upload,
-                                size: size.height / 15,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "Subir",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: size.height / 34),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "fotos",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: size.height / 34),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-
-                      onPressed: () {
-                       // Navigator.pushNamed(context, 'Repair_ordersView');
-                      }, //se lanza la actividad de Ördenes de reparación
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(
-                            size.width / 2.3,
-                            size.height /
-                                6.7), //ancho y alto del boton en relación a la pantalla
-                        primary: Color.fromARGB(255, 0, 145, 255),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ), //para separar rows*/
