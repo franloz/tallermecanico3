@@ -14,8 +14,9 @@ import 'package:tallermecanico/view/login/views/loginSignUp.dart';
 import 'package:tallermecanico/view/mechanic/views/mechanicinsertView.dart';
 import 'package:tallermecanico/view/mechanic/views/mechanicsView.dart';
 import 'package:tallermecanico/view/mechanic/views/mechanicupdateView.dart';
-import 'package:tallermecanico/view/photos/vehiclephotosList.dart';
-import 'package:tallermecanico/view/photos/vehicleuploadphotos.dart';
+import 'package:tallermecanico/view/photos/views/vehiclephotosList.dart';
+import 'package:tallermecanico/view/photos/views/vehiclephotosView.dart';
+import 'package:tallermecanico/view/photos/views/vehicleuploadphotos.dart';
 import 'package:tallermecanico/view/repairlines/views/repairLinesView.dart';
 import 'package:tallermecanico/view/repairlines/views/repairlinessinsertView.dart';
 import 'package:tallermecanico/view/repairlines/views/repairlinesupdateView.dart';
@@ -23,12 +24,12 @@ import 'package:tallermecanico/view/repairorders/views/repairordersView.dart';
 import 'package:tallermecanico/view/repairorders/views/repairordersinsertView.dart';
 import 'package:tallermecanico/view/repairorders/views/repairordersupdateView.dart';
 import 'package:tallermecanico/view/spare/views/spareView.dart';
-import 'package:tallermecanico/view/photos/vehiclephotosView.dart';
 import 'package:tallermecanico/view/spare/views/spareinsertView.dart';
 import 'package:tallermecanico/view/spare/views/spareupdateView.dart';
 import 'package:tallermecanico/view/vehicle/views/vehicleinsertView.dart';
 import 'package:tallermecanico/view/vehicle/views/vehiclesView.dart';
 import 'package:tallermecanico/view/vehicle/views/vehicleupdateView.dart';
+
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,7 +50,6 @@ class MyApp extends StatelessWidget {
         'LoginSignUp': (context) => LoginSignUp(),
         'ForgotPassword': (context) => ForgotPassword(),
         'MechanicsView': (context) => MechanicsView(),
-        //'f': (context) => M(),////////////
         'ClientsView': (context) => ClientsView(),
         'VehiclesView': (context) => VehiclesView(),
         'SpareView': (context) => SpareView(),
