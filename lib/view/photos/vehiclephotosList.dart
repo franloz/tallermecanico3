@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+
+import 'dialogphotodelete.dart';
 
 class VehiclePhotosList extends StatefulWidget {
   const VehiclePhotosList({Key? key}) : super(key: key);
@@ -13,6 +16,9 @@ class VehiclePhotosList extends StatefulWidget {
 class _ScreenState extends State<VehiclePhotosList> {
   String search = '';
   TextEditingController searchtxt = TextEditingController();
+  final user = FirebaseAuth.instance.currentUser!;
+  DialogPhotoDelete dialogdelete=DialogPhotoDelete();
+
 
   //bool hasInternet=false;
 
@@ -102,8 +108,10 @@ class _ScreenState extends State<VehiclePhotosList> {
                       //String matricula = data['matricula'];
                       String url = data['url'];
                       String matricula=data['matricula'];
+                      String idfirebase=data['idfirebase'];
+                      String nombreimagen=data['nombreimagen'];
 
-                      return miCardImageCarga(url, size,matricula,context);
+                      return miCardImageCarga(url, size,matricula,context,dialogdelete,idfirebase,nombreimagen);
                     }).toList(),
                   );
                 })),
@@ -115,18 +123,18 @@ class _ScreenState extends State<VehiclePhotosList> {
     if (search != '') {
       print(search.toUpperCase());
       return FirebaseFirestore.instance
-          .collection('fotos') //.where("userid", isEqualTo: user.uid)
+          .collection('fotos').where("userid", isEqualTo: user.uid)
           .where('matricula', isEqualTo: search)
           .snapshots();
     } else {
       return FirebaseFirestore.instance
           .collection(
-              'fotos').snapshots(); /*.where("userid", isEqualTo: user.uid)*/ 
+              'fotos').where("userid", isEqualTo: user.uid).snapshots(); /*.where("userid", isEqualTo: user.uid)*/ 
     } //este where es para que muestre los datos del usuario loggeado
   }
 }
 
-Widget miCardImageCarga(String url, Size size, String matricula, BuildContext context) {
+Widget miCardImageCarga(String url, Size size, String matricula, BuildContext context, DialogPhotoDelete dialogdelete, String idfirebase, String nombreimagen) {
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       margin: EdgeInsets.all(15),
@@ -194,7 +202,9 @@ Widget miCardImageCarga(String url, Size size, String matricula, BuildContext co
                       children:[ IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
-                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                                    FocusScope.of(context)
+                                        .unfocus(); //para que el textfield pierda el foco
+                                    await dialogdelete.dialogPhotoDelete(context, idfirebase,nombreimagen);//metodo que borra en la base de datos
                                     
                                   }),
                       ]

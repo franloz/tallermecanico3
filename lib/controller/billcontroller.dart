@@ -101,10 +101,7 @@ class BillController {
         //actualizar ordenes
 
         await database.rawUpdate(
-            "UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?", [
-          1,
-          idorden
-        ]); //actualiza el campo facturada de la orden y lo pongo a 1 que indica que la orden ha sido facturada
+            "UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?", [1,idorden]); //actualiza el campo facturada de la orden y lo pongo a 1 que indica que la orden ha sido facturada
 
       } on FirebaseException catch (e) {
         String error = 'Error al insertar';

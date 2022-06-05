@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../../alertdialog/dialogError.dart';
+import '../../controller/photocontroller.dart';
+import 'dialogphotodelete.dart';
 
 class VehicleUploadPhotos extends StatefulWidget {
   const VehicleUploadPhotos({Key? key}) : super(key: key);
@@ -18,14 +20,18 @@ class _ScreenState extends State<VehicleUploadPhotos> {
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
   DialogError dialog = DialogError();
-  //PhotoController photo = PhotoController();
+  PhotoController photo = PhotoController();
   bool hasInternet = false;
+  TextEditingController matriculatxt = TextEditingController();
 
   @override
-  void dispose() {//para que no de problemas si pierde la conexion a internet y se sale de esta pantalla
+  void dispose()async {//para que no de problemas si pierde la conexion a internet y se sale de esta pantalla
     super.dispose();
     pickedFile =null; 
     uploadTask = null;
+    //await uploadTask!.cancel();//se cancela la subida de la foto, en el caso de que se salga de la pantalla y no se haya subido aun, seria cuando no tiene internet
+    print('cancelado');
+  
   }
 
   /*@override
@@ -56,6 +62,13 @@ class _ScreenState extends State<VehicleUploadPhotos> {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                
+
+
+
+
+
+
                 if (pickedFile != null)
                   Expanded(
                       child: Container(
@@ -68,7 +81,7 @@ class _ScreenState extends State<VehicleUploadPhotos> {
                             ),
                           ))),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -91,10 +104,12 @@ class _ScreenState extends State<VehicleUploadPhotos> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    FocusScope.of(context)
+                                        .unfocus(); //para que el textfield pierda el foco
                     uploadPhoto();
                   },
                   child: Text(
@@ -114,9 +129,44 @@ class _ScreenState extends State<VehicleUploadPhotos> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                if (pickedFile != null) buildProgress()
+                
+                Row(
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+              children: [
+                Container(
+                  width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
+                  height: size.height / 17,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(20)), //bordes circulares
+                    color: Colors.grey[700],
+                  ),
+                  child: TextField(
+                      controller:matriculatxt, //se identifica el controlador del TextField
+                      decoration: const InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 0, 229, 255)),
+                          ),
+                          prefixIcon: Icon(Icons.circle_outlined),
+                          border: InputBorder.none,
+                          hintText: "Introduzca matrícula",
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ))),
+                ),
+              ],
+            ),
+const SizedBox(
+                  height: 5,
+                ),
+            if (pickedFile != null) buildProgress(),
+
+
               ],
             ))));
   }
@@ -135,14 +185,12 @@ class _ScreenState extends State<VehicleUploadPhotos> {
 
   Future uploadPhoto() async {
     try {
-      if (pickedFile != null /*&& hasInternet==true*/) {
+      if (pickedFile != null && matriculatxt.text.isNotEmpty/*&& hasInternet==true*/) {
         final path =
             'fotos/${pickedFile!.name}'; //carpeta donde se subiran la imagen de firebase storage
         final file = File(pickedFile!.path!); //archivo
 
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child(path); //instancia de firebase storage para acceder a él
+        final ref = FirebaseStorage.instance.ref().child(path); //instancia de firebase storage para acceder a él
         setState(() {
           uploadTask = ref.putFile(file); //se sube el archivo
         });
@@ -152,15 +200,26 @@ class _ScreenState extends State<VehicleUploadPhotos> {
         }); //cuando termine de subir la imagen 
 
         final urlDownload = await snapshot.ref.getDownloadURL(); //se obtiene la url de la imagen en firebase
-       // print('uuu ' + urlDownload);
+        print('uuu ' + urlDownload);
+
+
+        String nombreimagen=pickedFile!.name;//nombre de la imagen para luego borrarla de storage
+        String matricula=matriculatxt.text;//matricula del coche para identificar las fotos
+        photo.insert(urlDownload,matricula,nombreimagen);
+
+
+
+
+
         if (mounted) {//si esta pantalla aun se encuentra mostrandose, esto se usa para que la apicacion no falle si se pierde la conexion a internet y el usuario se sale de esta actividad
           setState(() {
             pickedFile =null; //le doy valor null para que desaparezca la imagen en la vista
             uploadTask = null;
+            matriculatxt.clear();
           });
         }
       } else {
-        String error = 'Seleccione una imagen antes de subirla';
+        String error = 'Seleccione una imagen antes de subirla, o introduce una matrícula';
         dialog.dialogError(context, error);
         //print('ooooooooooooooo');
         //await uploadTask!.cancel();

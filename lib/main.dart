@@ -81,8 +81,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       home: StreamBuilder<User?>(
         //el stream permite recibir un flujo de datos, es decir devuelve un snapshot, el cual permite ver el estado del usuario en todo momento
-        stream: FirebaseAuth.instance
-            .authStateChanges(), //cada vez que el estado del usuario cambia (usuario loggeado o no), devuelve un snapshot con esa información
+        stream: FirebaseAuth.instance.authStateChanges(), //cada vez que el estado del usuario cambia (usuario loggeado o no), devuelve un snapshot con esa información
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             //si se está realizando la conexión
