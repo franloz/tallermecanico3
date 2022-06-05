@@ -47,7 +47,6 @@ dependencies:
   flutter_phone_direct_caller: ^2.1.1 #para hacer llamadas
   pdf: ^3.8.1 #crear pdf
   open_file: ^3.2.1 #abrir pdf
-  internet_connection_checker: ^0.0.1+4 #comprobar conexion a internet
   file_picker: ^4.6.1
 
 dev_dependencies:

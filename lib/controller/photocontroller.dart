@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
+import '../alertdialog/dialogError.dart';
 import '../model/photo.dart';
 
 class PhotoController {
   final user = FirebaseAuth.instance.currentUser!;
-  Future insert(String urlDownload, String matricula, String nombreimagen) async{
-
+  Future insert(String urlDownload, String matricula, String nombreimagen, BuildContext context) async{
+    try{
     final docphoto=FirebaseFirestore.instance.collection('fotos').doc();
 
     final photo=Photo(
@@ -22,7 +24,11 @@ class PhotoController {
 
     await docphoto.set(json);
 
-
+    } on FirebaseException catch (e) {
+        String error = 'Error al insertar';
+        DialogError dialogError = DialogError();
+        dialogError.dialogError(context, error);
+      }
 
   }
   

@@ -65,7 +65,7 @@ class _ScreenState extends State<BillsView> {
                     onPressed: () {
                       FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
-                      search = searchtxt.text;
+                      search = searchtxt.text.toUpperCase();
                       setState(() {});//para actualizar la vista
                     },
                   ),
@@ -135,8 +135,7 @@ class _ScreenState extends State<BillsView> {
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () async {
-                                    FocusScope.of(context)
-                                        .unfocus(); //para que el textfield pierda el foco
+                                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                     await dialog.dialogBillsDelete(context, id, idorden);//metodo que borra en la base de datos
                                   }),
                             ],
