@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tallermecanico/view/bills/views/billinsertView.dart';
 import 'package:tallermecanico/view/bills/views/billsView.dart';
 import 'package:tallermecanico/view/clients/views/clientinsertView.dart';
@@ -34,6 +35,9 @@ import 'package:tallermecanico/view/vehicle/views/vehicleupdateView.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); //se inicializa FireBase de forma asincrona
+
+  WidgetsFlutterBinding.ensureInitialized();//para que no permita poner la app en horizontal
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   runApp(MyApp());
 }

@@ -349,45 +349,7 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 20,
-              ),
-              ElevatedButton(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.euro,
-                          size: size.height / 15,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "Facturas",
-                          style: TextStyle(
-                              color: Colors.white, fontSize: size.height / 34),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'BillsView');
-                }, //se lanza la actividad de Facturas
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(
-                      size.width / 2.3,
-                      size.height /
-                          6.7), //ancho y alto del boton en relación a la pantalla
-                  primary: Color.fromARGB(255, 255, 123, 0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-              ),
+              
             ],
           ),
         ],
