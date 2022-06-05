@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-import '../alertdialog/dialogError.dart';
 import '../model/photo.dart';
 
 class PhotoController {
   final user = FirebaseAuth.instance.currentUser!;
-  Future insert(String urlDownload, String matricula, String nombreimagen, BuildContext context) async{
+  Future insert(String urlDownload, String matricula, String formattedDate) async{
     try{
     final docphoto=FirebaseFirestore.instance.collection('fotos').doc();
 
@@ -17,7 +15,7 @@ class PhotoController {
       userid: user.uid,
       url: urlDownload,
       matricula: matricula,
-      nombreimagen: nombreimagen,
+      nombreimagen: formattedDate,
     );
 
     final json=photo.toJson();
@@ -25,26 +23,29 @@ class PhotoController {
     await docphoto.set(json);
 
     } on FirebaseException catch (e) {
-        String error = 'Error al insertar';
-        DialogError dialogError = DialogError();
-        dialogError.dialogError(context, error);
+        print(e);
       }
 
   }
   
  Future deletePhoto(String idfirebase, String nombreimagen) async {
-    final docphoto = FirebaseFirestore.instance.collection('fotos').doc(idfirebase);
 
-    docphoto.delete();//borro de firestore
+   try{
+      final docphoto = FirebaseFirestore.instance.collection('fotos').doc(idfirebase);
+
+      docphoto.delete();//borro de firestore
 
 
 
-    final storageRef = FirebaseStorage.instance.ref();
-    final desertRef = storageRef.child("fotos/${nombreimagen}");
+      final storageRef = FirebaseStorage.instance.ref();
+      final desertRef = storageRef.child("fotos/${nombreimagen}");
 
-    // Delete the file
-    await desertRef.delete();//borro de storage la imagen
-    
+      // Delete the file
+      await desertRef.delete();//borro de storage la imagen
+
+    } on FirebaseException catch (e) {
+        print(e);
+    }
   }
 
 

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../alertdialog/dialogError.dart';
 import '../../../controller/photocontroller.dart';
@@ -21,13 +22,15 @@ class _ScreenState extends State<VehicleUploadPhotos> {
   PhotoController photo = PhotoController();
   TextEditingController matriculatxt = TextEditingController();
 
-  @override
+  bool buttontap=true;
+
+ /* @override
   void dispose() async {
     //para que no de problemas si pierde la conexion a internet y se sale de esta pantalla
     super.dispose();
     pickedFile = null;
     uploadTask = null;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +88,24 @@ class _ScreenState extends State<VehicleUploadPhotos> {
                 ),
 
                 ElevatedButton(
-                  onPressed: () {
-                    FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-                    uploadPhoto();
-                  },
+                  onPressed: buttontap ?() {//si buttontap es verdadero deja clicar boton sino no, esto es para que cuando se pulse el boton de subir imagen no permita volverlo a pulsar mientras que la imagen no se haya subido porque entonces daria problemas si se volviera a pulsar
+
+
+
+                    if (pickedFile != null && matriculatxt.text.isNotEmpty ) {
+                      FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
+                      setState(() {
+                        buttontap=false;
+                      });
+                      uploadPhoto();
+
+                    } else {
+                      String error ='Seleccione una imagen antes de subirla, o introduce una matrícula';
+                      dialog.dialogError(context, error);
+                      
+                    }
+                    
+                  }:null,
                   child: Text(
                     'Subir foto',
                     style: TextStyle(
@@ -162,8 +179,11 @@ class _ScreenState extends State<VehicleUploadPhotos> {
 
   Future uploadPhoto() async {
     try {
-      if (pickedFile != null && matriculatxt.text.isNotEmpty ) {
-        final path ='fotos/${pickedFile!.name}'; //carpeta donde se subiran la imagen de firebase storage
+        var now = new DateTime.now();
+        var formatter = new DateFormat('yyyy-MM-dd HH:mm:ss');//para que el nombre del archivo sea unico
+        String formattedDate = formatter.format(now);
+        
+        final path ='fotos/${formattedDate}'; //carpeta donde se subiran la imagen de firebase storage
         final file = File(pickedFile!.path!); //archivo
 
         final ref = FirebaseStorage.instance.ref().child(path); //instancia de firebase storage para acceder a él
@@ -171,14 +191,18 @@ class _ScreenState extends State<VehicleUploadPhotos> {
           uploadTask = ref.putFile(file); //se sube el archivo
         });
 
-        final snapshot = await uploadTask!.whenComplete(() {}); //cuando termine de subir la imagen
+        final snapshot = await uploadTask!.whenComplete(() {buttontap=true;//para habilitar boton si quiere subir mas fotos
+        
+        }); //cuando termine de subir la imagen
 
         final urlDownload = await snapshot.ref.getDownloadURL(); //se obtiene la url de la imagen en firebase
         print('uuu ' + urlDownload);
 
-        String nombreimagen = pickedFile!.name; //nombre de la imagen para luego borrarla de storage
-        String matricula =matriculatxt.text.toUpperCase(); //matricula del coche para identificar las fotos
-        photo.insert(urlDownload, matricula, nombreimagen,context);//metodo para insertar en la base de datos
+        //if (pickedFile != null){//vuelvo a repetir esta condición para que no de problemas en caso de que se desconecte de internet
+          //nombre de la imagen para luego borrarla de storage
+          String matricula =matriculatxt.text.toUpperCase(); //matricula del coche para identificar las fotos
+          photo.insert(urlDownload, matricula, formattedDate);//metodo para insertar en la base de datos
+        //}
 
         if (mounted) {
           //si esta pantalla aun se encuentra mostrandose. Esto se usa para que la apicacion no falle si se pierde la conexion a internet y el usuario se sale de esta actividad
@@ -188,16 +212,17 @@ class _ScreenState extends State<VehicleUploadPhotos> {
             matriculatxt.clear();
           });
         }
-      } else {
-        String error ='Seleccione una imagen antes de subirla, o introduce una matrícula';
-        dialog.dialogError(context, error);
-        
-      }
+      
     } on FirebaseException catch (e) {
       String error ='Se ha perdido la conexión a internet, y no se ha podido subir la imagen, intentelo de nuevo'; //si se empieza a subir la foto y se pierde el internet, si se mantiene el usuario en esta pantalla y vuelve el internet saltará este error, dependiendo del tiempo que haya tardado en volver el internet
       if (mounted) {
         //es para comprobar si esta pantalla aun se está mostrando, si el usuario no ha dado para atrás
-        dialog.dialogError(context, error);
+        setState(() {
+          buttontap=true;
+        });
+        //para habilitar boton si quiere subir mas fotos
+        await dialog.dialogError(context, error);
+       
       }
     }
   }
