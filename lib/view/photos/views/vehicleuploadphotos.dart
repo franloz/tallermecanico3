@@ -22,15 +22,7 @@ class _ScreenState extends State<VehicleUploadPhotos> {
   PhotoController photo = PhotoController();
   TextEditingController matriculatxt = TextEditingController();
 
-  bool buttontap=true;
-
- /* @override
-  void dispose() async {
-    //para que no de problemas si pierde la conexion a internet y se sale de esta pantalla
-    super.dispose();
-    pickedFile = null;
-    uploadTask = null;
-  }*/
+  bool buttontap=true;//para habilitar y deshabilitar el boton de subir fotos
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +80,8 @@ class _ScreenState extends State<VehicleUploadPhotos> {
                 ),
 
                 ElevatedButton(
-                  onPressed: buttontap ?() {//si buttontap es verdadero deja clicar boton sino no, esto es para que cuando se pulse el boton de subir imagen no permita volverlo a pulsar mientras que la imagen no se haya subido porque entonces daria problemas si se volviera a pulsar
+                  onPressed: 
+                  buttontap ?/*si buttontap es verdadero*/() {//si buttontap es verdadero deja clicar boton sino no, esto es para que cuando se pulse el boton de subir imagen no permita volverlo a pulsar mientras que la imagen no se haya subido porque entonces daria problemas si se volviera a pulsar
 
 
 
@@ -105,7 +98,7 @@ class _ScreenState extends State<VehicleUploadPhotos> {
                       
                     }
                     
-                  }:null,
+                  }:null,//si buttontap es falso , se deshabilita
                   child: Text(
                     'Subir foto',
                     style: TextStyle(
@@ -160,12 +153,12 @@ class _ScreenState extends State<VehicleUploadPhotos> {
                   height: 5,
                 ),
 
-                if (pickedFile != null) buildProgress(),
+                if (pickedFile != null) buildProgress(),//widget que muestra el progreso de la subida
               ],
             ))));
   }
 
-  Future selectPhoto() async {
+  Future selectPhoto() async {//seleccionar foto
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false, //que no pueda elegir varias fotos
       type: FileType.image, //solo imagenes como archivo permitido
@@ -177,7 +170,7 @@ class _ScreenState extends State<VehicleUploadPhotos> {
     });
   }
 
-  Future uploadPhoto() async {
+  Future uploadPhoto() async {//para subir las fotos
     try {
         var now = new DateTime.now();
         var formatter = new DateFormat('yyyy-MM-dd HH:mm:ss');//para que el nombre del archivo sea unico
@@ -191,18 +184,14 @@ class _ScreenState extends State<VehicleUploadPhotos> {
           uploadTask = ref.putFile(file); //se sube el archivo
         });
 
-        final snapshot = await uploadTask!.whenComplete(() {buttontap=true;//para habilitar boton si quiere subir mas fotos
+        final snapshot = await uploadTask!.whenComplete(() {buttontap=true;//cuando termine de subir foto,para habilitar boton si quiere subir mas fotos
         
         }); //cuando termine de subir la imagen
 
         final urlDownload = await snapshot.ref.getDownloadURL(); //se obtiene la url de la imagen en firebase
-        print('uuu ' + urlDownload);
 
-        //if (pickedFile != null){//vuelvo a repetir esta condición para que no de problemas en caso de que se desconecte de internet
-          //nombre de la imagen para luego borrarla de storage
           String matricula =matriculatxt.text.toUpperCase(); //matricula del coche para identificar las fotos
           photo.insert(urlDownload, matricula, formattedDate);//metodo para insertar en la base de datos
-        //}
 
         if (mounted) {
           //si esta pantalla aun se encuentra mostrandose. Esto se usa para que la apicacion no falle si se pierde la conexion a internet y el usuario se sale de esta actividad
@@ -219,8 +208,7 @@ class _ScreenState extends State<VehicleUploadPhotos> {
         //es para comprobar si esta pantalla aun se está mostrando, si el usuario no ha dado para atrás
         setState(() {
           buttontap=true;
-        });
-        //para habilitar boton si quiere subir mas fotos
+        });//para habilitar boton si quiere subir mas fotos
         await dialog.dialogError(context, error);
        
       }

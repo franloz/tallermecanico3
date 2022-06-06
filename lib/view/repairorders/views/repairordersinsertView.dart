@@ -14,7 +14,6 @@ class RepairOrdersInsertView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairOrdersInsertView> {
-  //DatabaseSqlite dt = DatabaseSqlite();
   RepairOrderController cr=RepairOrderController();
 
   TextEditingController horasreparaciontxt = TextEditingController();
@@ -27,7 +26,7 @@ class _ScreenState extends State<RepairOrdersInsertView> {
   String inicio = 'Inicio';
   String fin = 'Fin';
 
-  var datestart;
+  var datestart;//para fechas
   var dateend;
   @override
   Widget build(BuildContext context) {
@@ -178,7 +177,6 @@ class _ScreenState extends State<RepairOrdersInsertView> {
             ),
 
             Row(
-              //fila con un container y un TextField para contraseña
               mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(
@@ -210,7 +208,6 @@ class _ScreenState extends State<RepairOrdersInsertView> {
             ),
 
             Row(
-              //fila con un container y un TextField para contraseña
               mainAxisAlignment:MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
                 Container(

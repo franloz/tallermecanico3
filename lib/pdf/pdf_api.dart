@@ -29,10 +29,9 @@ class PdfApi {
     await OpenFile.open(url);
   }
 
-  //mas complejo
+  
   static Future<File> generate(String idorden, String baseimponible,String descuento, String iva, String totalfactura) async {
     final pdf = Document(); //se crea documento
-    ////////////////////
     final headers = [
       'Recambio',
       'Cantidad',
@@ -66,7 +65,7 @@ class PdfApi {
     }
 
     final data = listdata .map((data) => [data.recambio, data.cantidad, data.preciounidad]) .toList(); //se convierten los datos de la lista a List<dynamic> para poder mostrarlos en la tabla
-    ///
+    
 
     ///se obtienen los datos de la orden
     var select = await database .rawQuery("SELECT * FROM OrdenesReparacion WHERE id = ?", [idorden]);
@@ -348,7 +347,7 @@ class PdfApi {
 
 }
 
-class DataTable {
+class DataTable {//clase auxiliar para la tabla
   final String recambio;
   final String cantidad;
   final String preciounidad;

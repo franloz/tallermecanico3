@@ -9,7 +9,7 @@ import '../model/mechanic.dart';
 class MechanicController {
   Future<void> insertMechanic(BuildContext context, Mechanic mechanic) async {
     DatabaseSqlite db = DatabaseSqlite();
-    Database database = await db.openDB();
+    Database database = await db.openDB();//instancia base datos
 
     try {
       await database.insert("Mecanicos", mechanic.toMap());

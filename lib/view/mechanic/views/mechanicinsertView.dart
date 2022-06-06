@@ -13,7 +13,6 @@ class MechanicInsertView extends StatefulWidget {
 }
 
 class _ScreenState extends State<MechanicInsertView> {
-  //DatabaseSqlite dt = DatabaseSqlite();
   MechanicController cr=MechanicController();
 
   TextEditingController dnitxt = TextEditingController();

@@ -14,7 +14,6 @@ class RepairOrdersUpdateView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairOrdersUpdateView> {
-  //DatabaseSqlite dt = DatabaseSqlite();
   RepairOrderController cr=RepairOrderController();
 
   String? idmecanico;

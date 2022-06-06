@@ -11,7 +11,6 @@ class RepairLinesUpdateView extends StatefulWidget {
 }
 
 class _ScreenState extends State<RepairLinesUpdateView> {
-  //DatabaseSqlite dt = DatabaseSqlite();
   RepairLineController cr=RepairLineController();
 
   @override

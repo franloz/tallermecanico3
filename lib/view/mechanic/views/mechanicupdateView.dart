@@ -167,7 +167,7 @@ class _ScreenState extends State<MechanicUpdateView> {
                         direccion: direccion,
                       );
 
-                      await cr.updateMechanic(context, mechanic, dni);
+                      await cr.updateMechanic(context, mechanic, dni);//metodo para actualizar
 
                       Navigator.of(context).pop();
                     }

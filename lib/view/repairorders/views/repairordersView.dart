@@ -33,26 +33,21 @@ class _ScreenState extends State<RepairOrdersView> {
     //se convierte una lista de map en una lista de string
     cr.getMechanicdni().then((listMap) {
       listMap.map((map) {
-        print('fggfg');
-        print(map.toString());
 
         return map['dni'];
       }).forEach((dropDownItem) {
         listamecanicos.add(dropDownItem);
-        print(dropDownItem.toString());
       });
       setState(() {});
     });
 
     cr.getVehiclesmatricula().then((listMap) {
       listMap.map((map) {
-        print('fggfg');
-        print(map.toString());
+       
 
         return map['matricula'];
       }).forEach((dropDownItem) {
         listavehiculos.add(dropDownItem);
-        print(dropDownItem.toString());
       });
       setState(() {});
     });
@@ -193,7 +188,7 @@ class _ScreenState extends State<RepairOrdersView> {
                                           });
                                       setState(() {});
                                     } else {
-                                      String error = 'Las órdenes que han sido facturadas no se pueden borrar';
+                                      String error = 'Las órdenes que han sido facturadas no se pueden modificar';
                                       DialogError dialogError = DialogError();
                                       await dialogError.dialogError( context, error);
                                     }

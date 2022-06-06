@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../controller/sparecontroller.dart';
 
 class DialogSpareDelete {
-  //DatabaseSqlite dt = DatabaseSqlite();
   SpareController cr=SpareController();
 
   Future dialogSpareDelete(BuildContext context, String id) => showDialog(

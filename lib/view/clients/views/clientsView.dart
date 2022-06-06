@@ -13,8 +13,7 @@ class ClientsView extends StatefulWidget {
 }
 
 class _ScreenState extends State<ClientsView> {
-  DialogClientsDelete dialog = DialogClientsDelete();//alertdialog para insertar, modificar y eliminar clientes
-  //DatabaseSqlite dt = DatabaseSqlite();
+  DialogClientsDelete dialog = DialogClientsDelete();//alertdialog para eliminar clientes
   ClientController cr=ClientController();
 
   TextEditingController searchtxt = TextEditingController();//textedit donde se hará la búsqueda del cliente
@@ -60,7 +59,6 @@ class _ScreenState extends State<ClientsView> {
           child: Icon(Icons.add),
           onPressed: () async {
             FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
-            //await cl.dialogClientInsert(context,size); 
             await Navigator.pushNamed(context, 'ClientInsertView');//con el await hacemos q espere a q se cierre ClientInsertView para seguir ejecutando el codigo en este caso el setstate
             setState(() {});
           }),

@@ -17,7 +17,6 @@ class _ScreenState extends State<BillInsertView> {
   TextEditingController descuentotxt = TextEditingController();
   TextEditingController ivatxt = TextEditingController();
 
-  //FirebaseDatabase base = FirebaseDatabase();
   BillController cr=BillController();
 
   String? orden; //values combobox

@@ -4,7 +4,6 @@ import '../../controller/photocontroller.dart';
 
 
 class DialogPhotoDelete {
-  //FirebaseDatabase base = FirebaseDatabase();
   PhotoController cr=PhotoController();
 
   Future dialogPhotoDelete(BuildContext context, String idfirebase, String nombreimagen) =>

@@ -23,8 +23,7 @@ class VehicleController {
   Future<void> deleteVehicle(BuildContext context, String matricula) async {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
-    final List<Map<String, dynamic>> maps = await database.rawQuery(
-        'SELECT * FROM OrdenesReparacion WHERE vehiculo = ?', [matricula]);
+    final List<Map<String, dynamic>> maps = await database.rawQuery( 'SELECT * FROM OrdenesReparacion WHERE vehiculo = ?', [matricula]);//para ver si este vehiculo esta en ordenes, si esta no deja borrarlo
     int count = maps.length;
 
     if (count == 0) {

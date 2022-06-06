@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tallermecanico/alertdialog/dialogError.dart';
 import 'package:tallermecanico/controller/clientcontroller.dart';
-import 'package:tallermecanico/databases/database.dart';
 import 'package:tallermecanico/model/client.dart';
 
 
@@ -16,7 +15,6 @@ class ClientInsertView extends StatefulWidget {
 
 class _ScreenState extends State<ClientInsertView> {
 
-  //DatabaseSqlite dt = DatabaseSqlite();
 
   ClientController cr=ClientController();
 

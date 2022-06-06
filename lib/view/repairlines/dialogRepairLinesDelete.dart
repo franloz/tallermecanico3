@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../controller/repairlinecontroller.dart';
 
 class DialogRepairLinesDelete {
-  //DatabaseSqlite dt = DatabaseSqlite();
   RepairLineController cr=RepairLineController();
 
   Future dialogOrderDelete(BuildContext context, String idorden, String idlinea,

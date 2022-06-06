@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../controller/mechaniccontroller.dart';
 
 class DialogMechanicsDelete {
-  //DatabaseSqlite dt = DatabaseSqlite();
   MechanicController cr=MechanicController();
 
 

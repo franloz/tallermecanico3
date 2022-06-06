@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../controller/billcontroller.dart';
 
 class DialogBillsDelete {
-  //FirebaseDatabase base = FirebaseDatabase();
   BillController cr=BillController();
 
   Future dialogBillsDelete(BuildContext context, String id, String idorden) =>

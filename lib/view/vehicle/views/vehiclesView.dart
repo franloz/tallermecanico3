@@ -13,7 +13,6 @@ class VehiclesView extends StatefulWidget {
 
 class _ScreenState extends State<VehiclesView> {
   DialogVehicles cl = DialogVehicles();
-  //DatabaseSqlite dt = DatabaseSqlite();
   VehicleController cr=VehicleController();
 
   TextEditingController searchtxt = TextEditingController();
@@ -27,13 +26,10 @@ class _ScreenState extends State<VehiclesView> {
     //se convierte una lista de map en una lista de string
     cr.getClientsdni().then((listMap) {
       listMap.map((map) {
-        print('fggfg');
-        print(map.toString());
 
         return map['dni'];
       }).forEach((dropDownItem) {
         lista.add(dropDownItem);
-        print(dropDownItem.toString());
       });
       setState(() {});
     });

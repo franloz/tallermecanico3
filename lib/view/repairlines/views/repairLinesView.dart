@@ -30,13 +30,10 @@ class _ScreenState extends State<RepairLinesView> {
     //se convierte una lista de map en una lista de string
     cr.getRecambiosId().then((listMap) {
       listMap.map((map) {
-        print('fggfg');
-        print(map.toString());
 
         return map['id'];
       }).forEach((dropDownItem) {
         listarecambios.add(dropDownItem);
-        print(dropDownItem.toString());
       });
       setState(() {});
     });

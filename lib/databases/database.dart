@@ -8,7 +8,7 @@ class DatabaseSqlite {
     return openDatabase(
       join(await getDatabasesPath(), 'my_db.db'),
       version: 3,
-      onCreate: (db, version) async {
+      onCreate: (db, version) async {//se crean las tablas
         await db.execute(
           "CREATE TABLE Clientes (dni TEXT PRIMARY KEY, nombre TEXT NOT NULL, telf INTEGER NOT NULL, direccion TEXT)",
         );

@@ -14,7 +14,6 @@ class MechanicsView extends StatefulWidget {
 
 class _ScreenState extends State<MechanicsView> {
   DialogMechanicsDelete dialog = DialogMechanicsDelete();
-  //DatabaseSqlite dt = DatabaseSqlite();
   MechanicController cr=MechanicController();
 
 

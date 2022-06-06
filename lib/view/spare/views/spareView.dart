@@ -15,7 +15,6 @@ class SpareView extends StatefulWidget {
 
 class _ScreenState extends State<SpareView> {
   DialogSpareDelete dialog = DialogSpareDelete();
-  //DatabaseSqlite dt = DatabaseSqlite();
   SpareController cr=SpareController();
 
   TextEditingController searchtxt = TextEditingController();

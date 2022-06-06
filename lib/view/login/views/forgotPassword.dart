@@ -78,7 +78,10 @@ class ForgotPassword extends StatelessWidget {
                       style: TextStyle(
                           fontSize: size.height / 30, color: Colors.white),
                     ),
-                    onPressed: () {cr.resetPassword(emailController,context);},
+                    onPressed: () {
+                      cr.resetPassword(emailController,context);
+                      
+                    },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(
                           size.width / 1.1,

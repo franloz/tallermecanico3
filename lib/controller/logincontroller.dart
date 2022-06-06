@@ -60,7 +60,7 @@ class LoginController {
     }
   }
 
-  Future resetPassword( TextEditingController emailController, BuildContext context) //función asincrona para registro de usuario
+  Future resetPassword( TextEditingController emailController, BuildContext context) //función asincrona para restaurrar contraseña
   async {
     String mensaje='';
     dialog.dialogCircularProgress(context);

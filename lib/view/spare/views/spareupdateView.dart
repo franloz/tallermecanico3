@@ -13,7 +13,6 @@ class SpareUpdateView extends StatefulWidget {
 }
 
 class _ScreenState extends State<SpareUpdateView> {
-  //DatabaseSqlite dt = DatabaseSqlite();
   SpareController cr=SpareController();
 
 

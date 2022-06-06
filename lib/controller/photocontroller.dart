@@ -5,10 +5,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../model/photo.dart';
 
 class PhotoController {
-  final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser!;//usuario actual para buscar en base de datos en base a él
   Future insert(String urlDownload, String matricula, String formattedDate) async{
     try{
-    final docphoto=FirebaseFirestore.instance.collection('fotos').doc();
+    final docphoto=FirebaseFirestore.instance.collection('fotos').doc();//instancia de firebase
 
     final photo=Photo(
       idfirebase:docphoto.id,
@@ -16,11 +16,11 @@ class PhotoController {
       url: urlDownload,
       matricula: matricula,
       nombreimagen: formattedDate,
-    );
+    );//creamos objeto
 
-    final json=photo.toJson();
+    final json=photo.toJson();//se da formato json
 
-    await docphoto.set(json);
+    await docphoto.set(json);//se inserta
 
     } on FirebaseException catch (e) {
         print(e);
@@ -37,8 +37,8 @@ class PhotoController {
 
 
 
-      final storageRef = FirebaseStorage.instance.ref();
-      final desertRef = storageRef.child("fotos/${nombreimagen}");
+      final storageRef = FirebaseStorage.instance.ref();//instancia del storage de firebase
+      final desertRef = storageRef.child("fotos/${nombreimagen}");//obtengo la imagen 
 
       // Delete the file
       await desertRef.delete();//borro de storage la imagen

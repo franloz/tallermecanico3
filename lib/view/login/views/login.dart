@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tallermecanico/controller/logincontroller.dart';
 
 class Login extends StatelessWidget {
-  TextEditingController emailController =
-      TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
+  TextEditingController emailController =TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
   TextEditingController passwordController = TextEditingController();
 
  
@@ -113,7 +112,6 @@ class Login extends StatelessWidget {
             ), //para separar rows
 
             Row(
-              //fila con un container y un TextField para contraseña
               mainAxisAlignment:
                   MainAxisAlignment.center, //Center Row contents horizontally,
               children: [
@@ -214,7 +212,7 @@ class Login extends StatelessWidget {
                         fontSize: size.height / 33, color: Colors.white),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'LoginSignUp');
+                    Navigator.pushNamed(context, 'LoginSignUp');//lanaza pantalla de registro
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(

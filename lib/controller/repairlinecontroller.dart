@@ -21,7 +21,7 @@ class RepairLineController {
       if (stock >= cantidad) {//si hay suficiente stock en recambios
         stock = stock - cantidad;//le resto a stock la cantidad del recambio elegida
         await database.insert("LineasReparacion", lines.toMap());
-        await database.rawUpdate("UPDATE Recambios SET stock = ? WHERE id = ?", [stock, idrecambio]); //se actualiza el stock de reacmbios
+        await database.rawUpdate("UPDATE Recambios SET stock = ? WHERE id = ?", [stock, idrecambio]); //se actualiza el stock de recambios
 
       } else {
         String error ='No hay suficiente stock para este cantidad del recambio';
@@ -108,9 +108,7 @@ class RepairLineController {
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 
-    final List<Map<String, dynamic>> maps = await database.rawQuery(
-        'SELECT * FROM LineasReparacion WHERE idorden = ? and idrecambio LIKE ?',
-        [idorden, recambio + '%']);
+    final List<Map<String, dynamic>> maps = await database.rawQuery( 'SELECT * FROM LineasReparacion WHERE idorden = ? and idrecambio LIKE ?', [idorden, recambio + '%']);
 
     return List.generate(maps.length, (i) {
       //convierte la lista de mapas a una lista de clientes

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tallermecanico/view/photos/views/vehiclephotosView.dart';
 
 import '../dialogphotodelete.dart';
 
@@ -54,7 +53,7 @@ class _ScreenState extends State<VehiclePhotosList> {
           onPressed: () async {
             FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
 
-            await Navigator.pushNamed(context,'VehicleUploadPhotos'); //con el await hacemos q espere a q se cierre el dialog para seguir ejecutando el codigo en este caso el setstate
+            await Navigator.pushNamed(context,'VehicleUploadPhotos'); //con el await hacemos q espere  para seguir ejecutando el codigo en este caso el setstate
 
             setState(() {});
           }),
@@ -180,7 +179,6 @@ Widget miCardImageCarga(
                                 onPressed: () async {
                                   FocusScope.of(context).unfocus(); //para que el textfield pierda el foco
                                   await Navigator.pushNamed(context, 'VehiclePhotosView', arguments: {"url": url});
-                                  //await Navigator.of(context).push(MaterialPageRoute(builder:(context)=>VehiclePhotosView()));
                                 }),
                           ]),
                     ),

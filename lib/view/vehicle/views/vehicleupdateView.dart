@@ -12,7 +12,6 @@ class VehicleUpdateView extends StatefulWidget {
 }
 
 class _ScreenState extends State<VehicleUpdateView> {
- // DatabaseSqlite dt = DatabaseSqlite();
   VehicleController cr=VehicleController();
 
   String? dnicliente;

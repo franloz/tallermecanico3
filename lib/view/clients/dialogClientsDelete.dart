@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tallermecanico/controller/clientController.dart';
 
 class DialogClientsDelete {
-  //DatabaseSqlite dt = DatabaseSqlite();
   ClientController cr=ClientController();
 
   Future dialogClientDelete(BuildContext context, String dni) => showDialog(

@@ -15,7 +15,6 @@ class ClientUpdateView extends StatefulWidget {
 
 class _ScreenState extends State<ClientUpdateView> {
 
-  //DatabaseSqlite dt = DatabaseSqlite();
   ClientController cr=ClientController();
   
   

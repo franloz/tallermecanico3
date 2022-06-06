@@ -19,7 +19,6 @@ class _ScreenState extends State<SpareInsertView> {
   TextEditingController stocktxt = TextEditingController();
   TextEditingController telfproveedortxt = TextEditingController();
 
-  //DatabaseSqlite dt = DatabaseSqlite();
   SpareController cr=SpareController();
   @override
   Widget build(BuildContext context) {

@@ -10,9 +10,9 @@ import '../model/bill.dart';
 class BillController {
   final user = FirebaseAuth.instance.currentUser!;
 
-  Future insertBill(BuildContext context, String idorden, double descuento,double iva) async {
+  Future insertBill(BuildContext context, String idorden, double descuento,double iva) async {//metodo para insertar facturas
     DatabaseSqlite db = DatabaseSqlite();
-    Database database = await db.openDB();
+    Database database = await db.openDB();//instancia de la base de datos
 
     var resultSet = await database.rawQuery( "SELECT preciohora FROM OrdenesReparacion WHERE id = ?", [idorden]); //obtenemos el preciohora de la orden
     var dbpreciohora = resultSet.first;
@@ -76,9 +76,8 @@ class BillController {
       String baseimponible = total.toStringAsFixed(2); //se redondea el total
 
       try {
-        //cantidad descuento    //cantidad iva
-        double totalfactura =
-            total - (total * (descuento / 100)) + (total * (iva / 100));
+                                         //cantidad descuento    //cantidad iva
+        double totalfactura = total - (total * (descuento / 100)) + (total * (iva / 100));
 
         String totalfactstring =
             totalfactura.toStringAsFixed(2); //se redondea el total
@@ -93,7 +92,6 @@ class BillController {
           totalfactura: totalfactstring,
         );
 
-        // spare.id = docSpare.id; //le asigno el id que genere firebase
 
         final json = bill.toJson();
         await docBill.set(json);
@@ -126,7 +124,7 @@ class BillController {
 
 
 
-  Future<List<Map<String, dynamic>>> getOrdenesId() async {
+  Future<List<Map<String, dynamic>>> getOrdenesId() async {//metodo para obtener los id de ordenes de reparacion
     DatabaseSqlite db = DatabaseSqlite();
     Database database = await db.openDB();
 

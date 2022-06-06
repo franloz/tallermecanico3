@@ -23,7 +23,7 @@ class DialogsLogin {
                 TextButton(
                   onPressed: () => navigatorKey.currentState!.popUntil(
                       ((route) => route
-                          .isFirst)), //Navigator.popUntil(context, (route) => route.isFirst),//regresa hasta la primera ruta que es el main, y el main muestra home al estar loggeado el usuario
+                          .isFirst)), 
                   child: const Text(
                       'Ok'), //esto nos permite eliminar el indicador de carga que se lanza en el login
                 ),
@@ -69,7 +69,7 @@ class DialogsLogin {
                 ),
               ],
             ));
-  } ////////////////////////////////////////////////unir estos dos metodos en uno con una condición
+  } 
 
   void dialogForgotPasswordCorrect(BuildContext context, String error) {
     showDialog<String>(
@@ -82,9 +82,9 @@ class DialogsLogin {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                  }, //regresa dos pantallas atras q serian el alertdialog y el circularprogress, están son las dos pantallas
+                  },
                   child: const Text(
-                      'Ok'), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                      'Ok'), 
                 ),
               ],
             ));
@@ -103,7 +103,7 @@ class DialogsLogin {
                     Navigator.of(context).pop();
                   },
                   child: const Text(
-                      'Ok'), //esto nos permite eliminar el indicador de carga que se lanza en el login
+                      'Ok'),
                 ),
               ],
             ));

@@ -33,13 +33,10 @@ class _ScreenState extends State<BillsView> {
     //se convierte una lista de map en una lista de string
     cr.getOrdenesId().then((listMap) {
       listMap.map((map) {
-        print('fggfg');
-        print(map.toString());
 
         return map['id'];
       }).forEach((dropDownItem) {
         listaordenes.add(dropDownItem);
-        print(dropDownItem.toString());
       });
       setState(() {});
     });
@@ -221,7 +218,6 @@ class _ScreenState extends State<BillsView> {
 
   Stream<QuerySnapshot> loadList() {
     if (search != '') {
-      print(search.toUpperCase());
       return FirebaseFirestore.instance
           .collection('facturas').where("userid", isEqualTo: user.uid)
           .where('idorden', isEqualTo: search)

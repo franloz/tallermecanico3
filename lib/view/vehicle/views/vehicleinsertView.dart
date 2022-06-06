@@ -12,7 +12,6 @@ class VehicleInsertView extends StatefulWidget {
 }
 
 class _ScreenState extends State<VehicleInsertView> {
-  //DatabaseSqlite dt = DatabaseSqlite();
   VehicleController cr=VehicleController();
 
   TextEditingController matriculatxt = TextEditingController();

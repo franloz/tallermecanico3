@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../controller/repairordercontroller.dart';
 
 class DialogRepairOrderDelete {
-  //DatabaseSqlite dt = DatabaseSqlite();
   RepairOrderController cr=RepairOrderController();
 
   Future dialogOrderDelete(BuildContext context, String id) => showDialog(

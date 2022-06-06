@@ -15,7 +15,6 @@ class RepairLinesInsertView extends StatefulWidget {
 class _ScreenState extends State<RepairLinesInsertView> {
   TextEditingController cantidadtxt = TextEditingController();
 
-  //DatabaseSqlite dt = DatabaseSqlite();
 
   RepairLineController cr=RepairLineController();
 
