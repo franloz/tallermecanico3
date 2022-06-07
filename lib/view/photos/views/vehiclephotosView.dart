@@ -26,11 +26,10 @@ class _ScreenState extends State<VehiclePhotosView> {
               children: [
                 Expanded(
                       child: Container(
-                          color: Colors.blue[100],
+                          color: Colors.grey[800],
                           child: Center(
                             child: CachedNetworkImage(
                     imageUrl: url,
-                    fit: BoxFit.cover,
                     height: double.infinity,
                     width: double.infinity,
                     placeholder: (context, url) =>Center(child: CircularProgressIndicator()),
