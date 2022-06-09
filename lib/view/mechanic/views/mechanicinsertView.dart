@@ -184,7 +184,7 @@ class _ScreenState extends State<MechanicInsertView> {
                       DialogError dialogError = DialogError();
                       await dialogError.dialogError(context, error);
                     } else {
-                      String dni = dnitxt.text;
+                      String dni = dnitxt.text.toUpperCase();
                       String nombre = nombretxt.text;
                       int telf = int.parse(telftxt.text);
                       String direccion = direcciontxt.text;

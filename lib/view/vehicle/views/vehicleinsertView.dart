@@ -175,7 +175,7 @@ class _ScreenState extends State<VehicleInsertView> {
                       DialogError dialogError = DialogError();
                       await dialogError.dialogError(context, error);
                     } else {
-                      String matricula = matriculatxt.text;
+                      String matricula = matriculatxt.text.toUpperCase();
                       String marca = marcatxt.text;
                       String modelo = modelotxt.text;
 

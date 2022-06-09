@@ -31,7 +31,7 @@ class _ScreenState extends State<BillInsertView> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
-          title: Text('Añadir cliente'),
+          title: Text('Añadir factura'),
         ),
         backgroundColor: Colors.grey[800],
         body: Column(

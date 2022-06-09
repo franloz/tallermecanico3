@@ -78,7 +78,6 @@ class BillController {
       try {
                                          //cantidad descuento    //cantidad iva
         double totalfactura = total - (total * (descuento / 100)) + (total * (iva / 100));
-
         String totalfactstring =
             totalfactura.toStringAsFixed(2); //se redondea el total
         final docBill = FirebaseFirestore.instance.collection('facturas').doc();
@@ -92,14 +91,14 @@ class BillController {
           totalfactura: totalfactstring,
         );
 
+        await database.rawUpdate(//actualizar ordenes
+            "UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?", [1,idorden]); //actualiza el campo facturada de la orden y lo pongo a 1 que indica que la orden ha sido facturada
 
         final json = bill.toJson();
         await docBill.set(json);
 
-        //actualizar ordenes
-
-        await database.rawUpdate(
-            "UPDATE OrdenesReparacion SET facturada = ? WHERE id = ?", [1,idorden]); //actualiza el campo facturada de la orden y lo pongo a 1 que indica que la orden ha sido facturada
+        
+        
 
       } on FirebaseException catch (e) {
         String error = 'Error al insertar';
