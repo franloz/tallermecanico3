@@ -15,7 +15,7 @@ class SpareInsertView extends StatefulWidget {
 class _ScreenState extends State<SpareInsertView> {
   TextEditingController marcatxt = TextEditingController();
   TextEditingController piezatxt = TextEditingController();
-  TextEditingController preciotxt =TextEditingController(); //variables para coger los textos de los TextField de email y contraseña
+  TextEditingController preciotxt =TextEditingController(); 
   TextEditingController stocktxt = TextEditingController();
   TextEditingController telfproveedortxt = TextEditingController();
 
@@ -41,7 +41,7 @@ class _ScreenState extends State<SpareInsertView> {
               children: [
                 Container(
                   width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares
@@ -75,7 +75,7 @@ class _ScreenState extends State<SpareInsertView> {
               children: [
                 Container(
                   width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares
@@ -107,7 +107,7 @@ class _ScreenState extends State<SpareInsertView> {
               children: [
                 Container(
                   width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares
@@ -143,7 +143,7 @@ class _ScreenState extends State<SpareInsertView> {
               children: [
                 Container(
                   width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares
@@ -177,7 +177,7 @@ class _ScreenState extends State<SpareInsertView> {
               children: [
                 Container(
                   width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares

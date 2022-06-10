@@ -6,7 +6,6 @@ import 'package:tallermecanico/view/bills/views/billsView.dart';
 import 'package:tallermecanico/view/clients/views/clientinsertView.dart';
 import 'package:tallermecanico/view/clients/views/clientsView.dart';
 import 'package:tallermecanico/view/clients/views/clientupdateView.dart';
-
 import 'package:tallermecanico/view/home.dart';
 import 'package:tallermecanico/view/login/views/forgotPassword.dart';
 import 'package:tallermecanico/view/login/views/login.dart';

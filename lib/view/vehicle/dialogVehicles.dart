@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../controller/vehiclecontroller.dart';
 
 class DialogVehicles {
-  //DatabaseSqlite dt = DatabaseSqlite();
   VehicleController cr=VehicleController();
 
   Future dialogVehicleDelete(BuildContext context, String dni) => showDialog(

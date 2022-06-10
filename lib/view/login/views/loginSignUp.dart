@@ -82,7 +82,7 @@ class LoginSignUp extends StatelessWidget {
                 Container(
                   width: size.width /
                       1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares
@@ -120,7 +120,7 @@ class LoginSignUp extends StatelessWidget {
                 Container(
                   width: size.width /
                       1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares

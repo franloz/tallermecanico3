@@ -14,13 +14,13 @@ class DialogSignOff {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();//ir hacia atrás
                 },
                 child: const Text('Cancel'),
               ),
               TextButton(
                 onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
+                  await FirebaseAuth.instance.signOut();//cerrar sesion
                   Navigator.of(context).pop();
                 },
                 child: const Text('Ok'),

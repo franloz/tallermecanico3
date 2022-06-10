@@ -33,6 +33,7 @@ class _ScreenState extends State<SpareUpdateView> {
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
+       resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(255, 0, 229, 255),
@@ -50,7 +51,7 @@ class _ScreenState extends State<SpareUpdateView> {
               children: [
                 Container(
                   width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares
@@ -87,7 +88,7 @@ class _ScreenState extends State<SpareUpdateView> {
               children: [
                 Container(
                   width: size.width / 1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares
@@ -121,7 +122,7 @@ class _ScreenState extends State<SpareUpdateView> {
               children: [
                 Container(
                   width: size.width /1.1, //ancho del TextField en relación al ancho de la pantalla
-                  height: size.height / 17,
+                  height: size.height / 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                         Radius.circular(20)), //bordes circulares

@@ -7,8 +7,7 @@ class Home extends StatelessWidget {
   DialogSignOff dialog=DialogSignOff();
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context)
-        .size; //saca el tamaño de la pantalla para poder hacer la app responsive
+    final size = MediaQuery.of(context).size; //saca el tamaño de la pantalla para poder hacer la app responsive
     
     return Scaffold(
       backgroundColor: Colors.grey[800],
@@ -70,7 +69,7 @@ class Home extends StatelessWidget {
                   minimumSize: Size(
                       size.width / 2.3,
                       size.height /
-                          6.7), //ancho y alto del boton en relación a la pantalla
+                          6.2), //ancho y alto del boton en relación a la pantalla
                   primary: Colors.redAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -109,7 +108,7 @@ class Home extends StatelessWidget {
                   minimumSize: Size(
                       size.width / 2.3,
                       size.height /
-                          6.7), //ancho y alto del boton en relación a la pantalla
+                          6.2), //ancho y alto del boton en relación a la pantalla
                   primary: Color.fromARGB(255, 255, 200, 0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -155,7 +154,7 @@ class Home extends StatelessWidget {
                   minimumSize: Size(
                       size.width / 2.3,
                       size.height /
-                          6.7), //ancho y alto del boton en relación a la pantalla
+                          6.2), //ancho y alto del boton en relación a la pantalla
                   primary: Color.fromARGB(255, 3, 232, 49),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -194,7 +193,7 @@ class Home extends StatelessWidget {
                   minimumSize: Size(
                       size.width / 2.3,
                       size.height /
-                          6.7), //ancho y alto del boton en relación a la pantalla
+                          6.2), //ancho y alto del boton en relación a la pantalla
                   primary: Color.fromARGB(255, 0, 132, 255),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -248,7 +247,7 @@ class Home extends StatelessWidget {
                   minimumSize: Size(
                       size.width / 2.3,
                       size.height /
-                          6.7), //ancho y alto del boton en relación a la pantalla
+                          6.2), //ancho y alto del boton en relación a la pantalla
                   primary: Color.fromARGB(255, 111, 0, 255),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -288,7 +287,7 @@ class Home extends StatelessWidget {
                   minimumSize: Size(
                       size.width / 2.3,
                       size.height /
-                          6.7), //ancho y alto del boton en relación a la pantalla
+                          6.2), //ancho y alto del boton en relación a la pantalla
                   primary: Color.fromARGB(255, 255, 123, 0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -342,7 +341,7 @@ class Home extends StatelessWidget {
                   minimumSize: Size(
                       size.width / 2.3,
                       size.height /
-                          6.7), //ancho y alto del boton en relación a la pantalla
+                          6.2), //ancho y alto del boton en relación a la pantalla
                   primary: Color.fromARGB(255, 0, 255, 68),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),

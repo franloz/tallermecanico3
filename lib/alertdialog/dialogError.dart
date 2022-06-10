@@ -13,7 +13,7 @@ class DialogError {
               content: Text(error),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () {Navigator.of(context).pop();
+                  onPressed: () {Navigator.of(context).pop();//ir hacia atrás
                   },  
                   child: const Text(
                       'Ok'), 

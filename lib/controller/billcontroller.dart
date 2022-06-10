@@ -63,8 +63,7 @@ class BillController {
             "SELECT precio FROM Recambios WHERE id = ?",
             [idrecambio]); //se obtiene el precio del recambio
         var dbItem = resultSet.first;
-        String preciostring =
-            dbItem['precio'] as String; //se coge el precio de esta orden
+        String preciostring =dbItem['precio'] as String; //se coge el precio de esta orden
 
         double precio = double.parse(preciostring);
 
@@ -109,7 +108,7 @@ class BillController {
   }
 
   Future deleteBill(String id, String idorden) async {
-    final docbill = FirebaseFirestore.instance.collection('facturas').doc(id);
+    final docbill = FirebaseFirestore.instance.collection('facturas').doc(id);//se borra la factura
 
     docbill.delete();
 
